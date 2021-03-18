@@ -10,6 +10,16 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        textTheme: TextTheme(
+          headline6: TextStyle(
+            fontFamily: 'Helvetica',
+            fontWeight: FontWeight.bold,
+          ),
+          bodyText1: TextStyle(
+            fontFamily: 'Helvetica',
+            fontWeight: FontWeight.w200,
+          ),
+        ),
         primaryColor: Color(0xff03A9F4),
         primaryColorLight: const Color(0xff0288D1),
         primaryColorDark: const Color(0xffB3E5FC),
@@ -19,7 +29,12 @@ class App extends StatelessWidget {
             color: Color(0xff212121),
           ),
         ),
-        textTheme: TextTheme(),
+        accentTextTheme: TextTheme(
+          headline6: TextStyle(
+            color: Color(0xff757575),
+          ),
+        ),
+        errorColor: Color(0xffFF5959),
       ),
       debugShowCheckedModeBanner: false,
       title: 'Helpadora',
