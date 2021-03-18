@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatelessWidget {
-  static const routeName = '/main';
+  static const routeName = '/main-screen';
 
   @override
   Widget build(BuildContext context) {
