@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/screens/main_screen.dart';
-import 'package:helpadora/src/screens/registration_screen.dart';
 
+import 'screens/main_screen.dart';
+import 'screens/chat_screen.dart';
+import 'screens/registration_screen.dart';
 import 'screens/login_screen.dart';
 
 class App extends StatelessWidget {
@@ -41,7 +42,10 @@ class App extends StatelessWidget {
       title: 'Helpadora',
       home: MainScreen(),
       routes: {
+        MainScreen.routeName: (ctx) => MainScreen(),
+        LoginScreen.routeName: (ctx) => LoginScreen(),
         RegistrationScreen.routeName: (ctx) => RegistrationScreen(),
+        ChatScreen.routeName: (ctx) => ChatScreen(),
       },
     );
   }
