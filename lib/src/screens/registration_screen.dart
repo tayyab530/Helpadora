@@ -8,6 +8,8 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  var currentDate = DateTime(1997);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +44,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
             ),
             buildGenderDropDown(),
+            Row(
+              children: [
+                Text('Date of Birth'),
+                IconButton(
+                  icon: Icon(Icons.calendar_today_rounded),
+                  onPressed: () {
+                    _datePicker(context);
+                  },
+                )
+              ],
+            ),
+            buildProgramDropDown(),
             SizedBox(
               height: 20.0,
             ),
@@ -73,6 +87,59 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           DropdownMenuItem(
             value: 'Other',
             child: Text('Other'),
+          ),
+        ],
+        onChanged: (value) {},
+      ),
+    );
+  }
+
+  Future<void> _datePicker(BuildContext context) async {
+    final DateTime pickedDate = await showDatePicker(
+      context: context,
+      initialDate: currentDate,
+      firstDate: DateTime(1995),
+      lastDate: DateTime(2015),
+      currentDate: currentDate,
+    );
+    if (pickedDate != null && pickedDate != currentDate)
+      setState(
+        () {
+          currentDate = pickedDate;
+        },
+      );
+  }
+
+  Widget buildProgramDropDown() {
+    return Container(
+      alignment: Alignment.bottomLeft,
+      child: DropdownButton(
+        hint: Text('Program'),
+        icon: Icon(Icons.cast_for_education_rounded),
+        items: [
+          DropdownMenuItem(
+            value: 'CS',
+            child: Text('CS'),
+          ),
+          DropdownMenuItem(
+            value: 'Pharm.D',
+            child: Text('Pharm.D'),
+          ),
+          DropdownMenuItem(
+            value: 'BBA',
+            child: Text('BBA'),
+          ),
+          DropdownMenuItem(
+            value: 'ACF',
+            child: Text('ACF'),
+          ),
+          DropdownMenuItem(
+            value: 'BME',
+            child: Text('BME'),
+          ),
+          DropdownMenuItem(
+            value: 'BS',
+            child: Text('BS'),
           ),
         ],
         onChanged: (value) {},
