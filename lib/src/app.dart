@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/screens/points_screen.dart';
+import 'package:helpadora/src/screens/query_write_screen.dart';
 
 import 'screens/main_screen.dart';
 import 'screens/chat_screen.dart';
@@ -40,7 +42,7 @@ class App extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Helpadora',
-      home: MainScreen(),
+      home: LoginScreen(),
       routes: {
         MainScreen.routeName: (ctx) => MainScreen(),
         LoginScreen.routeName: (ctx) => LoginScreen(),

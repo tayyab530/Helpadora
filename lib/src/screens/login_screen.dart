@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/screens/main_screen.dart';
+import 'package:helpadora/src/screens/registration_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/login';
@@ -29,11 +31,11 @@ class LoginScreen extends StatelessWidget {
               height: 20.0,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () => Navigator.of(context).pushNamed(MainScreen.routeName),
               child: Text('Login'),
             ),
             TextButton(
-              onPressed: () => Navigator.of(context).pushNamed('/registration'),
+              onPressed: () => Navigator.of(context).pushNamed(RegistrationScreen.routeName),
               child: Text('or Create an account'),
             ),
           ],

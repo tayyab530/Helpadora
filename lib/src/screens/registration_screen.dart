@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/screens/main_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const routeName = '/registration';
@@ -60,7 +61,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 20.0,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () => Navigator.of(context).pushNamed(MainScreen.routeName),
               child: Text('Register'),
             ),
           ],
@@ -74,7 +75,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       alignment: Alignment.bottomLeft,
       child: DropdownButton(
         hint: Text('Gender'),
-        icon: Icon(Icons.arrow_downward_rounded),
+        icon: Icon(Icons.expand_more),
         items: [
           DropdownMenuItem(
             value: 'Male',
