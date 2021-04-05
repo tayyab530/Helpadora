@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/widgets/list_of_queries.dart';
+import 'package:helpadora/src/widgets/tabs/community_tab.dart';
+import 'package:helpadora/src/widgets/tabs/self_tab.dart';
 
 class MainScreen extends StatelessWidget {
   static const routeName = '/main-screen';
@@ -29,8 +32,8 @@ class MainScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            Text('CT'),
-            Text('MQ'),
+            CommunityTab(),
+            SelfTab(),
             Text('CHAT'),
             Text('SET'),
           ],
