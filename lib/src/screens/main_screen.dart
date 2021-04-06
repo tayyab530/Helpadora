@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/widgets/list_of_queries.dart';
 import 'package:helpadora/src/widgets/tabs/community_tab.dart';
 import 'package:helpadora/src/widgets/tabs/self_tab.dart';
 
