@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "755671851792",
+    "project_id": "helpadora-dd43a",
+    "storage_bucket": "helpadora-dd43a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:755671851792:android:7c02417fcd1b0a026c3b95",
+        "android_client_info": {
+          "package_name": "com.tayyab.helpadora"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "755671851792-406tclqj69lqb3fnuodtoafagpujai6v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAejAQcGv1B6liWPqyrj_V_ZbJ2_EBkkKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "755671851792-406tclqj69lqb3fnuodtoafagpujai6v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
