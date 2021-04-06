@@ -1,6 +1,6 @@
 import 'dart:async';
 
-class EandPvalidatorsMixin {
+class LoginValidatorsMixin {
   emailValidate() {
     return StreamTransformer<String, String>.fromHandlers(
         handleData: (String value, sink) {

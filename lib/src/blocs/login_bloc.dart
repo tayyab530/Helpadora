@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'validators/E_and_P_validator.dart';
+import 'validators/login_validator.dart';
 import 'package:rxdart/rxdart.dart';
 
-class LoginBloc extends Object with EandPvalidatorsMixin {
+class LoginBloc extends Object with LoginValidatorsMixin {
   final _email = BehaviorSubject<String>();
   final _password = BehaviorSubject<String>();
 
