@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/blocs/registration_bloc.dart';
 import 'package:helpadora/src/screens/main_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -22,16 +23,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'UserName',
-              ),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Email',
-              ),
-            ),
+            userNameField(regisBloc),
+            emailField(regisBloc),
             TextField(
               obscureText: true,
               decoration: InputDecoration(
@@ -61,13 +54,72 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 20.0,
             ),
             ElevatedButton(
-              onPressed: () => Navigator.of(context).pushNamed(MainScreen.routeName),
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(MainScreen.routeName),
               child: Text('Register'),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget userNameField(RegistrationBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.userName,
+      builder: (context,AsyncSnapshot<String> snapshot) {
+      return TextField(
+        decoration: InputDecoration(
+          labelText: 'UserName',
+          errorText: snapshot.hasError ? snapshot.error : '',
+        ),
+        onChanged: bloc.changeUserName,
+      );
+    });
+  }
+
+  Widget emailField(RegistrationBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.email,
+      builder: (context,AsyncSnapshot<String> snapshot) {
+      return TextField(
+        decoration: InputDecoration(
+          labelText: 'Email Address',
+          errorText: snapshot.hasError ? snapshot.error : '',
+        ),
+        onChanged: bloc.changeEmail,
+      );
+    });
+  }
+
+  Widget createPasswordField(RegistrationBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.password,
+      builder: (context,AsyncSnapshot<String> snapshot) {
+      return TextField(
+        obscureText: true,
+        decoration: InputDecoration(
+          labelText: 'Create Password',
+          errorText: snapshot.hasError ? snapshot.error : '',
+        ),
+        onChanged: bloc.changePassword,
+      );
+    });
+  }
+
+  Widget confirmPasswordField(RegistrationBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.confirmPassword,
+      builder: (context,AsyncSnapshot<bool> snapshot) {
+      return TextField(
+        obscureText: true,
+        decoration: InputDecoration(
+          labelText: 'Confirm Password',
+          errorText: !snapshot.data ? 'Password does not match!': '' ,
+        ),
+        onChanged: bloc.changeConfirmPassword,
+      );
+    });
   }
 
   Widget buildGenderDropDown() {
