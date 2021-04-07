@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/blocs/login_bloc.dart';
-import 'package:helpadora/src/blocs/registration_bloc.dart';
 import 'package:provider/provider.dart';
 
+import 'blocs/login_bloc.dart';
+import 'blocs/registration_bloc.dart';
+import 'services/auth_services.dart';
 import 'screens/main_screen.dart';
 import 'screens/chat_screen.dart';
 import 'screens/registration_screen.dart';
@@ -17,6 +18,7 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => LoginBloc()),
         ChangeNotifierProvider(create: (ctx) => RegistrationBloc()),
+        ChangeNotifierProvider(create: (ctx) => AuthService()),
       ],
       child: MaterialApp(
         theme: ThemeData(

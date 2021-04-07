@@ -17,7 +17,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    regisBloc = Provider.of<RegistrationBloc>(context);
+    regisBloc = Provider.of<RegistrationBloc>(context,listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text('Registration Screen'),
@@ -26,20 +26,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         padding: EdgeInsets.all(20.0),
         child: ListView(
           children: [
-            userNameField(regisBloc),
-            emailField(regisBloc),
-            createPasswordField(regisBloc),
-            confirmPasswordField(regisBloc),
-            buildGenderDropDown(),
-            buildDatePicker(),
-            buildProgramDropDown(),
-            SizedBox(
-              height: 20.0,
-            ),
-            ElevatedButton(
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(MainScreen.routeName),
-              child: Text('Register'),
+            Column(
+              children: [
+                userNameField(regisBloc),
+                emailField(regisBloc),
+                createPasswordField(regisBloc),
+                confirmPasswordField(regisBloc),
+                buildGenderDropDown(),
+                buildDatePicker(),
+                buildProgramDropDown(),
+                SizedBox(
+                  height: 20.0,
+                ),
+                ElevatedButton(
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(MainScreen.routeName),
+                  child: Text('Register'),
+                ),
+              ],
             ),
           ],
         ),

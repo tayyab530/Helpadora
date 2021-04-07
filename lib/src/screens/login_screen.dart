@@ -1,37 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/blocs/login_bloc.dart';
-import 'package:helpadora/src/screens/main_screen.dart';
-import 'package:helpadora/src/screens/registration_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../blocs/login_bloc.dart';
+import 'main_screen.dart';
+import 'registration_screen.dart';
 import '../services/auth_services.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/login';
 
-  final auth = AuthService();
-
   @override
   Widget build(BuildContext context) {
-    final loginBloc = Provider.of<LoginBloc>(context);
+    final loginBloc = Provider.of<LoginBloc>(context,listen: false);
+    final _auth = Provider.of<AuthService>(context,listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Login Screen'),
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
           children: [
-            emailField(loginBloc),
-            password(loginBloc),
-            SizedBox(
-              height: 20.0,
-            ),
-            buildLoginButton(context),
-            TextButton(
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(RegistrationScreen.routeName),
-              child: Text('or Create an account'),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                emailField(loginBloc),
+                passwordField(loginBloc),
+                SizedBox(
+                  height: 20.0,
+                ),
+                loginButton(context,loginBloc,_auth),
+                TextButton(
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(RegistrationScreen.routeName),
+                  child: Text('or Create an account'),
+                ),
+              ],
             ),
           ],
         ),
@@ -53,7 +58,7 @@ class LoginScreen extends StatelessWidget {
         });
   }
 
-  Widget password(LoginBloc bloc) {
+  Widget passwordField(LoginBloc bloc) {
     return StreamBuilder(
         stream: bloc.password,
         builder: (context, AsyncSnapshot<String> snapshot) {
@@ -68,10 +73,21 @@ class LoginScreen extends StatelessWidget {
         });
   }
 
-  Widget buildLoginButton(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => Navigator.of(context).pushNamed(MainScreen.routeName),
-      child: Text('Login'),
+  Widget loginButton(BuildContext context,LoginBloc loginBloc,AuthService authServices) {
+    return StreamBuilder(
+      stream: loginBloc.submit,
+      builder: (context,AsyncSnapshot<bool> snapshot) {
+        return ElevatedButton(
+          onPressed: !snapshot.hasData ? null : () async{
+            var user = await authServices.loginWithEandP(loginBloc.getEmail(), loginBloc.getPassword());
+            if(user != null)
+            Navigator.of(context).pushNamed(MainScreen.routeName);
+
+            print(authServices.getError());
+          },
+          child: Text('Login'),
+        );
+      }
     );
   }
 }
