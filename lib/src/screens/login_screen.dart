@@ -12,9 +12,6 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    auth
-      ..registerWithEandP('sadiq.qasmi3@gmail.com', "123456")
-          .then((value) => null);
     final loginBloc = Provider.of<LoginBloc>(context);
     return Scaffold(
       appBar: AppBar(
@@ -30,11 +27,7 @@ class LoginScreen extends StatelessWidget {
             SizedBox(
               height: 20.0,
             ),
-            ElevatedButton(
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(MainScreen.routeName),
-              child: Text('Login'),
-            ),
+            buildLoginButton(context),
             TextButton(
               onPressed: () =>
                   Navigator.of(context).pushNamed(RegistrationScreen.routeName),
@@ -73,5 +66,12 @@ class LoginScreen extends StatelessWidget {
             onChanged: bloc.changePassword,
           );
         });
+  }
+
+  Widget buildLoginButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () => Navigator.of(context).pushNamed(MainScreen.routeName),
+      child: Text('Login'),
+    );
   }
 }

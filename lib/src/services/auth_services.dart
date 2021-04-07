@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
-class AuthService {
+class AuthService with ChangeNotifier{
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
-
   String _errorMessage;
   // ignore: missing_return
   Future<User> registerWithEandP(String email, String password) async {
@@ -13,7 +12,6 @@ class AuthService {
       _auth.currentUser;
       if (result != null) {
         await result.user.sendEmailVerification();
-        print("asdas");
         return result.user;
       }
     } on FirebaseAuthException catch (e) {
@@ -22,6 +20,7 @@ class AuthService {
     }
   }
 
+  // ignore: missing_return
   Future<User> loginWithEandP(String email, String password) async {
     try {
       final result = await _auth.signInWithEmailAndPassword(
@@ -36,21 +35,16 @@ class AuthService {
     }
   }
 
-  Future<void> signOut() async {
-    return await _auth.signOut();
-  }
+  Future<void> signOut() async => await _auth.signOut();
+  
 
   String getError() => _errorMessage;
 
-  String getCurrentUserId() => _auth.currentUser.uid;
+  User getCurrentUser() => _auth.currentUser;
 
-  User isLogedIn() {
+  bool isLogedIn() {
     User _user = _auth.currentUser;
-    var temp = _auth.authStateChanges();
-    temp.listen((event) {
-      _user = event;
-    });
-    return _user;
+    return _user == null ?  true : false;
   }
 }
 
