@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
+
 import 'validators/E_and_P_validator.dart';
 import 'package:rxdart/rxdart.dart';
 
-class LoginBloc extends Object with EandPvalidatorsMixin {
+class LoginBloc extends ChangeNotifier with EandPvalidatorsMixin {
   final _email = BehaviorSubject<String>();
   final _password = BehaviorSubject<String>();
 
@@ -17,6 +19,7 @@ class LoginBloc extends Object with EandPvalidatorsMixin {
   Stream<String> get password => _password.stream.transform(passwordValidate());
 
   dispose() {
+    super.dispose();
     _email.close();
     _password.close();
   }
@@ -24,3 +27,5 @@ class LoginBloc extends Object with EandPvalidatorsMixin {
   String getEmail() => _email.value;
   String getPassword() => _password.value;
 }
+
+//Please do not turn off the PC!!!!

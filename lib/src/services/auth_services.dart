@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-final auth = AuthService();
-
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User user;
+
   String _errorMessage;
   // ignore: missing_return
   Future<User> registerWithEandP(String email, String password) async {
@@ -13,6 +12,8 @@ class AuthService {
           email: email, password: password);
       _auth.currentUser;
       if (result != null) {
+        await result.user.sendEmailVerification();
+        print("asdas");
         return result.user;
       }
     } on FirebaseAuthException catch (e) {
