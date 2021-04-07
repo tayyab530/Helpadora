@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/blocs/registration_bloc.dart';
 import 'package:helpadora/src/screens/main_screen.dart';
+import 'package:provider/provider.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const routeName = '/registration';
@@ -11,9 +12,12 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   var currentDate = DateTime(1997);
+  var regisBloc;
+  String gender = '', program = '', date = '';
 
   @override
   Widget build(BuildContext context) {
+    regisBloc = Provider.of<RegistrationBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Registration Screen'),
@@ -25,30 +29,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           children: [
             userNameField(regisBloc),
             emailField(regisBloc),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Create Password',
-              ),
-            ),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Confirm Password',
-              ),
-            ),
+            createPasswordField(regisBloc),
+            confirmPasswordField(regisBloc),
             buildGenderDropDown(),
-            Row(
-              children: [
-                Text('Date of Birth'),
-                IconButton(
-                  icon: Icon(Icons.calendar_today_rounded),
-                  onPressed: () {
-                    _datePicker(context);
-                  },
-                )
-              ],
-            ),
+            buildDatePicker(),
             buildProgramDropDown(),
             SizedBox(
               height: 20.0,
@@ -66,60 +50,61 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   Widget userNameField(RegistrationBloc bloc) {
     return StreamBuilder(
-      stream: bloc.userName,
-      builder: (context,AsyncSnapshot<String> snapshot) {
-      return TextField(
-        decoration: InputDecoration(
-          labelText: 'UserName',
-          errorText: snapshot.hasError ? snapshot.error : '',
-        ),
-        onChanged: bloc.changeUserName,
-      );
-    });
+        stream: bloc.userName,
+        builder: (context, AsyncSnapshot<String> snapshot) {
+          return TextField(
+            decoration: InputDecoration(
+              labelText: 'UserName',
+              errorText: snapshot.hasError ? snapshot.error : '',
+            ),
+            onChanged: bloc.changeUserName,
+          );
+        });
   }
 
   Widget emailField(RegistrationBloc bloc) {
     return StreamBuilder(
-      stream: bloc.email,
-      builder: (context,AsyncSnapshot<String> snapshot) {
-      return TextField(
-        decoration: InputDecoration(
-          labelText: 'Email Address',
-          errorText: snapshot.hasError ? snapshot.error : '',
-        ),
-        onChanged: bloc.changeEmail,
-      );
-    });
+        stream: bloc.email,
+        builder: (context, AsyncSnapshot<String> snapshot) {
+          return TextField(
+            decoration: InputDecoration(
+              labelText: 'Email Address',
+              errorText: snapshot.hasError ? snapshot.error : '',
+            ),
+            onChanged: bloc.changeEmail,
+          );
+        });
   }
 
   Widget createPasswordField(RegistrationBloc bloc) {
     return StreamBuilder(
-      stream: bloc.password,
-      builder: (context,AsyncSnapshot<String> snapshot) {
-      return TextField(
-        obscureText: true,
-        decoration: InputDecoration(
-          labelText: 'Create Password',
-          errorText: snapshot.hasError ? snapshot.error : '',
-        ),
-        onChanged: bloc.changePassword,
-      );
-    });
+        stream: bloc.password,
+        builder: (context, AsyncSnapshot<String> snapshot) {
+          return TextField(
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Create Password',
+              errorText: snapshot.hasError ? snapshot.error : '',
+            ),
+            onChanged: bloc.changePassword,
+          );
+        });
   }
 
   Widget confirmPasswordField(RegistrationBloc bloc) {
     return StreamBuilder(
-      stream: bloc.confirmPassword,
-      builder: (context,AsyncSnapshot<bool> snapshot) {
-      return TextField(
-        obscureText: true,
-        decoration: InputDecoration(
-          labelText: 'Confirm Password',
-          errorText: !snapshot.data ? 'Password does not match!': '' ,
-        ),
-        onChanged: bloc.changeConfirmPassword,
-      );
-    });
+        stream: bloc.confirmPassword,
+        initialData: true,
+        builder: (context, AsyncSnapshot<bool> snapshot) {
+          return TextField(
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Confirm Password',
+              errorText: !snapshot.data ? 'Password does not match!' : '',
+            ),
+            onChanged: bloc.changeConfirmPassword,
+          );
+        });
   }
 
   Widget buildGenderDropDown() {
@@ -127,7 +112,26 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       alignment: Alignment.bottomLeft,
       child: DropdownButton(
         hint: Text('Gender'),
-        icon: Icon(Icons.expand_more),
+        icon: Row(
+          children: [
+            gender == ''
+                ? Container(
+                    width: 75.0,
+                  )
+                : Container(
+                    padding: EdgeInsets.all(4.0),
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    ),
+                    child: Container(
+                      child: Text(gender),
+                    ),
+                  ),
+            Icon(Icons.expand_more),
+          ],
+        ),
         items: [
           DropdownMenuItem(
             value: 'Male',
@@ -142,25 +146,42 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             child: Text('Other'),
           ),
         ],
-        onChanged: (value) {},
+        onChanged: (gender) {
+          setState(() {
+            this.gender = gender;
+          });
+        },
       ),
     );
   }
 
-  Future<void> _datePicker(BuildContext context) async {
-    final DateTime pickedDate = await showDatePicker(
-      context: context,
-      initialDate: currentDate,
-      firstDate: DateTime(1995),
-      lastDate: DateTime(2015),
-      currentDate: currentDate,
+  Widget buildDatePicker() {
+    return Row(
+      children: [
+        Text('Date of Birth'),
+        date == ''
+            ? Container()
+            : Container(
+                padding: EdgeInsets.all(4.0),
+                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                decoration: BoxDecoration(
+                  border: Border.all(width: 2.0),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(15.0),
+                  ),
+                ),
+                child: Container(
+                  child: Text(date),
+                ),
+              ),
+        IconButton(
+          icon: Icon(Icons.calendar_today_rounded),
+          onPressed: () {
+            _datePicker(context);
+          },
+        )
+      ],
     );
-    if (pickedDate != null && pickedDate != currentDate)
-      setState(
-        () {
-          currentDate = pickedDate;
-        },
-      );
   }
 
   Widget buildProgramDropDown() {
@@ -168,7 +189,26 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       alignment: Alignment.bottomLeft,
       child: DropdownButton(
         hint: Text('Program'),
-        icon: Icon(Icons.cast_for_education_rounded),
+        icon: Row(
+          children: [
+            program == ''
+                ? Container(
+                    width: 75.0,
+                  )
+                : Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    padding: EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    ),
+                    child: Container(
+                      child: Text(program),
+                    ),
+                  ),
+            Icon(Icons.expand_more),
+          ],
+        ),
         items: [
           DropdownMenuItem(
             value: 'CS',
@@ -195,8 +235,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             child: Text('BS'),
           ),
         ],
-        onChanged: (value) {},
+        onChanged: (program) {
+          setState(() {
+            this.program = program;
+          });
+        },
       ),
     );
+  }
+
+  Future<void> _datePicker(BuildContext context) async {
+    final DateTime pickedDate = await showDatePicker(
+      context: context,
+      initialDate: currentDate,
+      firstDate: DateTime(1995),
+      lastDate: DateTime(2015),
+      currentDate: currentDate,
+    );
+    if (pickedDate != null && pickedDate != currentDate)
+      setState(
+        () {
+          currentDate = pickedDate;
+          date = "${pickedDate.day}/${pickedDate.month}";
+        },
+      );
   }
 }
