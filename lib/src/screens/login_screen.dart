@@ -26,12 +26,7 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             emailField(loginBloc),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-              ),
-            ),
+            password(loginBloc),
             SizedBox(
               height: 20.0,
             ),
@@ -61,6 +56,21 @@ class LoginScreen extends StatelessWidget {
               errorText: snapshot.hasError ? snapshot.error : "",
             ),
             onChanged: bloc.changeEmail,
+          );
+        });
+  }
+
+  Widget password(LoginBloc bloc) {
+    return StreamBuilder(
+        stream: bloc.password,
+        builder: (context, AsyncSnapshot<String> snapshot) {
+          return TextField(
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Password',
+              errorText: snapshot.hasError ? snapshot.error : '',
+            ),
+            onChanged: bloc.changePassword,
           );
         });
   }

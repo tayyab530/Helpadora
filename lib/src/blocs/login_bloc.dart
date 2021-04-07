@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
+
 import 'validators/login_validator.dart';
 import 'package:rxdart/rxdart.dart';
 
-class LoginBloc extends Object with LoginValidatorsMixin {
+class LoginBloc extends ChangeNotifier with LoginValidatorsMixin {
   final _email = BehaviorSubject<String>();
   final _password = BehaviorSubject<String>();
 
@@ -17,6 +19,7 @@ class LoginBloc extends Object with LoginValidatorsMixin {
   Stream<String> get password => _password.stream.transform(passwordValidate());
 
   dispose() {
+    super.dispose();
     _email.close();
     _password.close();
   }

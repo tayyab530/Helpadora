@@ -1,10 +1,11 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'validators/login_validator.dart';
 import 'validators/registration_fields_validator.dart';
 
-class RegistrationBloc extends Object
+class RegistrationBloc extends ChangeNotifier
     with RegistrationValidatorMixin, LoginValidatorsMixin {
   final _userName = BehaviorSubject<String>();
   final _email = BehaviorSubject<String>();
@@ -32,6 +33,7 @@ class RegistrationBloc extends Object
   Stream<String> get userName => _userName.stream.transform(userNameValidate());
 
   dispose() {
+    super.dispose();
     _userName.close();
     _email.close();
     _createPassword.close();
@@ -41,5 +43,3 @@ class RegistrationBloc extends Object
   String getEmail() => _email.value;
   String getPassword() => _createPassword.value;
 }
-
-final regisBloc = RegistrationBloc();

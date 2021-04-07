@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/blocs/login_bloc.dart';
+import 'package:helpadora/src/blocs/registration_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/main_screen.dart';
@@ -15,6 +16,7 @@ class App extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => LoginBloc()),
+        ChangeNotifierProvider(create: (ctx) => RegistrationBloc()),
       ],
       child: MaterialApp(
         theme: ThemeData(
