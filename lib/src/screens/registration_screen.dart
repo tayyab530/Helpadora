@@ -24,8 +24,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
           children: [
             userNameField(regisBloc),
             emailField(regisBloc),

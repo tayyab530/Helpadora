@@ -6,8 +6,11 @@ class LoginValidatorsMixin {
         handleData: (String value, sink) {
       if (value.contains('@shu.edu.pk'))
         sink.add(value);
-      else
-        sink.addError('Please Enter a valid email!');
+      else {
+        value.isEmpty
+            ? sink.addError('Please Enter email!')
+            : sink.addError('Please Enter a valid email!');
+      }
     });
   }
 
@@ -16,8 +19,11 @@ class LoginValidatorsMixin {
         handleData: (String value, sink) {
       if (value.length > 5)
         sink.add(value);
-      else
-        sink.addError('Please Enter at least 6 characters!');
+      else {
+        value.isEmpty
+            ? sink.addError('Please Enter Password')
+            : sink.addError('Please Enter at least 6 characters!');
+      }
     });
   }
 }
