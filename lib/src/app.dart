@@ -17,7 +17,6 @@ class App extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => LoginBloc()),
-        ChangeNotifierProvider(create: (ctx) => RegistrationBloc()),
         ChangeNotifierProvider(create: (ctx) => AuthService()),
       ],
       child: MaterialApp(
@@ -54,7 +53,8 @@ class App extends StatelessWidget {
         routes: {
           MainScreen.routeName: (ctx) => MainScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),
-          RegistrationScreen.routeName: (ctx) => RegistrationScreen(),
+          RegistrationScreen.routeName: (ctx) => ChangeNotifierProvider(
+              create: (ctx) => RegistrationBloc(), child: RegistrationScreen()),
           ChatScreen.routeName: (ctx) => ChatScreen(),
         },
       ),

@@ -11,6 +11,7 @@ class MainScreen extends StatelessWidget {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text('Home'),
           bottom: TabBar(
             tabs: [

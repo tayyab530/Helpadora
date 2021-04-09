@@ -48,17 +48,3 @@ class AuthService with ChangeNotifier{
   }
 }
 
-// import 'package:flutter/services.dart';
-
-// class Auth {
-//   final _auth = FirebaseAuth.instance;
-
-//   register(String email, String password) async {
-//     try {
-//       return await _auth.createUserWithEmailAndPassword(
-//           email: email, password: password);
-//     } on PlatformException catch (e) {
-//       print(e);
-//     }
-//   }
-// }
