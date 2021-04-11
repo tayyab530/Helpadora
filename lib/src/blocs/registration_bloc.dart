@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+
 import 'package:rxdart/rxdart.dart';
 import 'package:intl/intl.dart';
 
@@ -8,7 +9,7 @@ import 'validators/registration_fields_validator.dart';
 import '../models/date_model.dart';
 
 class RegistrationBloc extends ChangeNotifier
-    with RegistrationValidatorMixin, LoginValidatorsMixin {
+    with RegistrationValidatorMixin, LoginValidatorsMixin{
   final _userName = BehaviorSubject<String>();
   final _email = BehaviorSubject<String>();
   final _createPassword = BehaviorSubject<String>();

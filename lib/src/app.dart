@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/screens/home_loginORmain.dart';
 import 'package:provider/provider.dart';
 
 import 'blocs/login_bloc.dart';
@@ -10,6 +9,9 @@ import 'screens/chat_screen.dart';
 import 'screens/registration_screen.dart';
 import 'screens/login_screen.dart';
 import 'services/db_firestore.dart';
+import 'screens/home_loginORmain.dart';
+import 'screens/write_query_screen.dart';
+import 'blocs/write_query_bloc.dart';
 
 class App extends StatelessWidget {
   static const String routeName = '/';
@@ -20,7 +22,9 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => LoginBloc()),
         ChangeNotifierProvider(create: (ctx) => AuthService()),
-        ChangeNotifierProvider(create: (ctx)=> DbFirestore(),),
+        ChangeNotifierProvider(
+          create: (ctx) => DbFirestore(),
+        ),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -59,6 +63,10 @@ class App extends StatelessWidget {
           RegistrationScreen.routeName: (ctx) => ChangeNotifierProvider(
               create: (ctx) => RegistrationBloc(), child: RegistrationScreen()),
           ChatScreen.routeName: (ctx) => ChatScreen(),
+          WriteQuery.routeName: (ctx) => ChangeNotifierProvider(
+                create: (ctx) => WriteQueryBloc(),
+                child: WriteQuery(),
+              ),
         },
       ),
     );

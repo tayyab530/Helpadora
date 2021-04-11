@@ -203,19 +203,7 @@ class RegistrationScreen extends StatelessWidget {
         });
   }
 
-  Future<void> _datePicker(BuildContext context, RegistrationBloc _regisBloc,
-      AsyncSnapshot<Date> snapshot) async {
-    final DateTime pickedDate = await showDatePicker(
-      context: context,
-      initialDate: snapshot.data.currentDate,
-      firstDate: DateTime(1995),
-      lastDate: DateTime(2015),
-      currentDate: snapshot.data.currentDate,
-    );
-    if (pickedDate != null && pickedDate != snapshot.data.currentDate) {
-      _regisBloc.changeDate(Date(pickedDate, pickedDate));
-    }
-  }
+  
 
   Widget programDropDown(RegistrationBloc _regisBloc) {
     return StreamBuilder(
@@ -313,13 +301,33 @@ class RegistrationScreen extends StatelessWidget {
                   });
                 }
               : null,
-          builder: (ctx, TapDebouncerFunc onTap) => ElevatedButton(
-            onPressed: onTap,
-            child: Text('Register'),
+          builder: (ctx, TapDebouncerFunc onTap) => Container(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: onTap,
+              child: Text('Register'),
+              style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).accentColor,
+              ),
+            ),
           ),
         );
       },
     );
+  }
+  
+  Future<void> _datePicker(BuildContext context, RegistrationBloc _regisBloc,
+      AsyncSnapshot<Date> snapshot) async {
+    final DateTime pickedDate = await showDatePicker(
+      context: context,
+      initialDate: snapshot.data.currentDate,
+      firstDate: DateTime(1995),
+      lastDate: DateTime(2015),
+      currentDate: snapshot.data.currentDate,
+    );
+    if (pickedDate != null && pickedDate != snapshot.data.currentDate) {
+      _regisBloc.changeDate(Date(pickedDate, pickedDate));
+    }
   }
 }
 

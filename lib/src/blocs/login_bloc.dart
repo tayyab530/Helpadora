@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 
 import 'validators/login_validator.dart';
@@ -21,6 +20,11 @@ class LoginBloc extends ChangeNotifier with LoginValidatorsMixin {
   dispose() {
     super.dispose();
     _email.close();
+    _password.close();
+  }
+
+  drain(){
+    _email.drain();
     _password.close();
   }
 

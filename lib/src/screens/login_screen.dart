@@ -95,9 +95,15 @@ class LoginScreen extends StatelessWidget {
 
                       print(authServices.getError());
                     },
-            builder: (ctx, TapDebouncerFunc onTap) => ElevatedButton(
-              onPressed: onTap, 
-              child: Text('Login'),
+            builder: (ctx, TapDebouncerFunc onTap) => Container(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: onTap, 
+                child: Text('Login'),
+                style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).accentColor,
+                ),
+              ),
             ),
           );
         });
