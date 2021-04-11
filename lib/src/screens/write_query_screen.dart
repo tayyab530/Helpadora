@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/services/auth_services.dart';
 import 'package:provider/provider.dart';
 
 import '../blocs/write_query_bloc.dart';
 import '../models/date_model.dart';
 import '../screens/main_screen.dart';
 import '../widgets/message_Popup.dart';
-
+import '../services/db_firestore.dart';
+import '../models/query_model.dart';
 
 class WriteQuery extends StatelessWidget {
   static const routeName = '/write-query';
 
   @override
   Widget build(BuildContext context) {
-    final _wQueryBloc = Provider.of<WriteQueryBloc>(context);
+    final _wQueryBloc = Provider.of<WriteQueryBloc>(context, listen: false);
+    final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
+    final _auth = Provider.of<AuthService>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Write Your Query'),
@@ -24,7 +29,7 @@ class WriteQuery extends StatelessWidget {
           descriptionField(_wQueryBloc),
           dateTimeField(context, _wQueryBloc),
           locationField(context, _wQueryBloc),
-          postButton(context, _wQueryBloc),
+          postButton(context, _wQueryBloc, _dbFirestore, _auth),
         ],
       ),
     );
@@ -118,7 +123,7 @@ class WriteQuery extends StatelessWidget {
                     ),
                     PopupMenuItem(
                       value: Locations.CS_Lab_3,
-                      child: Text(_locationEnumToString(Locations.CS_Lab_2)),
+                      child: Text(_locationEnumToString(Locations.CS_Lab_3)),
                     ),
                   ];
                 },
@@ -133,7 +138,8 @@ class WriteQuery extends StatelessWidget {
         });
   }
 
-  Widget postButton(BuildContext context, WriteQueryBloc _wqBloc) {
+  Widget postButton(BuildContext context, WriteQueryBloc _wqBloc,
+      DbFirestore _dbFirestore, AuthService _auth) {
     return StreamBuilder(
         stream: _wqBloc.post,
         builder: (context, AsyncSnapshot<bool> snapshot) {
@@ -145,11 +151,21 @@ class WriteQuery extends StatelessWidget {
             ),
             onPressed: !snapshot.hasData
                 ? null
-                : () {
-                    Dialogs.showConfirmationDialog(
-                        context,
-                        DialogMessages.queryPostingConfirm,
-                        MainScreen.routeName);
+                : () async {
+                    await _dbFirestore
+                        .postQuery(QueryModel(
+                          title: _wqBloc.getTitle(),
+                          description: _wqBloc.getDescription(),
+                          dueDate: _wqBloc.getDueDate(),
+                          location: _wqBloc.getLocation(),
+                          posterUid: _auth.getCurrentUser().uid,
+                        ))
+                        .then(
+                          (value) => Dialogs.showConfirmationDialog(
+                              context,
+                              DialogMessages.queryPostingConfirm,
+                              MainScreen.routeName),
+                        );
                   },
             child: Text('Post'),
           );

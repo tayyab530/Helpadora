@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:helpadora/src/models/date_model.dart';
+import 'package:intl/intl.dart';
 
 import 'validators/write_query_validator.dart';
 import 'package:rxdart/rxdart.dart';
@@ -39,8 +40,10 @@ class WriteQueryBloc extends ChangeNotifier with WriteQueryValidatorsMixin{
     _location.drain();
   }
 
-  String getEmail() => _title.value;
-  String getPassword() => _description.value;
+  String getTitle() => _title.value;
+  String getDescription() => _description.value;
+  String getDueDate() => DateFormat('MM dd yyyy').format(_dueDate.value.pickedDate); 
+  String getLocation() => _location.value;
 }
 
 //Please do not turn off the PC!!!!
