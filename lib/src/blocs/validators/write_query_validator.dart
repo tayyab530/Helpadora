@@ -17,7 +17,7 @@ class WriteQueryValidatorsMixin {
   descriptionValidate() {
     return StreamTransformer<String, String>.fromHandlers(
         handleData: (String value, sink) {
-      if (value.length > 60)
+      if (value.length > 6)
         sink.add(value);
       else {
         value.isEmpty

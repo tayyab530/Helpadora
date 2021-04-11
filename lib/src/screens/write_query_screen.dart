@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/blocs/write_query_bloc.dart';
-import 'package:helpadora/src/models/date_model.dart';
 import 'package:provider/provider.dart';
+
+import '../blocs/write_query_bloc.dart';
+import '../models/date_model.dart';
+import '../screens/main_screen.dart';
+import '../widgets/message_Popup.dart';
+
 
 class WriteQuery extends StatelessWidget {
   static const routeName = '/write-query';
@@ -96,11 +100,13 @@ class WriteQuery extends StatelessWidget {
                   return [
                     PopupMenuItem(
                       value: Locations.Library_1st_floor,
-                      child: Text(_locationEnumToString(Locations.Library_1st_floor)),
+                      child: Text(
+                          _locationEnumToString(Locations.Library_1st_floor)),
                     ),
                     PopupMenuItem(
                       value: Locations.Library_2nd_floor,
-                      child: Text(_locationEnumToString(Locations.Library_2nd_floor)),
+                      child: Text(
+                          _locationEnumToString(Locations.Library_2nd_floor)),
                     ),
                     PopupMenuItem(
                       value: Locations.CS_Lab_1,
@@ -129,19 +135,25 @@ class WriteQuery extends StatelessWidget {
 
   Widget postButton(BuildContext context, WriteQueryBloc _wqBloc) {
     return StreamBuilder(
-      stream: _wqBloc.post,
-      builder: (context,AsyncSnapshot<bool> snapshot) {
-        return TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: snapshot.hasData ? Theme.of(context).accentColor: Colors.grey[350],
-          ),
-          onPressed: !snapshot.hasData ? null: () {
-            
-          },
-          child: Text('Post'),
-        );
-      }
-    );
+        stream: _wqBloc.post,
+        builder: (context, AsyncSnapshot<bool> snapshot) {
+          return TextButton(
+            style: TextButton.styleFrom(
+              backgroundColor: snapshot.hasData
+                  ? Theme.of(context).accentColor
+                  : Colors.grey[350],
+            ),
+            onPressed: !snapshot.hasData
+                ? null
+                : () {
+                    Dialogs.showConfirmationDialog(
+                        context,
+                        DialogMessages.queryPostingConfirm,
+                        MainScreen.routeName);
+                  },
+            child: Text('Post'),
+          );
+        });
   }
 
   String _locationEnumToString(Locations location) {
