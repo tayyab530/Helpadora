@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/screens/login_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:tap_debouncer/tap_debouncer.dart';
 
 import '../blocs/registration_bloc.dart';
 import '../models/date_model.dart';
@@ -281,27 +282,30 @@ class RegistrationScreen extends StatelessWidget {
     return StreamBuilder(
       stream: _regisBloc.submitForReg,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        return ElevatedButton(
-          onPressed: snapshot.hasData
-              ? () {
-                  authService
-                      .registerWithEandP(
-                          _regisBloc.getEmail(), _regisBloc.getPassword())
-                      .then((user) {
-                    if (user != null) {
-                      Dialogs.showConfirmationDialog(
-                          context,
-                          DialogMessages.registrationConfirm,
-                          LoginScreen.routeName);
-                      _regisBloc.dispose();
-                    }
-                    else
-                      Dialogs.showErrorDialog(context, authService.getError());
-                    print(authService.getError());
-                  });
-                }
-              : null,
-          child: Text('Register'),
+        return TapDebouncer(
+          onTap: snapshot.hasData
+                ? () async{
+                    await authService
+                        .registerWithEandP(
+                            _regisBloc.getEmail(), _regisBloc.getPassword())
+                        .then((user) {
+                      if (user != null) {
+                        Dialogs.showConfirmationDialog(
+                            context,
+                            DialogMessages.registrationConfirm,
+                            LoginScreen.routeName);
+                        _regisBloc.dispose();
+                      } else
+                        Dialogs.showErrorDialog(
+                            context, authService.getError());
+                      print(authService.getError());
+                    });
+                  }
+                : null,
+          builder: (ctx,TapDebouncerFunc onTap) => ElevatedButton(
+            onPressed: onTap,
+            child: Text('Register'),
+          ),
         );
       },
     );

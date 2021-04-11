@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/widgets/message_Popup.dart';
 import 'package:provider/provider.dart';
+import 'package:tap_debouncer/tap_debouncer.dart';
 
 import '../blocs/login_bloc.dart';
 import 'main_screen.dart';
@@ -80,22 +81,24 @@ class LoginScreen extends StatelessWidget {
     return StreamBuilder(
         stream: loginBloc.submit,
         builder: (context, AsyncSnapshot<bool> snapshot) {
-          return ElevatedButton(
-            onPressed: !snapshot.hasData
-                ? null
-                : () async {
-                    var user = await authServices.loginWithEandP(
-                        loginBloc.getEmail(), loginBloc.getPassword());
-                    if (user == null) {
-                      Dialogs.showErrorDialog(
-                          context, authServices.getError());
-                    }
-                    else
-                    Navigator.of(context).pushNamed(MainScreen.routeName);
+          return TapDebouncer(
+            onTap: !snapshot.hasData
+                  ? null
+                  : () async {
+                      var user = await authServices.loginWithEandP(
+                          loginBloc.getEmail(), loginBloc.getPassword());
+                      if (user == null) {
+                        Dialogs.showErrorDialog(
+                            context, authServices.getError());
+                      } else
+                        Navigator.of(context).pushNamed(MainScreen.routeName);
 
-                    print(authServices.getError());
-                  },
-            child: Text('Login'),
+                      print(authServices.getError());
+                    },
+            builder: (ctx, TapDebouncerFunc onTap) => ElevatedButton(
+              onPressed: onTap, 
+              child: Text('Login'),
+            ),
           );
         });
   }

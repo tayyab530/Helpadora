@@ -37,17 +37,14 @@ class RegistrationBloc extends ChangeNotifier
   Stream<String> get email => _email.stream.transform(emailValidate());
   Stream<String> get password =>
       _createPassword.stream.transform(passwordValidate());
-  Stream<bool> get confirmPassword =>
-      Rx.combineLatest2(_createPassword, _confirmPassword, (a, b) {
-        if (((a != '') || (a != '')) && a == b)
-          return true;
-      });
+  Stream<bool> get confirmPassword => _validateConfirmPassword;
+
   Stream<String> get userName => _userName.stream.transform(userNameValidate());
   Stream<String> get gender => _gender.stream.transform(genderValidate());
   Stream<Date> get date => _date.stream.transform(dateValidate());
   Stream<String> get program => _program.stream.transform(programValidate());
 
-  Future dispose() async{
+  Future dispose() async {
     super.dispose();
     await _userName.close();
     await _email.close();
@@ -58,7 +55,7 @@ class RegistrationBloc extends ChangeNotifier
     await _program.close();
   }
 
-  drain() async{
+  drain() async {
     await _userName.drain();
     await _email.drain();
     await _createPassword.drain();
@@ -73,4 +70,16 @@ class RegistrationBloc extends ChangeNotifier
 
   String getEmail() => _email.value;
   String getPassword() => _createPassword.value;
+
+  Stream<bool> get _validateConfirmPassword =>
+      Rx.combineLatest2(_createPassword, _confirmPassword, (a, b) {
+        if (((a != '') || (b != '')) && a == b) {
+          return true;
+        }
+        else{
+          _confirmPassword.sink.addError('error');
+          return false;
+        }
+        
+      });
 }
