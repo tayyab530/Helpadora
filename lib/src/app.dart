@@ -8,6 +8,7 @@ import 'screens/main_screen.dart';
 import 'screens/chat_screen.dart';
 import 'screens/registration_screen.dart';
 import 'screens/login_screen.dart';
+import 'services/db_firestore.dart';
 
 class App extends StatelessWidget {
   static const String routeName = '/';
@@ -18,6 +19,7 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => LoginBloc()),
         ChangeNotifierProvider(create: (ctx) => AuthService()),
+        ChangeNotifierProvider(create: (ctx)=> DbFirestore(),),
       ],
       child: MaterialApp(
         theme: ThemeData(

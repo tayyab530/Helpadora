@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:intl/intl.dart';
 
 import 'validators/login_validator.dart';
 import 'validators/registration_fields_validator.dart';
@@ -13,7 +14,7 @@ class RegistrationBloc extends ChangeNotifier
   final _createPassword = BehaviorSubject<String>();
   final _confirmPassword = BehaviorSubject<String>();
   final _gender = BehaviorSubject<String>();
-  final _date = BehaviorSubject<Date>();
+  final _dob = BehaviorSubject<Date>();
   final _program = BehaviorSubject<String>();
 
   Function(String) get changeEmail => _email.sink.add;
@@ -21,7 +22,7 @@ class RegistrationBloc extends ChangeNotifier
   Function(String) get changeConfirmPassword => _confirmPassword.sink.add;
   Function(String) get changeUserName => _userName.sink.add;
   Function(String) get changeGender => _gender.sink.add;
-  Function(Date) get changeDate => _date.sink.add;
+  Function(Date) get changeDate => _dob.sink.add;
   Function(String) get changeProgram => _program.sink.add;
 
   Stream<bool> get submitForReg => Rx.combineLatest7(
@@ -41,7 +42,7 @@ class RegistrationBloc extends ChangeNotifier
 
   Stream<String> get userName => _userName.stream.transform(userNameValidate());
   Stream<String> get gender => _gender.stream.transform(genderValidate());
-  Stream<Date> get date => _date.stream.transform(dateValidate());
+  Stream<Date> get date => _dob.stream.transform(dateValidate());
   Stream<String> get program => _program.stream.transform(programValidate());
 
   Future dispose() async {
@@ -51,7 +52,7 @@ class RegistrationBloc extends ChangeNotifier
     await _createPassword.close();
     await _confirmPassword.close();
     await _gender.close();
-    await _date.close();
+    await _dob.close();
     await _program.close();
   }
 
@@ -61,7 +62,7 @@ class RegistrationBloc extends ChangeNotifier
     await _createPassword.drain();
     await _confirmPassword.drain();
     await _gender.drain();
-    await _date.drain();
+    await _dob.drain();
     await _program.drain();
     await gender.drain();
     await date.drain();
@@ -70,6 +71,10 @@ class RegistrationBloc extends ChangeNotifier
 
   String getEmail() => _email.value;
   String getPassword() => _createPassword.value;
+  String getUserName() => _userName.value;
+  String getGender() => _gender.value;
+  String getProgram() => _program.value;
+  String getDob() => DateFormat('MM dd yyyy').format(_dob.value.pickedDate);
 
   Stream<bool> get _validateConfirmPassword =>
       Rx.combineLatest2(_createPassword, _confirmPassword, (a, b) {

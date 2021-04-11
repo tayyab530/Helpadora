@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:tap_debouncer/tap_debouncer.dart';
 
@@ -8,6 +7,9 @@ import '../models/date_model.dart';
 import '../services/auth_services.dart';
 import '../widgets/message_Popup.dart';
 import '../models/dialog_messages.dart';
+import '../screens/login_screen.dart';
+import '../services/db_firestore.dart';
+import '../models/user_model.dart';
 
 class RegistrationScreen extends StatelessWidget {
   static const routeName = '/registration';
@@ -16,6 +18,8 @@ class RegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _regisBloc = Provider.of<RegistrationBloc>(context, listen: false);
     final _auth = Provider.of<AuthService>(context, listen: false);
+    final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Registration Screen'),
@@ -43,7 +47,7 @@ class RegistrationScreen extends StatelessWidget {
                 SizedBox(
                   height: 20.0,
                 ),
-                registerButton(_regisBloc, _auth),
+                registerButton(_regisBloc, _auth, _dbFirestore),
               ],
             ),
           ],
@@ -278,31 +282,38 @@ class RegistrationScreen extends StatelessWidget {
         });
   }
 
-  Widget registerButton(RegistrationBloc _regisBloc, AuthService authService) {
+  Widget registerButton(RegistrationBloc _regisBloc, AuthService _authService,
+      DbFirestore _dbFirestore) {
     return StreamBuilder(
       stream: _regisBloc.submitForReg,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return TapDebouncer(
           onTap: snapshot.hasData
-                ? () async{
-                    await authService
-                        .registerWithEandP(
-                            _regisBloc.getEmail(), _regisBloc.getPassword())
-                        .then((user) {
-                      if (user != null) {
-                        Dialogs.showConfirmationDialog(
-                            context,
-                            DialogMessages.registrationConfirm,
-                            LoginScreen.routeName);
-                        _regisBloc.dispose();
-                      } else
-                        Dialogs.showErrorDialog(
-                            context, authService.getError());
-                      print(authService.getError());
-                    });
-                  }
-                : null,
-          builder: (ctx,TapDebouncerFunc onTap) => ElevatedButton(
+              ? () async {
+                  await _authService
+                      .registerWithEandP(
+                          _regisBloc.getEmail(), _regisBloc.getPassword())
+                      .then((user) {
+                    if (user != null) {
+                      Dialogs.showConfirmationDialog(
+                          context,
+                          DialogMessages.registrationConfirm,
+                          LoginScreen.routeName);
+                      _regisBloc.dispose();
+                      _dbFirestore.registerUserData(UserModel(
+                        uid: _authService.getCurrentUser().uid,
+                        userName: _regisBloc.getUserName(),
+                        dob: _regisBloc.getDob(),
+                        gender: _regisBloc.getGender(),
+                        program: _regisBloc.getProgram(),
+                      ));
+                    } else
+                      Dialogs.showErrorDialog(context, _authService.getError());
+                    print(_authService.getError());
+                  });
+                }
+              : null,
+          builder: (ctx, TapDebouncerFunc onTap) => ElevatedButton(
             onPressed: onTap,
             child: Text('Register'),
           ),
