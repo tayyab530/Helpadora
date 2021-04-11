@@ -4,7 +4,7 @@ class LoginValidatorsMixin {
   emailValidate() {
     return StreamTransformer<String, String>.fromHandlers(
         handleData: (String value, sink) {
-      if (value.contains('@shu.edu.pk') || value.contains('@gmail.com'))
+      if (value.contains('@shu.edu.pk'))
         sink.add(value);
       else {
         value.isEmpty

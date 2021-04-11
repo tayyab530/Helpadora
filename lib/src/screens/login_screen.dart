@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/widgets/message_Popup.dart';
 import 'package:provider/provider.dart';
 
 import '../blocs/login_bloc.dart';
@@ -11,11 +12,12 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loginBloc = Provider.of<LoginBloc>(context,listen: false);
-    final _auth = Provider.of<AuthService>(context,listen: false);
+    final loginBloc = Provider.of<LoginBloc>(context, listen: false);
+    final _auth = Provider.of<AuthService>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Login Screen'),
       ),
       body: Padding(
@@ -30,10 +32,10 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   height: 20.0,
                 ),
-                loginButton(context,loginBloc,_auth),
+                loginButton(context, loginBloc, _auth),
                 TextButton(
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(RegistrationScreen.routeName),
+                  onPressed: () => Navigator.of(context)
+                      .pushNamed(RegistrationScreen.routeName),
                   child: Text('or Create an account'),
                 ),
               ],
@@ -73,21 +75,28 @@ class LoginScreen extends StatelessWidget {
         });
   }
 
-  Widget loginButton(BuildContext context,LoginBloc loginBloc,AuthService authServices) {
+  Widget loginButton(
+      BuildContext context, LoginBloc loginBloc, AuthService authServices) {
     return StreamBuilder(
-      stream: loginBloc.submit,
-      builder: (context,AsyncSnapshot<bool> snapshot) {
-        return ElevatedButton(
-          onPressed: !snapshot.hasData ? null : () async{
-            var user = await authServices.loginWithEandP(loginBloc.getEmail(), loginBloc.getPassword());
-            if(user != null)
-            Navigator.of(context).pushNamed(MainScreen.routeName);
+        stream: loginBloc.submit,
+        builder: (context, AsyncSnapshot<bool> snapshot) {
+          return ElevatedButton(
+            onPressed: !snapshot.hasData
+                ? null
+                : () async {
+                    var user = await authServices.loginWithEandP(
+                        loginBloc.getEmail(), loginBloc.getPassword());
+                    if (user == null) {
+                      Dialogs.showErrorDialog(
+                          context, authServices.getError());
+                    }
+                    else
+                    Navigator.of(context).pushNamed(MainScreen.routeName);
 
-            print(authServices.getError());
-          },
-          child: Text('Login'),
-        );
-      }
-    );
+                    print(authServices.getError());
+                  },
+            child: Text('Login'),
+          );
+        });
   }
 }

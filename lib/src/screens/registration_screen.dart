@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/blocs/registration_bloc.dart';
-import 'package:helpadora/src/models/date_model.dart';
-import 'package:helpadora/src/screens/main_screen.dart';
-import 'package:helpadora/src/services/auth_services.dart';
+import 'package:helpadora/src/screens/login_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../blocs/registration_bloc.dart';
+import '../models/date_model.dart';
+import '../services/auth_services.dart';
+import '../widgets/message_Popup.dart';
+import '../models/dialog_messages.dart';
 
 class RegistrationScreen extends StatelessWidget {
   static const routeName = '/registration';
@@ -286,9 +289,14 @@ class RegistrationScreen extends StatelessWidget {
                           _regisBloc.getEmail(), _regisBloc.getPassword())
                       .then((user) {
                     if (user != null) {
-                      Navigator.of(context).pushNamed(MainScreen.routeName);
+                      Dialogs.showConfirmationDialog(
+                          context,
+                          DialogMessages.registrationConfirm,
+                          LoginScreen.routeName);
                       _regisBloc.dispose();
                     }
+                    else
+                      Dialogs.showErrorDialog(context, authService.getError());
                     print(authService.getError());
                   });
                 }

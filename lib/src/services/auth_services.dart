@@ -27,6 +27,10 @@ class AuthService with ChangeNotifier{
           email: email, password: password);
 
       if (result != null) {
+        if(!result.user.emailVerified){
+          _errorMessage = 'Email is not verified.Please verify then login again.';
+          return null;
+        }
         return result.user;
       }
     } on FirebaseAuthException catch (e) {
