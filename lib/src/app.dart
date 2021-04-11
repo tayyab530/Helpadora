@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/screens/home_loginORmain.dart';
 import 'package:provider/provider.dart';
 
 import 'blocs/login_bloc.dart';
@@ -51,7 +52,7 @@ class App extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         title: 'Helpadora',
-        home: LoginScreen(),
+        home: Home(),
         routes: {
           MainScreen.routeName: (ctx) => MainScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),

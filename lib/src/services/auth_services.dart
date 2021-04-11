@@ -48,7 +48,9 @@ class AuthService with ChangeNotifier{
 
   bool isLogedIn() {
     User _user = _auth.currentUser;
-    return _user != null ?  true : false;
+    if(_user != null && _user.emailVerified)
+      return true;
+    return false;
   }
 }
 
