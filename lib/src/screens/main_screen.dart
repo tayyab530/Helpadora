@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'write_query_screen.dart';
 import '../widgets/tabs/community_tab.dart';
 import '../widgets/tabs/self_tab.dart';
+import '../widgets/tabs/settings_tab.dart';
 
 class MainScreen extends StatelessWidget {
   static const routeName = '/main-screen';
@@ -37,7 +38,7 @@ class MainScreen extends StatelessWidget {
             CommunityTab(),
             SelfTab(),
             Text('CHAT'),
-            Text('SET'),
+            SettingsTab(),
           ],
         ),
         floatingActionButton: FloatingActionButton(

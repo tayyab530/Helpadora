@@ -92,6 +92,7 @@ class LoginScreen extends StatelessWidget {
                             context, authServices.getError());
                       } else
                         Navigator.of(context).pushNamed(MainScreen.routeName);
+                        loginBloc.dispose();
 
                       print(authServices.getError());
                     },

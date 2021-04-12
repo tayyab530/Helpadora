@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import '../models/user_model.dart';
 import '../models/query_model.dart';
 
-class DbFirestore with ChangeNotifier{
+class DbFirestore with ChangeNotifier {
   final _firestore = FirebaseFirestore.instance;
 
   registerUserData(UserModel user) async {
@@ -19,7 +19,7 @@ class DbFirestore with ChangeNotifier{
     );
   }
 
-  Future<void> postQuery(QueryModel query) async{
+  Future<void> postQuery(QueryModel query) async {
     return await _firestore.collection('query').doc().set(
       {
         'title': query.title,
@@ -32,5 +32,20 @@ class DbFirestore with ChangeNotifier{
         'solver_uid': query.solverUid,
       },
     );
+  }
+
+  Stream<QuerySnapshot> get publicQueryStream => _firestore
+      .collection('query')
+      .where('isDeleted', isEqualTo: false)
+      .where('isSolved', isEqualTo: false)
+      .snapshots();
+
+  Stream<QuerySnapshot> personalQueryStream(String uid) {
+    print(uid);
+    return _firestore
+        .collection('query')
+        .where('isDeleted', isEqualTo: false)
+        .where('poster_uid', isEqualTo: uid)
+        .snapshots();
   }
 }

@@ -1,13 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/widgets/query_item.dart';
+
+import 'query_item.dart';
 
 class ListOfQueries extends StatelessWidget {
+  final List<QueryDocumentSnapshot> queries;
+
+  ListOfQueries(this.queries);
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 4,
+      itemCount: queries.length,
       itemBuilder: (context, index) {
-        return QueryItem();
+        return QueryItem(queries[index]);
       },
     );
   }

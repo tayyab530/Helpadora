@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/services/auth_services.dart';
 import 'package:provider/provider.dart';
+import 'package:tap_debouncer/tap_debouncer.dart';
 
 import '../blocs/write_query_bloc.dart';
 import '../models/date_model.dart';
@@ -143,31 +144,34 @@ class WriteQuery extends StatelessWidget {
     return StreamBuilder(
         stream: _wqBloc.post,
         builder: (context, AsyncSnapshot<bool> snapshot) {
-          return TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: snapshot.hasData
-                  ? Theme.of(context).accentColor
-                  : Colors.grey[350],
+          return TapDebouncer(
+            onTap: !snapshot.hasData
+                  ? null
+                  : () async {
+                      await _dbFirestore
+                          .postQuery(QueryModel(
+                            title: _wqBloc.getTitle(),
+                            description: _wqBloc.getDescription(),
+                            dueDate: _wqBloc.getDueDate(),
+                            location: _wqBloc.getLocation(),
+                            posterUid: _auth.getCurrentUser().uid,
+                          ))
+                          .then(
+                            (value) => Dialogs.showConfirmationDialog(
+                                context,
+                                DialogMessages.queryPostingConfirm,
+                                MainScreen.routeName),
+                          );
+                    },
+            builder: (ctx, onTap) => TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: snapshot.hasData
+                    ? Theme.of(context).accentColor
+                    : Colors.grey[350],
+              ),
+              onPressed: onTap,
+              child: Text('Post'),
             ),
-            onPressed: !snapshot.hasData
-                ? null
-                : () async {
-                    await _dbFirestore
-                        .postQuery(QueryModel(
-                          title: _wqBloc.getTitle(),
-                          description: _wqBloc.getDescription(),
-                          dueDate: _wqBloc.getDueDate(),
-                          location: _wqBloc.getLocation(),
-                          posterUid: _auth.getCurrentUser().uid,
-                        ))
-                        .then(
-                          (value) => Dialogs.showConfirmationDialog(
-                              context,
-                              DialogMessages.queryPostingConfirm,
-                              MainScreen.routeName),
-                        );
-                  },
-            child: Text('Post'),
           );
         });
   }

@@ -14,7 +14,6 @@ import 'screens/write_query_screen.dart';
 import 'blocs/write_query_bloc.dart';
 
 class App extends StatelessWidget {
-  static const String routeName = '/';
 
   @override
   Widget build(BuildContext context) {

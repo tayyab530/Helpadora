@@ -6,6 +6,7 @@ import 'main_screen.dart';
 import '../services/auth_services.dart';
 
 class Home extends StatelessWidget {
+  static const routeName = '/';
   @override
   Widget build(BuildContext context) {
     final _isLoggedIn =
