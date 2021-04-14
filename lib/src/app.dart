@@ -14,12 +14,10 @@ import 'screens/write_query_screen.dart';
 import 'blocs/write_query_bloc.dart';
 
 class App extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (ctx) => LoginBloc()),
         ChangeNotifierProvider(create: (ctx) => AuthService()),
         ChangeNotifierProvider(
           create: (ctx) => DbFirestore(),
@@ -55,7 +53,8 @@ class App extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         title: 'Helpadora',
-        home: Home(),
+        home: ChangeNotifierProvider(
+            create: (context) => LoginBloc(), child: Home()),
         routes: {
           MainScreen.routeName: (ctx) => MainScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),

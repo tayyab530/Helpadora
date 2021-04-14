@@ -15,7 +15,11 @@ class SettingsTab extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () {
-             _auth.signOut().then((value) => Navigator.of(context).pushReplacementNamed('/'));
+            _auth.signOut().then(
+              (value) {
+                Navigator.of(context).pushReplacementNamed('/');
+              },
+            );
           },
           child: Text('Logout'),
         ),

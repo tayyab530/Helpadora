@@ -27,7 +27,6 @@ class RegistrationScreen extends StatelessWidget {
           icon: Icon(Icons.arrow_back),
           onPressed: () async {
             Navigator.of(context).pop();
-            await _regisBloc.dispose();
           },
         ),
       ),
@@ -203,8 +202,6 @@ class RegistrationScreen extends StatelessWidget {
         });
   }
 
-  
-
   Widget programDropDown(RegistrationBloc _regisBloc) {
     return StreamBuilder(
         stream: _regisBloc.program,
@@ -315,7 +312,7 @@ class RegistrationScreen extends StatelessWidget {
       },
     );
   }
-  
+
   Future<void> _datePicker(BuildContext context, RegistrationBloc _regisBloc,
       AsyncSnapshot<Date> snapshot) async {
     final DateTime pickedDate = await showDatePicker(

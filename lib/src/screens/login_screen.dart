@@ -80,26 +80,29 @@ class LoginScreen extends StatelessWidget {
       BuildContext context, LoginBloc loginBloc, AuthService authServices) {
     return StreamBuilder(
         stream: loginBloc.submit,
+        // initialData: null,
         builder: (context, AsyncSnapshot<bool> snapshot) {
           return TapDebouncer(
             onTap: !snapshot.hasData
-                  ? null
-                  : () async {
-                      var user = await authServices.loginWithEandP(
-                          loginBloc.getEmail(), loginBloc.getPassword());
-                      if (user == null) {
-                        Dialogs.showErrorDialog(
-                            context, authServices.getError());
-                      } else
-                        Navigator.of(context).pushNamed(MainScreen.routeName);
-                        loginBloc.dispose();
+                ? null
+                : () async {
+                    var user = await authServices.loginWithEandP(
+                      loginBloc.getEmail(),
+                      loginBloc.getPassword(),
+                    );
+                    if (user == null) {
+                      print(authServices.getCurrentUser());
+                      Dialogs.showErrorDialog(context, authServices.getError());
+                    } else
+                      Navigator.of(context)
+                          .pushReplacementNamed(MainScreen.routeName);
 
-                      print(authServices.getError());
-                    },
+                    print(authServices.getError());
+                  },
             builder: (ctx, TapDebouncerFunc onTap) => Container(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: onTap, 
+                onPressed: onTap,
                 child: Text('Login'),
                 style: ElevatedButton.styleFrom(
                   primary: Theme.of(context).accentColor,
