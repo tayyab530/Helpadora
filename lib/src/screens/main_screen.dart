@@ -22,11 +22,11 @@ class MainScreen extends StatelessWidget {
                 icon: Icon(Icons.people),
               ),
               Tab(
-                icon: Icon(Icons.question_answer),
+                icon: Icon(Icons.pending),
               ),
               Tab(
                 icon: Icon(
-                  Icons.pending,
+                  Icons.question_answer,
                 ),
               ),
               Tab(icon: Icon(Icons.settings)),
