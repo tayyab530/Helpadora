@@ -46,13 +46,22 @@ class DbFirestore with ChangeNotifier {
       .where('isSolved', isEqualTo: false)
       .snapshots();
 
-  Stream<QuerySnapshot> personalQueryStream(String uid) {
+  Stream<QuerySnapshot> unsolvedQueryStream(String uid) {
     print(uid);
     return _firestore
         .collection('query')
         .where('poster_uid', isEqualTo: uid)
         .where('isDeleted', isEqualTo: false)
         .where('isSolved', isEqualTo: false)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> solvedQueryStream(String uid) {
+    print(uid);
+    return _firestore
+        .collection('query')
+        .where('poster_uid', isEqualTo: uid)
+        .where('isSolved', isEqualTo: true)
         .snapshots();
   }
 }
