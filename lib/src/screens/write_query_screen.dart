@@ -85,6 +85,7 @@ class WriteQuery extends StatelessWidget {
                         DateTime.now().month, DateTime.now().day + 14),
                     currentDate: snapshot.data.currentDate,
                   );
+                  if(_pickedDate !=null)
                   _wqBloc.changeDueDate(Date(_pickedDate, _pickedDate));
                 },
               ),
