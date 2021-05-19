@@ -23,16 +23,19 @@ class Dialogs {
         barrierDismissible: false,
         context: context,
         builder: (ctx) {
-          return SimpleDialog(
-            title: Text(confirmationMessage),
-            children: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed(routeName);
-                },
-                child: Text('OK'),
-              ),
-            ],
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: SimpleDialog(
+              title: Text(confirmationMessage),
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacementNamed(routeName);
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            ),
           );
         });
   }

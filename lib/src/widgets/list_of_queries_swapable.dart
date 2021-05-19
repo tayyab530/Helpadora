@@ -23,9 +23,27 @@ class ListOfQueriesSwapable extends StatelessWidget {
           ),
           onDismissed: (direction) {
             if (direction == DismissDirection.endToStart) {
+              print(queries[index].id);
               _db.deleteQuery(queries[index].id);
+            } else if (direction == DismissDirection.startToEnd) {
+              print(queries[index].id);
+              _db.solveQuery(queries[index].id);
             }
           },
+          background: Container(
+            color: Colors.green,
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
+            margin: EdgeInsets.only(bottom: 10.0),
+            alignment: AlignmentDirectional.centerStart,
+            child: Icon(Icons.fact_check),
+          ),
+          secondaryBackground: Container(
+            color: Colors.red,
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
+            margin: EdgeInsets.only(bottom: 10.0),
+            alignment: AlignmentDirectional.centerEnd,
+            child: Icon(Icons.delete),
+          ),
         );
       },
     );

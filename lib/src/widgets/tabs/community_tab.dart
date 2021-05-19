@@ -12,9 +12,9 @@ class CommunityTab extends StatelessWidget {
 
     return StreamBuilder(
         stream: _dbFirestore.publicQueryStream,
-        builder: (context,AsyncSnapshot<QuerySnapshot> snapshot) {
-          if(snapshot.connectionState ==  ConnectionState.waiting)
-            return CircularProgressIndicator();
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting)
+            return Center(child: CircularProgressIndicator());
           return ListOfQueries(snapshot.data.docs);
         });
   }

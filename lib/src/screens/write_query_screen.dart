@@ -85,8 +85,8 @@ class WriteQuery extends StatelessWidget {
                         DateTime.now().month, DateTime.now().day + 14),
                     currentDate: snapshot.data.currentDate,
                   );
-                  if(_pickedDate !=null)
-                  _wqBloc.changeDueDate(Date(_pickedDate, _pickedDate));
+                  if (_pickedDate != null)
+                    _wqBloc.changeDueDate(Date(_pickedDate, _pickedDate));
                 },
               ),
             ],
@@ -147,23 +147,23 @@ class WriteQuery extends StatelessWidget {
         builder: (context, AsyncSnapshot<bool> snapshot) {
           return TapDebouncer(
             onTap: !snapshot.hasData
-                  ? null
-                  : () async {
-                      await _dbFirestore
-                          .postQuery(QueryModel(
-                            title: _wqBloc.getTitle(),
-                            description: _wqBloc.getDescription(),
-                            dueDate: _wqBloc.getDueDate(),
-                            location: _wqBloc.getLocation(),
-                            posterUid: _auth.getCurrentUser().uid,
-                          ))
-                          .then(
-                            (value) => Dialogs.showConfirmationDialog(
-                                context,
-                                DialogMessages.queryPostingConfirm,
-                                MainScreen.routeName),
-                          );
-                    },
+                ? null
+                : () async {
+                    await _dbFirestore
+                        .postQuery(QueryModel(
+                          title: _wqBloc.getTitle(),
+                          description: _wqBloc.getDescription(),
+                          dueDate: _wqBloc.getDueDate(),
+                          location: _wqBloc.getLocation(),
+                          posterUid: _auth.getCurrentUser().uid,
+                        ))
+                        .then(
+                          (value) => Dialogs.showConfirmationDialog(
+                              context,
+                              DialogMessages.queryPostingConfirm,
+                              MainScreen.routeName),
+                        );
+                  },
             builder: (ctx, onTap) => TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: snapshot.hasData

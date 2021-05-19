@@ -15,7 +15,7 @@ class SelfTab extends StatelessWidget {
         stream: _dbFirestore.personalQueryStream(_auth.getCurrentUser().uid),
         builder: (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           return ListOfQueriesSwapable(snapshot.data.docs);
         });
   }

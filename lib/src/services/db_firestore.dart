@@ -34,9 +34,11 @@ class DbFirestore with ChangeNotifier {
     );
   }
 
-  Future<void> deleteQuery(String queryId) async {
-    return await _firestore.collection('query').doc(queryId).delete();
-  }
+  Future<void> deleteQuery(String queryId) async =>
+      _firestore.collection('query').doc(queryId).update({'isDeleted': true});
+
+  Future<void> solveQuery(String queryId) async =>
+      _firestore.collection('query').doc(queryId).update({'isSolved': true});
 
   Stream<QuerySnapshot> get publicQueryStream => _firestore
       .collection('query')
@@ -48,8 +50,9 @@ class DbFirestore with ChangeNotifier {
     print(uid);
     return _firestore
         .collection('query')
-        .where('isDeleted', isEqualTo: false)
         .where('poster_uid', isEqualTo: uid)
+        .where('isDeleted', isEqualTo: false)
+        .where('isSolved', isEqualTo: false)
         .snapshots();
   }
 }
