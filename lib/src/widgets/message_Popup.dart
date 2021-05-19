@@ -20,6 +20,7 @@ class Dialogs {
   static showConfirmationDialog(
       BuildContext context, String confirmationMessage, String routeName) {
     return showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (ctx) {
           return SimpleDialog(

@@ -34,6 +34,10 @@ class DbFirestore with ChangeNotifier {
     );
   }
 
+  Future<void> deleteQuery(String queryId) async {
+    return await _firestore.collection('query').doc(queryId).delete();
+  }
+
   Stream<QuerySnapshot> get publicQueryStream => _firestore
       .collection('query')
       .where('isDeleted', isEqualTo: false)

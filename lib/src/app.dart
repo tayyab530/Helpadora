@@ -18,7 +18,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (ctx) => AuthService()),
+        ChangeNotifierProvider(
+          create: (ctx) => AuthService(),
+        ),
         ChangeNotifierProvider(
           create: (ctx) => DbFirestore(),
         ),
