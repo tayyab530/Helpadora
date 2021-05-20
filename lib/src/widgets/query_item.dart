@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import 'message_Popup.dart';
+
 class QueryItem extends StatelessWidget {
   final QueryDocumentSnapshot queryDetails;
 
@@ -20,6 +22,9 @@ class QueryItem extends StatelessWidget {
               Text(queryDetails['location']),
             ],
           ),
+          onTap: () {
+            Dialogs.queryDetailsDialog(context, queryDetails);
+          },
         ),
         Divider(),
       ],

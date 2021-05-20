@@ -26,7 +26,7 @@ class MainScreen extends StatelessWidget {
               ),
               Tab(
                 icon: Icon(
-                  Icons.question_answer,
+                  Icons.messenger,
                 ),
               ),
               Tab(icon: Icon(Icons.settings)),
@@ -41,11 +41,6 @@ class MainScreen extends StatelessWidget {
             SettingsTab(),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.pushNamed(context, WriteQuery.routeName),
-          child: Icon(Icons.add),
-        ),
-        
       ),
     );
   }
