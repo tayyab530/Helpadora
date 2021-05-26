@@ -23,10 +23,8 @@ class ListOfQueriesSwapable extends StatelessWidget {
           ),
           onDismissed: (direction) {
             if (direction == DismissDirection.endToStart) {
-              print(queries[index].id);
               _db.deleteQuery(queries[index].id);
             } else if (direction == DismissDirection.startToEnd) {
-              print(queries[index].id);
               _db.solveQuery(queries[index].id);
             }
           },

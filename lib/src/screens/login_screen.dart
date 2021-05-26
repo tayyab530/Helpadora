@@ -91,13 +91,10 @@ class LoginScreen extends StatelessWidget {
                       loginBloc.getPassword(),
                     );
                     if (user == null) {
-                      print(authServices.getCurrentUser());
                       Dialogs.showErrorDialog(context, authServices.getError());
                     } else
                       Navigator.of(context)
                           .pushReplacementNamed(MainScreen.routeName);
-
-                    print(authServices.getError());
                   },
             builder: (ctx, TapDebouncerFunc onTap) => Container(
               width: double.infinity,

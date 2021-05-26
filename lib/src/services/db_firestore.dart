@@ -47,7 +47,6 @@ class DbFirestore with ChangeNotifier {
       .snapshots();
 
   Stream<QuerySnapshot> unsolvedQueryStream(String uid) {
-    print(uid);
     return _firestore
         .collection('query')
         .where('poster_uid', isEqualTo: uid)
@@ -57,7 +56,6 @@ class DbFirestore with ChangeNotifier {
   }
 
   Stream<QuerySnapshot> solvedQueryStream(String uid) {
-    print(uid);
     return _firestore
         .collection('query')
         .where('poster_uid', isEqualTo: uid)

@@ -43,7 +43,6 @@ class WriteQueryValidatorsMixin {
         handleData: (String value, sink) {
       if (value.isNotEmpty) {
         sink.add(value);
-        print(value);
       } else {
         sink.addError('Please Enter location');
       }

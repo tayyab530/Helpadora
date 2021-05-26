@@ -41,8 +41,8 @@ class _SelfTabState extends State<SelfTab> {
           ),
           ClipRRect(
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10.0),
-              topRight: Radius.circular(10.0),
+              topLeft: const Radius.circular(10.0),
+              topRight: const Radius.circular(10.0),
             ),
             child: Container(
               color: Theme.of(context).accentColor,
@@ -52,11 +52,11 @@ class _SelfTabState extends State<SelfTab> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Solved Queries '),
+                  const Text('Solved Queries '),
                   FittedBox(
                     fit: BoxFit.contain,
                     child: IconButton(
-                      icon: Icon(showSolvedQueries
+                      icon: Icon(!showSolvedQueries
                           ? Icons.arrow_drop_up
                           : Icons.arrow_drop_down),
                       onPressed: () {

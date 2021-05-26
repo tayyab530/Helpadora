@@ -294,7 +294,6 @@ class RegistrationScreen extends StatelessWidget {
                       ));
                     } else
                       Dialogs.showErrorDialog(context, _authService.getError());
-                    print(_authService.getError());
                   });
                 }
               : null,

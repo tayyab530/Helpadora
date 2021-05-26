@@ -10,7 +10,6 @@ class QueryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(queryDetails.data().toString());
     return Column(
       children: [
         ListTile(
