@@ -12,18 +12,40 @@ class QueryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ListTile(
-          title: Text(queryDetails['title']),
-          trailing: Text(queryDetails['due_date']),
-          subtitle: Row(
-            children: [
-              Icon(Icons.location_on),
-              Text(queryDetails['location']),
-            ],
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            color: Theme.of(context).primaryColorLight,
           ),
-          onTap: () {
-            Dialogs.queryDetailsDialog(context, queryDetails);
-          },
+          margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 3.0),
+          child: ListTile(
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  queryDetails['title'],
+                  style: TextStyle(
+                    fontWeight:
+                        Theme.of(context).primaryTextTheme.headline1.fontWeight,
+                    fontSize: 19.0,
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+              ],
+            ),
+            trailing: Text(queryDetails['due_date']),
+            subtitle: Row(
+              children: [
+                Icon(Icons.location_on),
+                Text(queryDetails['location']),
+              ],
+            ),
+            onTap: () {
+              Dialogs.queryDetailsDialog(context, queryDetails);
+            },
+          ),
         ),
         Divider(),
       ],

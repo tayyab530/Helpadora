@@ -38,20 +38,22 @@ class App extends StatelessWidget {
             ),
           ),
           primaryColor: Color(0xff03A9F4),
-          primaryColorLight: const Color(0xff0288D1),
-          primaryColorDark: const Color(0xffB3E5FC),
+          primaryColorLight: const Color(0xffB3E5FC),
+          primaryColorDark: const Color(0xff0288D1),
           accentColor: Color(0xffFFC107),
           primaryTextTheme: TextTheme(
-            headline6: TextStyle(
+            headline1: TextStyle(
+              fontWeight: FontWeight.bold,
               color: Color(0xff212121),
             ),
           ),
           accentTextTheme: TextTheme(
-            headline6: TextStyle(
+            headline2: TextStyle(
               color: Color(0xff757575),
             ),
           ),
           errorColor: Color(0xffFF5959),
+          dividerColor: Color(0xffBDBDBD),
         ),
         debugShowCheckedModeBanner: false,
         title: 'Helpadora',

@@ -31,14 +31,14 @@ class ListOfQueriesSwapable extends StatelessWidget {
           background: Container(
             color: Colors.green,
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
-            margin: EdgeInsets.only(bottom: 10.0),
+            margin: EdgeInsets.only(bottom: 20.0, top: 3.0),
             alignment: AlignmentDirectional.centerStart,
             child: Icon(Icons.fact_check),
           ),
           secondaryBackground: Container(
             color: Colors.red,
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
-            margin: EdgeInsets.only(bottom: 10.0),
+            margin: EdgeInsets.only(bottom: 20.0, top: 3.0),
             alignment: AlignmentDirectional.centerEnd,
             child: Icon(Icons.delete),
           ),

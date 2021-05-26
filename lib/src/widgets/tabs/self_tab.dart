@@ -17,18 +17,18 @@ class _SelfTabState extends State<SelfTab> {
   bool showSolvedQueries = false;
   @override
   Widget build(BuildContext context) {
-    final _dbFirestore = Provider.of<DbFirestore>(context);
-    final _auth = Provider.of<AuthService>(context);
+    final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
+    final _auth = Provider.of<AuthService>(context, listen: false);
 
     return Scaffold(
       body: Column(
         children: [
           Container(
             height: showSolvedQueries
-                ? ((MediaQuery.of(context).size.height / 2) - 77)
+                ? ((MediaQuery.of(context).size.height / 2) - 86)
                 : ((MediaQuery.of(context).size.height -
                         MediaQuery.of(context).padding.top) -
-                    154),
+                    163),
             child: StreamBuilder(
               stream:
                   _dbFirestore.unsolvedQueryStream(_auth.getCurrentUser().uid),
@@ -46,7 +46,7 @@ class _SelfTabState extends State<SelfTab> {
             ),
             child: Container(
               color: Theme.of(context).accentColor,
-              height: 26.0,
+              height: 35.0,
               width: double.infinity,
               alignment: Alignment.center,
               child: Row(
