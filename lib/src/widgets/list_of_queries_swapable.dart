@@ -14,6 +14,7 @@ class ListOfQueriesSwapable extends StatelessWidget {
   Widget build(BuildContext context) {
     final _db = Provider.of<DbFirestore>(context);
     return ListView.builder(
+      padding: const EdgeInsets.only(top: 8.0),
       itemCount: queries.length,
       itemBuilder: (context, index) {
         return Dismissible(
