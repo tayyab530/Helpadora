@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:helpadora/src/models/chat_model.dart';
 
 import '../models/user_model.dart';
 import '../models/query_model.dart';
@@ -15,12 +16,14 @@ class DbFirestore with ChangeNotifier {
         'dob': user.dob,
         'gender': user.gender,
         'program': user.program,
+        'list_of_quries': [],
       },
     );
   }
 
   Future<void> postQuery(QueryModel query) async {
-    return await _firestore.collection('query').doc().set(
+    var documentRef = _firestore.collection('query').doc();
+    return await documentRef.set(
       {
         'title': query.title,
         'description': query.description,
@@ -30,8 +33,11 @@ class DbFirestore with ChangeNotifier {
         'isDeleted': query.isDeleted,
         'isSolved': query.isSolved,
         'solver_uid': query.solverUid,
+        'list_of_chats': []
       },
-    );
+    ).then((_) => _firestore.collection('user').doc(query.posterUid).update({
+          'list_of_queries': FieldValue.arrayUnion([documentRef.id])
+        }));
   }
 
   Future<void> deleteQuery(String queryId) async =>
@@ -40,26 +46,53 @@ class DbFirestore with ChangeNotifier {
   Future<void> solveQuery(String queryId) async =>
       _firestore.collection('query').doc(queryId).update({'isSolved': true});
 
-  Stream<QuerySnapshot> get publicQueryStream => _firestore
+  Future<void> sendChat(
+      Chat chat, QueryDocumentSnapshot query, String uid) async {
+    var _queryRef = _firestore.collection('query').doc(query.id);
+
+    print(uid + query.data()['poster_uid']);
+
+    return _queryRef
+        .collection('chats')
+        .doc(uid + query.data()['poster_uid'])
+        .collection('messages')
+        .doc()
+        .set({
+      'sender_uid': chat.senderUid,
+      'receiver_uid': chat.receiverUid,
+      'text': chat.text,
+      'time': chat.timestamp
+    });
+  }
+
+  Query get publicQueryStream => _firestore
       .collection('query')
       .where('isDeleted', isEqualTo: false)
-      .where('isSolved', isEqualTo: false)
-      .snapshots();
+      .where('isSolved', isEqualTo: false);
 
-  Stream<QuerySnapshot> unsolvedQueryStream(String uid) {
+  Query get unsolvedQueryStream => _firestore
+      .collection('query')
+      .where('isDeleted', isEqualTo: false)
+      .where('isSolved', isEqualTo: false);
+
+  Query get solvedQueryStream =>
+      _firestore.collection('query').where('isSolved', isEqualTo: true);
+
+  Stream<QuerySnapshot> chatStream(QueryDocumentSnapshot qDetails, String uid) {
     return _firestore
         .collection('query')
-        .where('poster_uid', isEqualTo: uid)
-        .where('isDeleted', isEqualTo: false)
-        .where('isSolved', isEqualTo: false)
+        .doc(qDetails.id)
+        .collection('chats')
+        .doc(uid + qDetails.data()['poster_uid'])
+        .collection('messages')
+        .orderBy('time')
         .snapshots();
   }
 
-  Stream<QuerySnapshot> solvedQueryStream(String uid) {
-    return _firestore
-        .collection('query')
-        .where('poster_uid', isEqualTo: uid)
-        .where('isSolved', isEqualTo: true)
-        .snapshots();
+  String checkPoster(String senderUid, String receiverUid, String posterUid) {
+    if (senderUid == posterUid) {
+      return receiverUid;
+    } else
+      return senderUid;
   }
 }
