@@ -56,6 +56,7 @@ class LoginScreen extends StatelessWidget {
               labelText: 'Email',
               errorText: snapshot.hasError ? snapshot.error : "",
             ),
+            keyboardType: TextInputType.emailAddress,
             onChanged: bloc.changeEmail,
           );
         });

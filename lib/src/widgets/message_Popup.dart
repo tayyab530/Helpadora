@@ -49,15 +49,17 @@ class Dialogs {
           return SimpleDialog(
             title: Text('Details'),
             children: [
-              Column(
-                children: [
-                  Text(query['description']),
-                  IconButton(
-                    alignment: Alignment.centerRight,
-                    icon: Icon(Icons.message),
-                    onPressed: () {},
-                  )
-                ],
+              Text(query['description'], textAlign: TextAlign.center),
+              Container(
+                margin: EdgeInsets.only(right: 15.0),
+                alignment: Alignment.bottomRight,
+                child: IconButton(
+                  icon: Icon(Icons.message),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/chat',
+                        arguments: {'queryDetails': query});
+                  },
+                ),
               ),
             ],
           );

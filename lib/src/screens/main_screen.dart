@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/widgets/tabs/conversation_tab.dart';
 
 import 'write_query_screen.dart';
 import '../widgets/tabs/community_tab.dart';
@@ -37,7 +38,7 @@ class MainScreen extends StatelessWidget {
           children: [
             CommunityTab(),
             SelfTab(),
-            Text('CHAT'),
+            ConversaionTab(),
             SettingsTab(),
           ],
         ),

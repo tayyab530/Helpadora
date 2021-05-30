@@ -10,4 +10,5 @@ void main() async {
   runApp(App());
 }
 
-//TODO: keep sign in 
+//TODO: messages send
+//TODO: get chat update in chat tab

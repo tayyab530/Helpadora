@@ -30,8 +30,9 @@ class _SelfTabState extends State<SelfTab> {
                         MediaQuery.of(context).padding.top) -
                     163),
             child: StreamBuilder(
-              stream:
-                  _dbFirestore.unsolvedQueryStream(_auth.getCurrentUser().uid),
+              stream: _dbFirestore.unsolvedQueryStream
+                  .where('poster_uid', isEqualTo: _auth.getCurrentUser().uid)
+                  .snapshots(),
               builder: (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting)
                   return Center(child: CircularProgressIndicator());
@@ -74,8 +75,10 @@ class _SelfTabState extends State<SelfTab> {
               ? Container(
                   height: (MediaQuery.of(context).size.height / 2) - 77,
                   child: StreamBuilder(
-                    stream: _dbFirestore
-                        .solvedQueryStream(_auth.getCurrentUser().uid),
+                    stream: _dbFirestore.solvedQueryStream
+                        .where('poster_uid',
+                            isEqualTo: _auth.getCurrentUser().uid)
+                        .snapshots(),
                     builder: (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting)
                         return Center(child: CircularProgressIndicator());

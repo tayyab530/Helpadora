@@ -6,6 +6,7 @@ class UserModel {
   final String dob;
   final String gender;
   final String program;
+  List<String> listOfQueries = [];
 
   UserModel({
     @required this.uid,

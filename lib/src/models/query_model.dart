@@ -9,6 +9,7 @@ class QueryModel {
   bool isDeleted;
   bool isSolved;
   String solverUid;
+  List<String> listOfChats = [];
 
   QueryModel({
     @required this.title,
