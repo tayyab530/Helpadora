@@ -74,6 +74,7 @@ class RegistrationScreen extends StatelessWidget {
         stream: bloc.email,
         builder: (context, AsyncSnapshot<String> snapshot) {
           return TextField(
+            keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
               labelText: 'Email Address',
               errorText: snapshot.hasError ? snapshot.error : '',
@@ -291,6 +292,7 @@ class RegistrationScreen extends StatelessWidget {
                         dob: _regisBloc.getDob(),
                         gender: _regisBloc.getGender(),
                         program: _regisBloc.getProgram(),
+                        emailAddress: user.email,
                       ));
                     } else
                       Dialogs.showErrorDialog(context, _authService.getError());

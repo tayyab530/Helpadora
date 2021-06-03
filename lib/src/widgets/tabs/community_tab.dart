@@ -20,7 +20,7 @@ class CommunityTab extends StatelessWidget {
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           // print("Length ${snapshot.data.docs.toString()}");
-          if (snapshot.connectionState == ConnectionState.waiting &&
+          if (snapshot.connectionState == ConnectionState.waiting ||
               snapshot.data == null)
             return Center(child: CircularProgressIndicator());
           else

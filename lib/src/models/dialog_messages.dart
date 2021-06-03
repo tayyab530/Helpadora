@@ -4,4 +4,7 @@ class DialogMessages {
 
   static final String queryPostingConfirm =
       'Query has been posted successfully!';
+
+  static final String queryDeleteConfirm =
+      'This query and all of its related chats will be deleted!';
 }

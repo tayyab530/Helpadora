@@ -17,6 +17,7 @@ class DbFirestore with ChangeNotifier {
         'gender': user.gender,
         'program': user.program,
         'list_of_quries': [],
+        'email_address': user.emailAddress,
       },
     );
   }
@@ -40,29 +41,37 @@ class DbFirestore with ChangeNotifier {
         }));
   }
 
-  Future<void> deleteQuery(String queryId) async =>
-      _firestore.collection('query').doc(queryId).update({'isDeleted': true});
+  Future<void> deleteQuery(QueryDocumentSnapshot query) async => _firestore
+      .collection('query')
+      .doc(query.id)
+      .update({'isDeleted': true}).then((value) =>
+          _firestore.collection('user').doc(query['poster_uid']).update({
+            'list_of_queries': FieldValue.arrayRemove([query.id])
+          }));
 
   Future<void> solveQuery(String queryId) async =>
       _firestore.collection('query').doc(queryId).update({'isSolved': true});
 
   Future<void> sendChat(
-      Chat chat, QueryDocumentSnapshot query, String uid) async {
-    var _queryRef = _firestore.collection('query').doc(query.id);
-
-    print(uid + query.data()['poster_uid']);
-
-    return _queryRef
+      Chat chat, QueryDocumentSnapshot query, String senderUid) async {
+    var _chatRef = _firestore
+        .collection('query')
+        .doc(query.id)
         .collection('chats')
-        .doc(uid + query.data()['poster_uid'])
-        .collection('messages')
-        .doc()
-        .set({
+        .doc(senderUid + query.data()['poster_uid']);
+
+    print(senderUid + query.data()['poster_uid']);
+
+    return _chatRef.collection('messages').doc().set({
       'sender_uid': chat.senderUid,
       'receiver_uid': chat.receiverUid,
       'text': chat.text,
       'time': chat.timestamp
-    });
+    }).then((_) => _chatRef.set({
+          'last_message': chat.text,
+          'time': chat.timestamp,
+          'chat_members': [chat.senderUid, chat.receiverUid]
+        }));
   }
 
   Query get publicQueryStream => _firestore
@@ -85,8 +94,35 @@ class DbFirestore with ChangeNotifier {
         .collection('chats')
         .doc(uid + qDetails.data()['poster_uid'])
         .collection('messages')
-        .orderBy('time')
+        .orderBy('time', descending: true)
         .snapshots();
+  }
+
+  Future<DocumentSnapshot> getQuriesList(String uid) {
+    return _firestore.collection('user').doc(uid).get();
+  }
+
+  Future<QuerySnapshot> querySnap(String uid) async => _firestore
+      .collection('query')
+      .where('poster_uid', isEqualTo: uid)
+      .where('isDeleted', isEqualTo: false)
+      .where('isSolved', isEqualTo: false)
+      .get();
+
+  Stream<QuerySnapshot> queryChatStream(String qUid) {
+    return _firestore
+        .collection('query')
+        .doc(qUid)
+        .collection('chats')
+        .snapshots();
+  }
+
+  getChatsForRating(String queryId) {
+    return _firestore
+        .collection('query')
+        .doc(queryId)
+        .collection('chats')
+        .get();
   }
 
   String checkPoster(String senderUid, String receiverUid, String posterUid) {

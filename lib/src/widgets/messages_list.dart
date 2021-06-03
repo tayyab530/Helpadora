@@ -9,8 +9,9 @@ import 'message_bubble.dart';
 
 class MessagesList extends StatelessWidget {
   final QueryDocumentSnapshot queryDetails;
+  final senderUid;
 
-  MessagesList(this.queryDetails);
+  MessagesList(this.queryDetails, this.senderUid);
   @override
   Widget build(BuildContext context) {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
@@ -18,12 +19,13 @@ class MessagesList extends StatelessWidget {
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
 
     return StreamBuilder(
-        stream: _dbFirestore.chatStream(queryDetails, _currentUid),
+        stream: _dbFirestore.chatStream(queryDetails, senderUid),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting ||
               snapshot.data == null)
             return Center(child: CircularProgressIndicator());
           return ListView.builder(
+            reverse: true,
             itemCount: snapshot.data.docs.length,
             itemBuilder: (context, index) {
               return MessageBubble(

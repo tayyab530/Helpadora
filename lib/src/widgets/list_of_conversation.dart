@@ -2,43 +2,66 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/message_model.dart';
+import 'list_of_chats_conversational.dart';
 import '../services/auth_services.dart';
 import '../services/db_firestore.dart';
-import '../widgets/conversation_item.dart';
 
-class ListOfConversation extends StatelessWidget {
+class ListOfConversation extends StatefulWidget {
+  @override
+  _ListOfConversationState createState() => _ListOfConversationState();
+}
+
+class _ListOfConversationState extends State<ListOfConversation> {
+  List<bool> showHide = [];
   @override
   Widget build(BuildContext context) {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
-    final _auth = Provider.of<AuthService>(context, listen: false);
+    final _uid =
+        Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
 
-    return StreamBuilder(
-        stream: null,
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting ||
-              snapshot.data == null)
+    return FutureBuilder(
+        future: _dbFirestore.getQuriesList(_uid),
+        builder: (context, AsyncSnapshot<DocumentSnapshot> userSnapshot) {
+          if (userSnapshot.connectionState == ConnectionState.waiting ||
+              userSnapshot.data == null)
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                strokeWidth: 8.0,
+              ),
             );
-          var messages = snapshot.data.docs;
-          return ListView.builder(
-            padding: EdgeInsets.only(top: 5.0),
-            itemCount: messages.length,
-            itemBuilder: (context, index) {
-              var message = messages[index];
-
-              return ConversationItem(Message(
-                  receiverUid: message['receiver_uid'],
-                  senderUid: message['sender_uid'],
-                  text: message['text'],
-                  dateTime: formatTimestamp(message['time'])));
-            },
-          );
+          else {
+            List<dynamic> _listOfQuries =
+                userSnapshot.data.data()['list_of_queries'] != null
+                    ? userSnapshot.data.data()['list_of_queries']
+                    : [];
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                ..._listOfQuries.map(
+                  (queryId) => FutureBuilder(
+                    future: _dbFirestore.querySnap(_uid),
+                    builder:
+                        (context, AsyncSnapshot<QuerySnapshot> querySnapshot) {
+                      if (querySnapshot.connectionState ==
+                              ConnectionState.waiting ||
+                          querySnapshot.data == null) return Container();
+                      final querySnap = querySnapshot.data.docs
+                          .where((query) => query.id == queryId)
+                          .first;
+                      showHide.add(false);
+                      return ListOfChatsforConversation(queryId, querySnap);
+                    },
+                  ),
+                ),
+              ],
+            );
+          }
         });
   }
 
   DateTime formatTimestamp(Timestamp timestamp) {
     return timestamp.toDate();
   }
+
+  showORhideChats() {}
 }

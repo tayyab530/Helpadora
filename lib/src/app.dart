@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:helpadora/src/screens/chats_rating_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'blocs/login_bloc.dart';
@@ -16,6 +18,8 @@ import 'blocs/write_query_bloc.dart';
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // debugPaintSizeEnabled = true;
+    // debugPaintLayerBordersEnabled = true;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -24,8 +28,12 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => DbFirestore(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => LoginBloc(),
+        ),
       ],
       child: MaterialApp(
+        // debugShowMaterialGrid: true,
         theme: ThemeData(
           textTheme: TextTheme(
             headline6: TextStyle(
@@ -64,13 +72,31 @@ class App extends StatelessWidget {
           LoginScreen.routeName: (ctx) => LoginScreen(),
           RegistrationScreen.routeName: (ctx) => ChangeNotifierProvider(
               create: (ctx) => RegistrationBloc(), child: RegistrationScreen()),
-          ChatScreen.routeName: (ctx) => ChatScreen(),
           WriteQuery.routeName: (ctx) => ChangeNotifierProvider(
                 create: (ctx) => WriteQueryBloc(),
                 child: WriteQuery(),
               ),
+          RatingScreen.routeName: (ctx) => RatingScreen(),
         },
+        onGenerateRoute: route,
       ),
     );
+  }
+
+  Route route(RouteSettings settings) {
+    var routeName = settings.name;
+    dynamic args = settings.arguments;
+    print(args['queryDetails'].id);
+    print(args['chatMembers'].toString());
+    if (routeName == ChatScreen.routeName)
+      return MaterialPageRoute(
+        builder: (context) {
+          return ChatScreen(args);
+        },
+      );
+    else
+      return MaterialPageRoute(
+        builder: (context) => ChatScreen(args),
+      );
   }
 }

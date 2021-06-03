@@ -9,13 +9,18 @@ import 'package:tap_debouncer/tap_debouncer.dart';
 class ChatTextfield extends StatelessWidget {
   final _messageController = TextEditingController();
   final QueryDocumentSnapshot _queryDetails;
+  final List<dynamic> chatMembers;
+  final Map<String, String> senderReceiver;
 
-  ChatTextfield(this._queryDetails);
+  ChatTextfield(this._queryDetails, this.chatMembers, this.senderReceiver);
 
   @override
   Widget build(BuildContext context) {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
-    final _auth = Provider.of<AuthService>(context, listen: false);
+    final _uid =
+        Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
+    final senderUid = senderReceiver['sender'];
+    final receiverUid = senderReceiver['receiver'];
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
@@ -50,11 +55,13 @@ class ChatTextfield extends StatelessWidget {
                     flex: 1,
                     child: TapDebouncer(
                       onTap: () async {
-                        await _dbFirestore.sendChat(
-                            toChat(_auth.getCurrentUser().uid),
-                            _queryDetails,
-                            _auth.getCurrentUser().uid);
+                        var text = _messageController.text;
+
                         _messageController.clear();
+                        await _dbFirestore.sendChat(
+                            toChat(_uid, text, receiverUid),
+                            _queryDetails,
+                            senderUid);
                       },
                       builder: (ctx, TapDebouncerFunc onTap) => IconButton(
                         icon: Icon(Icons.send),
@@ -80,11 +87,11 @@ class ChatTextfield extends StatelessWidget {
     );
   }
 
-  toChat(String senderUid) {
+  toChat(String senderUid, String text, String rUid) {
     return Chat(
-        text: _messageController.text,
+        text: text,
         senderUid: senderUid,
-        receiverUid: _queryDetails['poster_uid'],
+        receiverUid: rUid,
         timestamp: Timestamp.now());
   }
 }

@@ -7,12 +7,13 @@ class UserModel {
   final String gender;
   final String program;
   List<String> listOfQueries = [];
+  final emailAddress;
 
-  UserModel({
-    @required this.uid,
-    @required this.userName,
-    @required this.dob,
-    @required this.gender,
-    @required this.program,
-  });
+  UserModel(
+      {@required this.uid,
+      @required this.userName,
+      @required this.dob,
+      @required this.gender,
+      @required this.program,
+      @required this.emailAddress});
 }

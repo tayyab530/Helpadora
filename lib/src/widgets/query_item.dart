@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/services/auth_services.dart';
+import 'package:provider/provider.dart';
 
 import 'message_Popup.dart';
 
@@ -10,6 +12,9 @@ class QueryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _uid =
+        Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
+
     return Column(
       children: [
         Container(
@@ -43,7 +48,12 @@ class QueryItem extends StatelessWidget {
               ],
             ),
             onTap: () {
-              Dialogs.queryDetailsDialog(context, queryDetails);
+              Dialogs.queryDetailsDialog(
+                context,
+                queryDetails,
+                isMe(_uid, queryDetails.data()['poster_uid']),
+                [_uid, queryDetails.data()['poster_uid']],
+              );
             },
           ),
         ),
@@ -51,4 +61,7 @@ class QueryItem extends StatelessWidget {
       ],
     );
   }
+
+  bool isMe(String currentUser, String posterUid) =>
+      currentUser != posterUid ? true : false;
 }

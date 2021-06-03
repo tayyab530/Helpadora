@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/widgets/tabs/conversation_tab.dart';
 
-import 'write_query_screen.dart';
 import '../widgets/tabs/community_tab.dart';
 import '../widgets/tabs/self_tab.dart';
 import '../widgets/tabs/settings_tab.dart';

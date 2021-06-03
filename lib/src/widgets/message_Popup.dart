@@ -42,7 +42,44 @@ class Dialogs {
     );
   }
 
-  static queryDetailsDialog(BuildContext context, QueryDocumentSnapshot query) {
+  static Future<bool> alertDialogForQuery(
+      BuildContext context,
+      String confirmationMessage,
+      List<String> buttonLabels,
+      Color buttonBGcolor) async {
+    return await showDialog<bool>(
+      barrierDismissible: true,
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text(confirmationMessage),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                return Navigator.of(context).pop(true);
+              },
+              child: Text(buttonLabels[0]),
+              style: TextButton.styleFrom(
+                backgroundColor: buttonBGcolor,
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                return Navigator.of(context).pop(false);
+              },
+              child: Text(buttonLabels[1]),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  static queryDetailsDialog(BuildContext context, QueryDocumentSnapshot query,
+      bool showChaticon, List<String> chatmembers) {
     return showDialog(
         context: context,
         builder: (ctx) {
@@ -50,17 +87,21 @@ class Dialogs {
             title: Text('Details'),
             children: [
               Text(query['description'], textAlign: TextAlign.center),
-              Container(
-                margin: EdgeInsets.only(right: 15.0),
-                alignment: Alignment.bottomRight,
-                child: IconButton(
-                  icon: Icon(Icons.message),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/chat',
-                        arguments: {'queryDetails': query});
-                  },
-                ),
-              ),
+              showChaticon
+                  ? Container(
+                      margin: EdgeInsets.only(right: 15.0),
+                      alignment: Alignment.bottomRight,
+                      child: IconButton(
+                        icon: Icon(Icons.message),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/chat', arguments: {
+                            'queryDetails': query,
+                            'chatMembers': chatmembers
+                          });
+                        },
+                      ),
+                    )
+                  : Container(),
             ],
           );
         });

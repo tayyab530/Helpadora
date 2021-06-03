@@ -9,6 +9,3 @@ void main() async {
 
   runApp(App());
 }
-
-//TODO: messages send
-//TODO: get chat update in chat tab
