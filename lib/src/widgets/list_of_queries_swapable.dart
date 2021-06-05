@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/models/dialog_messages.dart';
 import 'package:provider/provider.dart';
 
-import '../screens/chats_rating_screen.dart';
 import '../services/db_firestore.dart';
 import 'query_item.dart';
 import 'message_Popup.dart';
@@ -28,8 +28,6 @@ class ListOfQueriesSwapable extends StatelessWidget {
             if (direction == DismissDirection.endToStart) {
               _db.deleteQuery(queries[index]);
             } else if (direction == DismissDirection.startToEnd) {
-              Navigator.of(context).pushNamed(RatingScreen.routeName,
-                  arguments: {'queryId': queries[index]});
               // _db.solveQuery(queries[index].id);
             }
           },
@@ -42,9 +40,10 @@ class ListOfQueriesSwapable extends StatelessWidget {
                   ['Delete', 'Cancel'],
                   Theme.of(context).errorColor);
             else if (direction == DismissDirection.startToEnd)
-              return await Dialogs.alertDialogForQuery(
+              return await Dialogs.alertDialogForQuerySolve(
                   context,
-                  'Has this query been solved? All of its chats will be deleted!',
+                  queries[index],
+                  DialogMessages.querySolveConfirm,
                   ['Proceed', 'No'],
                   Colors.green);
           },
@@ -56,7 +55,7 @@ class ListOfQueriesSwapable extends StatelessWidget {
             child: Icon(Icons.fact_check),
           ),
           secondaryBackground: Container(
-            color: Colors.red,
+            color: Theme.of(context).errorColor,
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
             margin: EdgeInsets.only(bottom: 20.0, top: 3.0),
             alignment: AlignmentDirectional.centerEnd,

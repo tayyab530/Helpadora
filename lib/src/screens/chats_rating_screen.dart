@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../screens/main_screen.dart';
+import '../widgets/rating_item.dart';
 import '../services/db_firestore.dart';
-import '../widgets/conversation_item.dart';
 
 class RatingScreen extends StatelessWidget {
   static const routeName = '/rating';
@@ -16,6 +17,12 @@ class RatingScreen extends StatelessWidget {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+          },
+        ),
         title: Text('Select helper\'s chat'),
       ),
       body: FutureBuilder(
@@ -26,7 +33,7 @@ class RatingScreen extends StatelessWidget {
           return ListView(
             children: [
               ...snapshot.data.docs.map(
-                (chat) => ConversationItem(
+                (chat) => RatingItem(
                   queryDetails,
                   chat.data()['last_message'],
                   chat.data()['time'],

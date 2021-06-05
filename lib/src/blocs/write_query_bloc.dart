@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'validators/write_query_validator.dart';
 import 'package:rxdart/rxdart.dart';
 
-class WriteQueryBloc extends ChangeNotifier with WriteQueryValidatorsMixin{
+class WriteQueryBloc extends ChangeNotifier with WriteQueryValidatorsMixin {
   final _title = BehaviorSubject<String>();
   final _description = BehaviorSubject<String>();
   final _dueDate = BehaviorSubject<Date>();
@@ -17,12 +17,13 @@ class WriteQueryBloc extends ChangeNotifier with WriteQueryValidatorsMixin{
   Function(Date) get changeDueDate => _dueDate.sink.add;
   Function(String) get changeLocation => _location.sink.add;
 
-  Stream<bool> get post => Rx.combineLatest4(title, description,dueDate,location ,(a, b, c, d) => true);
+  Stream<bool> get post => Rx.combineLatest4(
+      title, description, dueDate, location, (a, b, c, d) => true);
 
   Stream<String> get title => _title.stream.transform(titleValidate());
   Stream<String> get description =>
       _description.stream.transform(descriptionValidate());
-  Stream<Date> get dueDate => _dueDate.stream.transform(dueDateValidate());      
+  Stream<Date> get dueDate => _dueDate.stream.transform(dueDateValidate());
   Stream<String> get location => _location.stream.transform(locationValidate());
 
   dispose() {
@@ -42,7 +43,8 @@ class WriteQueryBloc extends ChangeNotifier with WriteQueryValidatorsMixin{
 
   String getTitle() => _title.value;
   String getDescription() => _description.value;
-  String getDueDate() => DateFormat('MM dd yyyy').format(_dueDate.value.pickedDate); 
+  String getDueDate() =>
+      DateFormat('dd MM yyyy').format(_dueDate.value.pickedDate);
   String getLocation() => _location.value;
 }
 

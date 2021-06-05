@@ -25,12 +25,10 @@ class ConversationItem extends StatelessWidget {
       ),
       title: Text(
         lastMessage,
-        softWrap: true,
+        overflow: TextOverflow.ellipsis,
       ),
       trailing: Text(' $_time'),
       onTap: () {
-        print(queryDetails.id);
-        print(queryDetails['poster_uid']);
         Navigator.of(context).pushNamed('/chat/$chatId', arguments: {
           'queryDetails': queryDetails,
           'chatMembers': chatMembers

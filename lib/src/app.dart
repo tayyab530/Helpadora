@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:helpadora/src/screens/chats_rating_screen.dart';
+import 'package:helpadora/src/screens/password_change_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'blocs/login_bloc.dart';
@@ -58,6 +59,7 @@ class App extends StatelessWidget {
           accentTextTheme: TextTheme(
             headline2: TextStyle(
               color: Color(0xff757575),
+              fontWeight: FontWeight.normal,
             ),
           ),
           errorColor: Color(0xffFF5959),
@@ -67,17 +69,7 @@ class App extends StatelessWidget {
         title: 'Helpadora',
         home: ChangeNotifierProvider(
             create: (context) => LoginBloc(), child: Home()),
-        routes: {
-          MainScreen.routeName: (ctx) => MainScreen(),
-          LoginScreen.routeName: (ctx) => LoginScreen(),
-          RegistrationScreen.routeName: (ctx) => ChangeNotifierProvider(
-              create: (ctx) => RegistrationBloc(), child: RegistrationScreen()),
-          WriteQuery.routeName: (ctx) => ChangeNotifierProvider(
-                create: (ctx) => WriteQueryBloc(),
-                child: WriteQuery(),
-              ),
-          RatingScreen.routeName: (ctx) => RatingScreen(),
-        },
+        routes: _routes,
         onGenerateRoute: route,
       ),
     );
@@ -99,4 +91,17 @@ class App extends StatelessWidget {
         builder: (context) => ChatScreen(args),
       );
   }
+
+  final _routes = {
+    MainScreen.routeName: (ctx) => MainScreen(),
+    LoginScreen.routeName: (ctx) => LoginScreen(),
+    RegistrationScreen.routeName: (ctx) => ChangeNotifierProvider(
+        create: (ctx) => RegistrationBloc(), child: RegistrationScreen()),
+    WriteQuery.routeName: (ctx) => ChangeNotifierProvider(
+          create: (ctx) => WriteQueryBloc(),
+          child: WriteQuery(),
+        ),
+    RatingScreen.routeName: (ctx) => RatingScreen(),
+    ChangePasswordScreen.routeName: (ctx) => ChangePasswordScreen(),
+  };
 }

@@ -21,69 +21,73 @@ class _ListOfChatsforConversationState
   @override
   Widget build(BuildContext context) {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
-    return Flexible(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Chip(
-                label: Text(widget.querySnap.data()['title']),
-                backgroundColor: Theme.of(context).accentColor,
-              ),
-              IconButton(
-                icon: Icon(
-                    !showChats ? Icons.arrow_drop_down : Icons.arrow_drop_up),
-                onPressed: () {
-                  setState(() {
-                    showChats = !showChats;
-                  });
-                },
-              )
-            ],
-          ),
-          StreamBuilder(
-            stream: _dbFirestore.queryChatStream(widget.queryId as String),
-            builder: (context, AsyncSnapshot<QuerySnapshot> chatSnapshot) {
-              if (chatSnapshot.connectionState == ConnectionState.waiting ||
-                  chatSnapshot.data == null)
-                return Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.0,
-                  ),
-                );
+    return StreamBuilder(
+      stream: _dbFirestore.queryChatStream(widget.queryId as String),
+      builder: (context, AsyncSnapshot<QuerySnapshot> chatSnapshot) {
+        if (chatSnapshot.connectionState == ConnectionState.waiting ||
+            chatSnapshot.data == null)
+          return Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 2.0,
+            ),
+          );
 
-              final _chats = chatSnapshot.data.docs;
-              return !showChats
-                  ? Container()
-                  : Flexible(
-                      child: ListView(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.only(top: 5.0),
-                        children: _chats
-                            .map((chat) => Column(
-                                  children: [
-                                    ConversationItem(
-                                      widget.querySnap,
-                                      chat['last_message'],
-                                      chat['time'],
-                                      chat['chat_members'],
-                                      chat.id,
-                                    ),
-                                    Divider(
-                                      color: Colors.black,
-                                    ),
-                                  ],
-                                ))
-                            .toList(),
-                      ),
-                    );
-            },
-          ),
-        ],
-      ),
+        final _chats = chatSnapshot.data.docs;
+        print(_chats.toString());
+        return _chats.isEmpty
+            ? Container()
+            : Flexible(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Chip(
+                          label: Text(widget.querySnap.data()['title']),
+                          backgroundColor: Theme.of(context).accentColor,
+                        ),
+                        IconButton(
+                          icon: Icon(!showChats
+                              ? Icons.arrow_drop_down
+                              : Icons.arrow_drop_up),
+                          onPressed: () {
+                            setState(() {
+                              showChats = !showChats;
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                    !showChats
+                        ? Container()
+                        : Flexible(
+                            child: ListView(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.only(top: 5.0),
+                              children: _chats
+                                  .map((chat) => Column(
+                                        children: [
+                                          ConversationItem(
+                                            widget.querySnap,
+                                            chat['last_message'],
+                                            chat['time'],
+                                            chat['chat_members'],
+                                            chat.id,
+                                          ),
+                                          Divider(
+                                            color: Colors.black,
+                                          ),
+                                        ],
+                                      ))
+                                  .toList(),
+                            ),
+                          )
+                  ],
+                ),
+              );
+      },
     );
   }
 }
 
-//TODO: uplift state
+//TODO: uplift state to update whole screen

@@ -1,10 +1,11 @@
 class DialogMessages {
-  static final String registrationConfirm =
+  static const registrationConfirm =
       'You have been registered. Please confirm your email then login.';
 
-  static final String queryPostingConfirm =
-      'Query has been posted successfully!';
+  static const queryPostingConfirm = 'Query has been posted successfully!';
 
-  static final String queryDeleteConfirm =
+  static const queryDeleteConfirm =
       'This query and all of its related chats will be deleted!';
+  static const querySolveConfirm =
+      'Has this query been solved? All of its chats will be deleted!';
 }

@@ -6,13 +6,7 @@ import 'list_of_chats_conversational.dart';
 import '../services/auth_services.dart';
 import '../services/db_firestore.dart';
 
-class ListOfConversation extends StatefulWidget {
-  @override
-  _ListOfConversationState createState() => _ListOfConversationState();
-}
-
-class _ListOfConversationState extends State<ListOfConversation> {
-  List<bool> showHide = [];
+class ListOfConversation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
@@ -34,27 +28,42 @@ class _ListOfConversationState extends State<ListOfConversation> {
                 userSnapshot.data.data()['list_of_queries'] != null
                     ? userSnapshot.data.data()['list_of_queries']
                     : [];
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                ..._listOfQuries.map(
-                  (queryId) => FutureBuilder(
-                    future: _dbFirestore.querySnap(_uid),
-                    builder:
-                        (context, AsyncSnapshot<QuerySnapshot> querySnapshot) {
-                      if (querySnapshot.connectionState ==
-                              ConnectionState.waiting ||
-                          querySnapshot.data == null) return Container();
-                      final querySnap = querySnapshot.data.docs
-                          .where((query) => query.id == queryId)
-                          .first;
-                      showHide.add(false);
-                      return ListOfChatsforConversation(queryId, querySnap);
-                    },
-                  ),
-                ),
-              ],
-            );
+            print(_listOfQuries.toString());
+            return _listOfQuries == []
+                ? Center(
+                    child: Text('No chats!'),
+                  )
+                : Container(
+                    margin: EdgeInsets.all(10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ..._listOfQuries.map(
+                          (queryId) => FutureBuilder(
+                            future: _dbFirestore.querySnap(_uid),
+                            builder: (context,
+                                AsyncSnapshot<QuerySnapshot> querySnapshot) {
+                              if (querySnapshot.connectionState ==
+                                      ConnectionState.waiting ||
+                                  querySnapshot.data == null)
+                                return Container();
+
+                              final querySnap =
+                                  querySnapshot.data.docs.firstWhere(
+                                (query) => query.id == queryId,
+                                orElse: () => null,
+                              );
+
+                              return querySnap != null
+                                  ? ListOfChatsforConversation(
+                                      queryId, querySnap)
+                                  : Container();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
           }
         });
   }
@@ -62,6 +71,4 @@ class _ListOfConversationState extends State<ListOfConversation> {
   DateTime formatTimestamp(Timestamp timestamp) {
     return timestamp.toDate();
   }
-
-  showORhideChats() {}
 }

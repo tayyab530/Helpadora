@@ -16,8 +16,9 @@ class DbFirestore with ChangeNotifier {
         'dob': user.dob,
         'gender': user.gender,
         'program': user.program,
-        'list_of_quries': [],
+        'list_of_queries': [],
         'email_address': user.emailAddress,
+        'ratings': <double>[]
       },
     );
   }
@@ -34,7 +35,6 @@ class DbFirestore with ChangeNotifier {
         'isDeleted': query.isDeleted,
         'isSolved': query.isSolved,
         'solver_uid': query.solverUid,
-        'list_of_chats': []
       },
     ).then((_) => _firestore.collection('user').doc(query.posterUid).update({
           'list_of_queries': FieldValue.arrayUnion([documentRef.id])
@@ -49,8 +49,17 @@ class DbFirestore with ChangeNotifier {
             'list_of_queries': FieldValue.arrayRemove([query.id])
           }));
 
-  Future<void> solveQuery(String queryId) async =>
-      _firestore.collection('query').doc(queryId).update({'isSolved': true});
+  Future<void> solveQuery(
+          String queryId, String solverUid, double rating) async =>
+      _firestore.collection('query').doc(queryId).update({
+        'isSolved': true,
+        'solver_uid': solverUid,
+      }).then((_) => _firestore.collection('user').doc(solverUid).update({
+            'ratings': FieldValue.arrayUnion(
+              [rating],
+            ),
+            'list_of_queries': FieldValue.arrayRemove([queryId]),
+          }));
 
   Future<void> sendChat(
       Chat chat, QueryDocumentSnapshot query, String senderUid) async {
@@ -123,6 +132,10 @@ class DbFirestore with ChangeNotifier {
         .doc(queryId)
         .collection('chats')
         .get();
+  }
+
+  Future<DocumentSnapshot> getUserProfileData(String uid) {
+    return _firestore.collection('user').doc(uid).get();
   }
 
   String checkPoster(String senderUid, String receiverUid, String posterUid) {

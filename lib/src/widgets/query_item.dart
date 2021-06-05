@@ -14,6 +14,7 @@ class QueryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final _uid =
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
+    final String _dueDate = queryDetails['due_date'];
 
     return Column(
       children: [
@@ -40,7 +41,7 @@ class QueryItem extends StatelessWidget {
                 ),
               ],
             ),
-            trailing: Text(queryDetails['due_date']),
+            trailing: Text(_dueDate),
             subtitle: Row(
               children: [
                 Icon(Icons.location_on),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/screens/chats_rating_screen.dart';
 
 export '../models/dialog_messages.dart';
 
@@ -57,6 +58,46 @@ class Dialogs {
             TextButton(
               onPressed: () async {
                 return Navigator.of(context).pop(true);
+              },
+              child: Text(buttonLabels[0]),
+              style: TextButton.styleFrom(
+                backgroundColor: buttonBGcolor,
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                return Navigator.of(context).pop(false);
+              },
+              child: Text(buttonLabels[1]),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  static Future<bool> alertDialogForQuerySolve(
+      BuildContext context,
+      QueryDocumentSnapshot query,
+      String confirmationMessage,
+      List<String> buttonLabels,
+      Color buttonBGcolor) async {
+    return await showDialog<bool>(
+      barrierDismissible: true,
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text(confirmationMessage),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pushReplacementNamed(
+                    RatingScreen.routeName,
+                    arguments: {'queryId': query});
+                // return Navigator.of(context).pop(true);
               },
               child: Text(buttonLabels[0]),
               style: TextButton.styleFrom(
