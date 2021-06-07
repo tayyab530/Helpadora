@@ -7,7 +7,9 @@ import '../widgets/tabs/settings_tab.dart';
 
 class MainScreen extends StatelessWidget {
   static const routeName = '/main-screen';
+  final int initialTab;
 
+  MainScreen({this.initialTab = 0});
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

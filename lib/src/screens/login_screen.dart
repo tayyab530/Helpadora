@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/widgets/message_Popup.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:tap_debouncer/tap_debouncer.dart';
+import 'dart:ui' as ui;
 
+import '../widgets/message_Popup.dart';
 import '../blocs/login_bloc.dart';
 import 'main_screen.dart';
 import 'registration_screen.dart';
@@ -15,35 +17,63 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final loginBloc = Provider.of<LoginBloc>(context, listen: false);
     final _auth = Provider.of<AuthService>(context, listen: false);
+    var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Login Screen'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: ListView(
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Stack(
+              alignment: Alignment.center,
               children: [
-                emailField(loginBloc),
-                passwordField(loginBloc),
-                SizedBox(
-                  height: 20.0,
+                CustomPaint(
+                  size: Size(
+                      width,
+                      (width * 0.7527777777777778)
+                          .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                  painter: RPSCustomPainter(),
                 ),
-                loginButton(context, loginBloc, _auth),
-                TextButton(
-                  onPressed: () => Navigator.of(context)
-                      .pushNamed(RegistrationScreen.routeName),
-                  child: Text('or Create an account'),
+                Positioned(
+                  right: 15.0,
+                  top: 80.0,
+                  child: Text(
+                    'HELPADODA',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 35.0,
+                        fontFamily: 'Helvetica',
+                        fontWeight: FontWeight.w200),
+                  ),
                 ),
               ],
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+              child: Column(
+                children: [
+                  emailField(loginBloc),
+                  passwordField(loginBloc),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  loginButton(context, loginBloc, _auth),
+                  _createUserButton(context),
+                ],
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  TextButton _createUserButton(BuildContext context) {
+    return TextButton(
+      onPressed: () =>
+          Navigator.of(context).pushNamed(RegistrationScreen.routeName),
+      child: Text('or Create an account'),
     );
   }
 
@@ -109,5 +139,50 @@ class LoginScreen extends StatelessWidget {
             ),
           );
         });
+  }
+}
+
+class RPSCustomPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Path path_0 = Path();
+    path_0.moveTo(0, size.height * 0.09943985);
+    path_0.lineTo(size.width, size.height * 0.09943985);
+    path_0.cubicTo(size.width, size.height * 0.09943985, size.width,
+        size.height * 0.5004096, size.width, size.height * 0.8821292);
+    path_0.cubicTo(size.width, size.height * 1.263852, 0,
+        size.height * 0.2726583, 0, size.height * 0.4747454);
+    path_0.cubicTo(0, size.height * 0.6768339, 0, size.height * 0.09943985, 0,
+        size.height * 0.09943985);
+    path_0.close();
+
+    // ignore: non_constant_identifier_names
+    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
+    paint_0_fill.color = Color(0xffFFC107).withOpacity(1.0);
+    canvas.drawPath(path_0, paint_0_fill);
+
+    Path path_1 = Path();
+    path_1.moveTo(0, 0);
+    path_1.lineTo(size.width, 0);
+    path_1.cubicTo(size.width, 0, size.width, size.height * 0.4009668,
+        size.width, size.height * 0.7826900);
+    path_1.cubicTo(size.width, size.height * 1.164413, 0,
+        size.height * 0.1732185, 0, size.height * 0.3753063);
+    path_1.cubicTo(0, size.height * 0.5773948, 0, 0, 0, 0);
+    path_1.close();
+
+    // ignore: non_constant_identifier_names
+    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
+    paint_1_fill.shader = ui.Gradient.linear(
+        Offset(size.width * 0.5000000, 0),
+        Offset(size.width * 0.5000000, size.height * 0.8468450),
+        [Color(0xff03A9F4).withOpacity(1), Color(0xff3EB1F1).withOpacity(0.3)],
+        [0.114583, 1]);
+    canvas.drawPath(path_1, paint_1_fill);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
 }

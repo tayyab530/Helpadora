@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tap_debouncer/tap_debouncer.dart';
+import 'dart:ui' as ui;
 
 import '../blocs/registration_bloc.dart';
 import '../models/date_model.dart';
@@ -19,35 +20,63 @@ class RegistrationScreen extends StatelessWidget {
     final _regisBloc = Provider.of<RegistrationBloc>(context, listen: false);
     final _auth = Provider.of<AuthService>(context, listen: false);
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
+    final _width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Registration Screen'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () async {
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: ListView(
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-            Column(
+            Stack(
+              alignment: Alignment.center,
               children: [
-                userNameField(_regisBloc),
-                emailField(_regisBloc),
-                createPasswordField(_regisBloc),
-                confirmPasswordField(_regisBloc),
-                genderDropDown(_regisBloc),
-                datePicker(_regisBloc),
-                programDropDown(_regisBloc),
-                SizedBox(
-                  height: 20.0,
+                CustomPaint(
+                  size: Size(
+                      _width,
+                      (_width * 0.4666666666666667)
+                          .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                  painter: RPSCustomPainter(),
                 ),
-                registerButton(_regisBloc, _auth, _dbFirestore),
+                Positioned(
+                  top: 50.0,
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                        fontFamily: 'Helvetica',
+                        fontWeight: FontWeight.w300),
+                  ),
+                ),
+                Positioned(
+                  left: 0,
+                  top: 15.0,
+                  child: IconButton(
+                    padding: EdgeInsets.all(0),
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () => Navigator.of(context).pop(),
+                    color: Colors.white,
+                  ),
+                ),
               ],
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Column(
+                children: [
+                  userNameField(_regisBloc),
+                  emailField(_regisBloc),
+                  createPasswordField(_regisBloc),
+                  confirmPasswordField(_regisBloc),
+                  genderDropDown(_regisBloc),
+                  datePicker(_regisBloc),
+                  programDropDown(_regisBloc),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  registerButton(_regisBloc, _auth, _dbFirestore),
+                ],
+              ),
             ),
           ],
         ),
@@ -342,4 +371,49 @@ enum Program {
   BS,
   BME,
   ACF,
+}
+
+//Copy this CustomPainter code to the Bottom of the File
+class RPSCustomPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Path path_0 = Path();
+    path_0.moveTo(size.width, size.height * 0.1011905);
+    path_0.lineTo(0, size.height * 0.1011905);
+    path_0.cubicTo(0, size.height * 0.1011905, 0, size.height * 0.4930220, 0,
+        size.height * 0.8660476);
+    path_0.cubicTo(0, size.height * 1.239071, size.width,
+        size.height * 0.2704619, size.width, size.height * 0.4679446);
+    path_0.cubicTo(size.width, size.height * 0.6654286, size.width,
+        size.height * 0.1011905, size.width, size.height * 0.1011905);
+    path_0.close();
+
+    Paint paint0fill = Paint()..style = PaintingStyle.fill;
+    paint0fill.color = Color(0xffFFC107).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0fill);
+
+    Path path_1 = Path();
+    path_1.moveTo(size.width, 0);
+    path_1.lineTo(0, 0);
+    path_1.cubicTo(
+        0, 0, 0, size.height * 0.3918315, 0, size.height * 0.7648571);
+    path_1.cubicTo(0, size.height * 1.137881, size.width,
+        size.height * 0.1692714, size.width, size.height * 0.3667542);
+    path_1.cubicTo(
+        size.width, size.height * 0.5642369, size.width, 0, size.width, 0);
+    path_1.close();
+
+    Paint paint1fill = Paint()..style = PaintingStyle.fill;
+    paint1fill.shader = ui.Gradient.linear(
+        Offset(size.width * 0.5000000, 0),
+        Offset(size.width * 0.5000000, size.height * 0.8275476),
+        [Color(0xff03A9F4).withOpacity(1), Color(0xff3EB1F1).withOpacity(0.3)],
+        [0.114583, 1]);
+    canvas.drawPath(path_1, paint1fill);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
 }

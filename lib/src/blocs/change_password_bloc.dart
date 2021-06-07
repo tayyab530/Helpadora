@@ -7,19 +7,16 @@ import 'validators/registration_fields_validator.dart';
 
 class ChangePasswordBloc extends ChangeNotifier
     with RegistrationValidatorMixin, LoginValidatorsMixin {
-  final _oldPassword = BehaviorSubject<String>();
   final _newPassword = BehaviorSubject<String>();
   final _retypePassword = BehaviorSubject<String>();
+  String currentPassword = '';
 
-  Function(String) get changeOldPassword => _oldPassword.sink.add;
   Function(String) get changeNewPassword => _newPassword.sink.add;
   Function(String) get changeRetypePassword => _retypePassword.sink.add;
 
-  Stream<bool> get resetPassword => Rx.combineLatest3(
-      newPassword, retypePassword, oldPassword, (a, b, c) => true);
+  Stream<bool> get resetPassword =>
+      Rx.combineLatest2(newPassword, retypePassword, (a, b) => true);
 
-  Stream<String> get oldPassword =>
-      _oldPassword.stream.transform(emailValidate());
   Stream<String> get newPassword =>
       _newPassword.stream.transform(passwordValidate());
   Stream<bool> get retypePassword => _validateConfirmPassword;
@@ -27,18 +24,15 @@ class ChangePasswordBloc extends ChangeNotifier
   Future dispose() async {
     super.dispose();
 
-    await _oldPassword.close();
     await _newPassword.close();
     await _retypePassword.close();
   }
 
   drain() async {
-    await _oldPassword.drain();
     await _newPassword.drain();
     await _retypePassword.drain();
   }
 
-  String getOldPassword() => _oldPassword.value;
   String getNewPassword() => _newPassword.value;
 
   Stream<bool> get _validateConfirmPassword => Rx.combineLatest2(

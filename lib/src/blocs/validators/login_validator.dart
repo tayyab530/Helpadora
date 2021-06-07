@@ -27,15 +27,15 @@ class LoginValidatorsMixin {
     });
   }
 
-  oldPasswordValidator() {
+  oldPasswordValidator(String currentPassword) {
     return StreamTransformer<String, String>.fromHandlers(
         handleData: (String value, sink) {
-      if (value.length > 5)
+      if (value == currentPassword)
         sink.add(value);
       else {
         value.isEmpty
             ? sink.addError('Please Enter Password')
-            : sink.addError('Please Enter at least 6 characters!');
+            : sink.addError('Please Enter correct password!');
       }
     });
   }

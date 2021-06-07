@@ -20,79 +20,95 @@ class _SelfTabState extends State<SelfTab> {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
     final _auth = Provider.of<AuthService>(context, listen: false);
 
+    var deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Column(
         children: [
-          Container(
-            height: showSolvedQueries
-                ? ((MediaQuery.of(context).size.height / 2) - 86)
-                : ((MediaQuery.of(context).size.height -
-                        MediaQuery.of(context).padding.top) -
-                    163),
-            child: StreamBuilder(
-              stream: _dbFirestore.unsolvedQueryStream
-                  .where('poster_uid', isEqualTo: _auth.getCurrentUser().uid)
-                  .snapshots(),
-              builder: (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting)
-                  return Center(child: CircularProgressIndicator());
-                return ListOfQueriesSwapable(snapshot.data.docs);
-              },
-            ),
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(10.0),
-              topRight: const Radius.circular(10.0),
-            ),
-            child: Container(
-              color: Theme.of(context).accentColor,
-              height: 35.0,
-              width: double.infinity,
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Solved Queries '),
-                  FittedBox(
-                    fit: BoxFit.contain,
-                    child: IconButton(
-                      icon: Icon(!showSolvedQueries
-                          ? Icons.arrow_drop_up
-                          : Icons.arrow_drop_down),
-                      onPressed: () {
-                        setState(() {
-                          showSolvedQueries = !showSolvedQueries;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          _listOfActiveQueries(deviceHeight, context, _dbFirestore, _auth),
+          bottomSlider(context),
           showSolvedQueries
-              ? Container(
-                  height: (MediaQuery.of(context).size.height / 2) - 77,
-                  child: StreamBuilder(
-                    stream: _dbFirestore.solvedQueryStream
-                        .where('poster_uid',
-                            isEqualTo: _auth.getCurrentUser().uid)
-                        .snapshots(),
-                    builder: (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting)
-                        return Center(child: CircularProgressIndicator());
-                      return ListOfQueries(snapshot.data.docs);
-                    },
-                  ),
-                )
+              ? solvedQueriesList(deviceHeight, _dbFirestore, _auth)
               : Container(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, WriteQuery.routeName),
-        child: Icon(Icons.add),
+      floatingActionButton: floatingActionButton(context),
+    );
+  }
+
+  Container _listOfActiveQueries(double deviceHeight, BuildContext context,
+      DbFirestore _dbFirestore, AuthService _auth) {
+    return Container(
+      height: showSolvedQueries
+          ? ((deviceHeight / 2) - 86)
+          : ((deviceHeight - MediaQuery.of(context).padding.top) - 163),
+      child: StreamBuilder(
+        stream: _dbFirestore.unsolvedQueryStream
+            .where('poster_uid', isEqualTo: _auth.getCurrentUser().uid)
+            .snapshots(),
+        builder: (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting)
+            return Center(child: CircularProgressIndicator());
+          return ListOfQueriesSwapable(snapshot.data.docs);
+        },
       ),
+    );
+  }
+
+  ClipRRect bottomSlider(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        topLeft: const Radius.circular(10.0),
+        topRight: const Radius.circular(10.0),
+      ),
+      child: Container(
+        color: Theme.of(context).accentColor,
+        height: 35.0,
+        width: double.infinity,
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Solved Queries '),
+            FittedBox(
+              fit: BoxFit.contain,
+              child: IconButton(
+                icon: Icon(!showSolvedQueries
+                    ? Icons.arrow_drop_up
+                    : Icons.arrow_drop_down),
+                onPressed: () {
+                  setState(() {
+                    showSolvedQueries = !showSolvedQueries;
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container solvedQueriesList(
+      double deviceHeight, DbFirestore _dbFirestore, AuthService _auth) {
+    return Container(
+      height: (deviceHeight / 2) - 77,
+      child: StreamBuilder(
+        stream: _dbFirestore.solvedQueryStream
+            .where('poster_uid', isEqualTo: _auth.getCurrentUser().uid)
+            .snapshots(),
+        builder: (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting)
+            return Center(child: CircularProgressIndicator());
+          return ListOfQueries(snapshot.data.docs);
+        },
+      ),
+    );
+  }
+
+  FloatingActionButton floatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () => Navigator.pushNamed(context, WriteQuery.routeName),
+      child: Icon(Icons.add),
     );
   }
 }

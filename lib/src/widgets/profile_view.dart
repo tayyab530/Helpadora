@@ -28,58 +28,11 @@ class ProfileView extends StatelessWidget {
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
               wordSpacing: 2.0);
-          return Container(
-            margin: EdgeInsets.symmetric(vertical: 10.0),
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 25,
-                  child: Icon(
-                    Icons.person,
-                    size: 40.0,
-                  ),
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(
-                  ' ${_profile['user_name']} ',
-                  style: TextStyle(
-                    fontWeight:
-                        Theme.of(context).primaryTextTheme.headline1.fontWeight,
-                    fontSize: 22.0,
-                    backgroundColor: Colors.black12,
-                  ),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          '${_listOfQueries.length}',
-                          style: _primaryStyle,
-                        ),
-                        Text('Queries'),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          '$_totalPoints',
-                          style: _primaryStyle,
-                        ),
-                        Text('Points'),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
+          return Profile(
+              profile: _profile,
+              listOfQueries: _listOfQueries,
+              primaryStyle: _primaryStyle,
+              totalPoints: _totalPoints);
         });
   }
 
@@ -89,5 +42,80 @@ class ProfileView extends StatelessWidget {
       _totalPoints += element;
     });
     return _totalPoints;
+  }
+}
+
+class Profile extends StatelessWidget {
+  const Profile({
+    Key key,
+    @required Map<String, dynamic> profile,
+    @required List listOfQueries,
+    @required TextStyle primaryStyle,
+    @required double totalPoints,
+  })  : _profile = profile,
+        _listOfQueries = listOfQueries,
+        _primaryStyle = primaryStyle,
+        _totalPoints = totalPoints,
+        super(key: key);
+
+  final Map<String, dynamic> _profile;
+  final List _listOfQueries;
+  final TextStyle _primaryStyle;
+  final double _totalPoints;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 25,
+            child: Icon(
+              Icons.person,
+              size: 40.0,
+            ),
+          ),
+          SizedBox(
+            height: 5.0,
+          ),
+          Text(
+            ' ${_profile['user_name']} ',
+            style: TextStyle(
+              fontWeight:
+                  Theme.of(context).primaryTextTheme.headline1.fontWeight,
+              fontSize: 22.0,
+              backgroundColor: Colors.black12,
+            ),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    '${_listOfQueries.length}',
+                    style: _primaryStyle,
+                  ),
+                  Text('Queries'),
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    '$_totalPoints',
+                    style: _primaryStyle,
+                  ),
+                  Text('Points'),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

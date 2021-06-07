@@ -17,24 +17,65 @@ class SettingsTab extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       children: [
-        ProfileView(_auth.getCurrentUser().uid),
+        Container(
+          margin: EdgeInsets.only(bottom: 30.0),
+          child: ProfileView(_auth.getCurrentUser().uid),
+        ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ListTile(
-              leading: Icon(Icons.vpn_key),
-              title: Text('Change Password'),
-              onTap: () => Navigator.of(context).pushNamed(
-                  ChangePasswordScreen.routeName,
-                  arguments: {'_deviceWidth': _deviceWidth}),
+            passwordTile(
+              context,
+              Icons.vpn_key,
+              'Change Password',
+              () => Navigator.of(context).pushNamed(
+                ChangePasswordScreen.routeName,
+                arguments: {'_deviceWidth': _deviceWidth},
+              ),
             ),
-            Divider(
-              color: Colors.black,
-            ),
+            darkThemeTile(
+              context,
+              Icons.nights_stay_outlined,
+              'Dark Theme',
+            )
           ],
         ),
         LogoutButton(_deviceWidth),
       ],
     );
   }
+
+  Widget passwordTile(
+      BuildContext context, IconData icon, String title, Function function) {
+    return Column(
+      children: [
+        ListTile(
+          leading: Icon(icon),
+          title: Text(title),
+          onTap: function,
+        ),
+        divider
+      ],
+    );
+  }
+
+  Widget darkThemeTile(BuildContext context, IconData icon, String title) {
+    return Column(
+      children: [
+        ListTile(
+          leading: Icon(icon),
+          title: Text(title),
+          trailing: Switch(
+            value: false,
+            onChanged: (value) {},
+          ),
+        ),
+        divider
+      ],
+    );
+  }
+
+  Widget get divider => Divider(
+        color: Colors.black,
+      );
 }

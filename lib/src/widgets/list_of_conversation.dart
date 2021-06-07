@@ -33,39 +33,39 @@ class ListOfConversation extends StatelessWidget {
                 ? Center(
                     child: Text('No chats!'),
                   )
-                : Container(
-                    margin: EdgeInsets.all(10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        ..._listOfQuries.map(
-                          (queryId) => FutureBuilder(
-                            future: _dbFirestore.querySnap(_uid),
-                            builder: (context,
-                                AsyncSnapshot<QuerySnapshot> querySnapshot) {
-                              if (querySnapshot.connectionState ==
-                                      ConnectionState.waiting ||
-                                  querySnapshot.data == null)
-                                return Container();
-
-                              final querySnap =
-                                  querySnapshot.data.docs.firstWhere(
-                                (query) => query.id == queryId,
-                                orElse: () => null,
-                              );
-
-                              return querySnap != null
-                                  ? ListOfChatsforConversation(
-                                      queryId, querySnap)
-                                  : Container();
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                : listOfConversations(_listOfQuries, _dbFirestore, _uid);
           }
         });
+  }
+
+  Container listOfConversations(
+      List _listOfQuries, DbFirestore _dbFirestore, String _uid) {
+    return Container(
+      margin: EdgeInsets.all(10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          ..._listOfQuries.map(
+            (queryId) => FutureBuilder(
+              future: _dbFirestore.querySnap(_uid),
+              builder: (context, AsyncSnapshot<QuerySnapshot> querySnapshot) {
+                if (querySnapshot.connectionState == ConnectionState.waiting ||
+                    querySnapshot.data == null) return Container();
+
+                final querySnap = querySnapshot.data.docs.firstWhere(
+                  (query) => query.id == queryId,
+                  orElse: () => null,
+                );
+
+                return querySnap != null
+                    ? ListOfChatsforConversation(queryId, querySnap)
+                    : Container();
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   DateTime formatTimestamp(Timestamp timestamp) {

@@ -58,34 +58,36 @@ class _ListOfChatsforConversationState
                         )
                       ],
                     ),
-                    !showChats
-                        ? Container()
-                        : Flexible(
-                            child: ListView(
-                              shrinkWrap: true,
-                              padding: EdgeInsets.only(top: 5.0),
-                              children: _chats
-                                  .map((chat) => Column(
-                                        children: [
-                                          ConversationItem(
-                                            widget.querySnap,
-                                            chat['last_message'],
-                                            chat['time'],
-                                            chat['chat_members'],
-                                            chat.id,
-                                          ),
-                                          Divider(
-                                            color: Colors.black,
-                                          ),
-                                        ],
-                                      ))
-                                  .toList(),
-                            ),
-                          )
+                    !showChats ? Container() : listOfChats(_chats)
                   ],
                 ),
               );
       },
+    );
+  }
+
+  Flexible listOfChats(List<QueryDocumentSnapshot> _chats) {
+    return Flexible(
+      child: ListView(
+        shrinkWrap: true,
+        padding: EdgeInsets.only(top: 5.0),
+        children: _chats
+            .map((chat) => Column(
+                  children: [
+                    ConversationItem(
+                      widget.querySnap,
+                      chat['last_message'],
+                      chat['time'],
+                      chat['chat_members'],
+                      chat.id,
+                    ),
+                    Divider(
+                      color: Colors.black,
+                    ),
+                  ],
+                ))
+            .toList(),
+      ),
     );
   }
 }

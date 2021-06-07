@@ -47,22 +47,44 @@ class ListOfQueriesSwapable extends StatelessWidget {
                   ['Proceed', 'No'],
                   Colors.green);
           },
-          background: Container(
-            color: Colors.green,
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
-            margin: EdgeInsets.only(bottom: 20.0, top: 3.0),
-            alignment: AlignmentDirectional.centerStart,
-            child: Icon(Icons.fact_check),
-          ),
-          secondaryBackground: Container(
-            color: Theme.of(context).errorColor,
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
-            margin: EdgeInsets.only(bottom: 20.0, top: 3.0),
-            alignment: AlignmentDirectional.centerEnd,
-            child: Icon(Icons.delete),
-          ),
+          background: SolvedBG(),
+          secondaryBackground: DeleteBG(),
         );
       },
+    );
+  }
+}
+
+class DeleteBG extends StatelessWidget {
+  const DeleteBG({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Theme.of(context).errorColor,
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
+      margin: EdgeInsets.only(bottom: 20.0, top: 3.0),
+      alignment: AlignmentDirectional.centerEnd,
+      child: Icon(Icons.delete),
+    );
+  }
+}
+
+class SolvedBG extends StatelessWidget {
+  const SolvedBG({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.green,
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
+      margin: EdgeInsets.only(bottom: 20.0, top: 3.0),
+      alignment: AlignmentDirectional.centerStart,
+      child: Icon(Icons.fact_check),
     );
   }
 }

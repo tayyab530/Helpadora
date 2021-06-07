@@ -37,61 +37,119 @@ class ChatTextfield extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Expanded(
-                    flex: 4,
-                    child: TextField(
-                      controller: _messageController,
-                      maxLines: null,
-                      decoration: InputDecoration(
-                        hintText: 'type your message...',
-                        enabledBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: TapDebouncer(
-                      onTap: () async {
-                        var text = _messageController.text;
-
-                        _messageController.clear();
-                        await _dbFirestore.sendChat(
-                            toChat(_uid, text, receiverUid),
-                            _queryDetails,
-                            senderUid);
-                      },
-                      builder: (ctx, TapDebouncerFunc onTap) => IconButton(
-                        icon: Icon(Icons.send),
-                        onPressed: onTap,
-                      ),
-                    ),
-                  ),
+                  InputTextField(messageController: _messageController),
+                  SendMessage(
+                      messageController: _messageController,
+                      dbFirestore: _dbFirestore,
+                      uid: _uid,
+                      receiverUid: receiverUid,
+                      queryDetails: _queryDetails,
+                      senderUid: senderUid),
                 ],
               ),
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: IconButton(
-              alignment: Alignment.centerRight,
-              icon: Icon(Icons.thumb_up),
-              color: Theme.of(context).accentColor,
-              onPressed: () {},
-            ),
-          ),
+          ThumbUp(),
         ],
       ),
     );
   }
+}
 
-  toChat(String senderUid, String text, String rUid) {
-    return Chat(
-        text: text,
-        senderUid: senderUid,
-        receiverUid: rUid,
-        timestamp: Timestamp.now());
+class InputTextField extends StatelessWidget {
+  const InputTextField({
+    Key key,
+    @required TextEditingController messageController,
+  })  : _messageController = messageController,
+        super(key: key);
+
+  final TextEditingController _messageController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 4,
+      child: TextField(
+        controller: _messageController,
+        maxLines: null,
+        decoration: InputDecoration(
+          hintText: 'type your message...',
+          enabledBorder: InputBorder.none,
+          disabledBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+        ),
+      ),
+    );
   }
+}
+
+class SendMessage extends StatelessWidget {
+  const SendMessage({
+    Key key,
+    @required TextEditingController messageController,
+    @required DbFirestore dbFirestore,
+    @required String uid,
+    @required this.receiverUid,
+    @required QueryDocumentSnapshot queryDetails,
+    @required this.senderUid,
+  })  : _messageController = messageController,
+        _dbFirestore = dbFirestore,
+        _uid = uid,
+        _queryDetails = queryDetails,
+        super(key: key);
+
+  final TextEditingController _messageController;
+  final DbFirestore _dbFirestore;
+  final String _uid;
+  final String receiverUid;
+  final QueryDocumentSnapshot _queryDetails;
+  final String senderUid;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 1,
+      child: TapDebouncer(
+        onTap: () async {
+          var text = _messageController.text;
+
+          _messageController.clear();
+          await _dbFirestore.sendChat(
+              _toChat(_uid, text, receiverUid), _queryDetails, senderUid);
+        },
+        builder: (ctx, TapDebouncerFunc onTap) => IconButton(
+          icon: Icon(Icons.send),
+          onPressed: onTap,
+        ),
+      ),
+    );
+  }
+}
+
+class ThumbUp extends StatelessWidget {
+  const ThumbUp({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 1,
+      child: IconButton(
+        alignment: Alignment.centerRight,
+        icon: Icon(Icons.thumb_up),
+        color: Theme.of(context).accentColor,
+        onPressed: () {},
+      ),
+    );
+  }
+}
+
+_toChat(String senderUid, String text, String rUid) {
+  return Chat(
+      text: text,
+      senderUid: senderUid,
+      receiverUid: rUid,
+      timestamp: Timestamp.now());
 }
