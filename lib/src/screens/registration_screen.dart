@@ -49,7 +49,7 @@ class RegistrationScreen extends StatelessWidget {
                 ),
                 Positioned(
                   left: 0,
-                  top: 15.0,
+                  top: 35.0,
                   child: IconButton(
                     padding: EdgeInsets.all(0),
                     icon: Icon(Icons.arrow_back),

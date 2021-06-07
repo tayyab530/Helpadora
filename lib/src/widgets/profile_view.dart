@@ -19,8 +19,9 @@ class ProfileView extends StatelessWidget {
               snapshot.data == null)
             return Center(child: CircularProgressIndicator());
           final _profile = snapshot.data.data();
-          final List<dynamic> _listOfQueries = _profile['list_of_queries'];
-          final List<dynamic> _points = _profile['ratings'];
+          final List<dynamic> _listOfQueries =
+              _profile['list_of_queries'] ?? [0];
+          final List<dynamic> _points = _profile['ratings'] ?? [0.0];
           final double _totalPoints = sumOfPoints(_points);
 
           final TextStyle _primaryStyle = TextStyle(

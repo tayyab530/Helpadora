@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/screens/password_change_screen.dart';
+import 'package:helpadora/src/widgets/theme_toggle_tile.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/logout_button.dart';
@@ -61,17 +62,7 @@ class SettingsTab extends StatelessWidget {
 
   Widget darkThemeTile(BuildContext context, IconData icon, String title) {
     return Column(
-      children: [
-        ListTile(
-          leading: Icon(icon),
-          title: Text(title),
-          trailing: Switch(
-            value: false,
-            onChanged: (value) {},
-          ),
-        ),
-        divider
-      ],
+      children: [ThemeToggleTile(), divider],
     );
   }
 

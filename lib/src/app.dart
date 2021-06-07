@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:helpadora/src/blocs/change_password_bloc.dart';
-import 'package:helpadora/src/screens/chats_rating_screen.dart';
-import 'package:helpadora/src/screens/password_change_screen.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
+import 'blocs/change_password_bloc.dart';
+import 'models/theme_data.dart';
+import 'screens/chats_rating_screen.dart';
+import 'screens/password_change_screen.dart';
 import 'blocs/login_bloc.dart';
 import 'blocs/registration_bloc.dart';
 import 'services/auth_services.dart';
@@ -25,15 +26,19 @@ class App extends StatelessWidget {
     // debugPaintLayerBordersEnabled = true;
     return MultiProvider(
       providers: _providers,
-      child: MaterialApp(
-        // debugShowMaterialGrid: true,
-        theme: _themeData(),
-        debugShowCheckedModeBanner: false,
-        title: 'Helpadora',
-        home: ChangeNotifierProvider(
-            create: (context) => LoginBloc(), child: Home()),
-        routes: _routes,
-        onGenerateRoute: route,
+      child: Consumer<ThemeNotifier>(
+        builder: (context, theme, _) {
+          return MaterialApp(
+            // debugShowMaterialGrid: true,
+            theme: theme.getTheme(),
+            debugShowCheckedModeBanner: false,
+            title: 'Helpadora',
+            home: ChangeNotifierProvider(
+                create: (context) => LoginBloc(), child: Home()),
+            routes: _routes,
+            onGenerateRoute: route,
+          );
+        },
       ),
     );
   }
@@ -52,41 +57,10 @@ class App extends StatelessWidget {
       ChangeNotifierProvider(
         create: (context) => ChangePasswordBloc(),
       ),
+      ChangeNotifierProvider(
+        create: (context) => ThemeNotifier(),
+      ),
     ];
-  }
-
-  ThemeData _themeData() {
-    return ThemeData(
-      textTheme: TextTheme(
-        headline6: TextStyle(
-          fontFamily: 'Helvetica',
-          fontWeight: FontWeight.bold,
-        ),
-        bodyText1: TextStyle(
-          fontFamily: 'Helvetica',
-          fontWeight: FontWeight.w200,
-        ),
-      ),
-      primaryColor: Color(0xff03A9F4),
-      primaryColorLight: const Color(0xffB3E5FC),
-      primaryColorDark: const Color(0xff0288D1),
-      accentColor: Color(0xffFFC107),
-      primaryTextTheme: TextTheme(
-        headline1: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Color(0xff212121),
-          fontSize: 18.0,
-        ),
-      ),
-      accentTextTheme: TextTheme(
-        headline2: TextStyle(
-          color: Color(0xff757575),
-          fontWeight: FontWeight.normal,
-        ),
-      ),
-      errorColor: Color(0xffFF5959),
-      dividerColor: Color(0xffBDBDBD),
-    );
   }
 
   Route route(RouteSettings settings) {
