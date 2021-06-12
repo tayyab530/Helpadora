@@ -35,6 +35,7 @@ class SearchFilterBar extends StatelessWidget {
           children: [
             Expanded(
               child: TextField(
+                style: TextStyle(color: _iconTextColor),
                 controller: textController,
                 textInputAction: TextInputAction.search,
                 keyboardType: TextInputType.text,
