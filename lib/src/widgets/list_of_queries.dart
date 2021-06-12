@@ -11,7 +11,7 @@ class ListOfQueries extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: const EdgeInsets.only(top: 8.0),
+      padding: const EdgeInsets.only(top: 3.0),
       itemCount: queries.length,
       itemBuilder: (context, index) {
         return QueryItem(queries[index]);

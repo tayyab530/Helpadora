@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/widgets/login_for_change_password_widget.dart';
-import 'package:provider/provider.dart';
-import '../services/auth_services.dart';
 
+import '../widgets/login_for_change_password_widget.dart';
 import '../widgets/new_password_widget.dart';
 
 class ChangePasswordScreen extends StatefulWidget {

@@ -48,5 +48,3 @@ class RatingScreen extends StatelessWidget {
     );
   }
 }
-
-//TODO: rating setup

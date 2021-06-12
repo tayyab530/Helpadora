@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/widgets/search_filter_bar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:helpadora/src/services/auth_services.dart';
@@ -24,7 +25,12 @@ class CommunityTab extends StatelessWidget {
               snapshot.data == null)
             return Center(child: CircularProgressIndicator());
           else
-            return ListOfQueries(snapshot.data.docs);
+            return Column(
+              children: [
+                SearchFilterBar(),
+                Expanded(child: ListOfQueries(snapshot.data.docs)),
+              ],
+            );
         },
       ),
       floatingActionButton: FloatingActionButton(
