@@ -69,11 +69,25 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  TextButton _createUserButton(BuildContext context) {
-    return TextButton(
-      onPressed: () =>
-          Navigator.of(context).pushNamed(RegistrationScreen.routeName),
-      child: Text('or Create an account'),
+  Widget _createUserButton(BuildContext context) {
+    return Container(
+      alignment: Alignment.topRight,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            'or',
+            textAlign: TextAlign.end,
+            style: TextStyle(
+                color: Theme.of(context).primaryTextTheme.headline1.color),
+          ),
+          TextButton(
+            onPressed: () =>
+                Navigator.of(context).pushNamed(RegistrationScreen.routeName),
+            child: Text('Create an account'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -82,6 +96,7 @@ class LoginScreen extends StatelessWidget {
         stream: bloc.email,
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           return TextField(
+            textCapitalization: TextCapitalization.none,
             decoration: InputDecoration(
               labelText: 'Email',
               errorText: snapshot.hasError ? snapshot.error : "",
@@ -98,6 +113,7 @@ class LoginScreen extends StatelessWidget {
         builder: (context, AsyncSnapshot<String> snapshot) {
           return TextField(
             obscureText: true,
+            textCapitalization: TextCapitalization.none,
             decoration: InputDecoration(
               labelText: 'Password',
               errorText: snapshot.hasError ? snapshot.error : '',
