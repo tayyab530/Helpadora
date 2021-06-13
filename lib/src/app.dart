@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/notifiers/filters.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
@@ -58,6 +59,9 @@ class App extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (context) => ThemeNotifier(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => Filters(),
       ),
     ];
   }

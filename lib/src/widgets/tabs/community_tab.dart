@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/notifiers/filters.dart';
 import 'package:helpadora/src/widgets/search_filter_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -11,8 +12,9 @@ import '../list_of_queries.dart';
 class CommunityTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _dbFirestore = Provider.of<DbFirestore>(context);
-    final _auth = Provider.of<AuthService>(context);
+    final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
+    final _auth = Provider.of<AuthService>(context, listen: false);
+    final Map<String, bool> _filters = Provider.of<Filters>(context).filters;
 
     return Scaffold(
       body: StreamBuilder(
@@ -24,13 +26,20 @@ class CommunityTab extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting ||
               snapshot.data == null)
             return Center(child: CircularProgressIndicator());
-          else
+          else {
+            var _listOfQueries = snapshot.data.docs;
+
             return Column(
               children: [
-                SearchFilterBar(),
-                Expanded(child: ListOfQueries(snapshot.data.docs)),
+                SearchFilterBar(_filters),
+                Expanded(
+                  child: ListOfQueries(
+                    sortList(_listOfQueries, _filters),
+                  ),
+                ),
               ],
             );
+          }
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -38,5 +47,30 @@ class CommunityTab extends StatelessWidget {
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  List<QueryDocumentSnapshot> sortList(
+      List<QueryDocumentSnapshot> listOfQueries, Map<String, bool> _filters) {
+    var _list = listOfQueries;
+    if (_filters['title'])
+      listOfQueries
+          .sort((a, b) => a.data()['title'].compareTo(b.data()['title']));
+    if (_filters['due_date'])
+      listOfQueries
+          .sort((a, b) => a.data()['due_date'].compareTo(b.data()['due_date']));
+    if (_filters['location'])
+      listOfQueries
+          .sort((a, b) => a.data()['location'].compareTo(b.data()['location']));
+
+    return _list;
+  }
+
+  List<QueryDocumentSnapshot> searchList(
+      List<QueryDocumentSnapshot> listOfQueries, String searchContent) {
+    List<QueryDocumentSnapshot> _list;
+
+    listOfQueries.forEach((element) {
+      if (element.data().toString().contains(searchContent)) _list.add(element);
+    });
   }
 }

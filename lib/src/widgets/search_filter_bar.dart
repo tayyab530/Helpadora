@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/models/theme_data.dart';
+import 'package:helpadora/src/notifiers/filters.dart';
 import 'package:provider/provider.dart';
 
 class SearchFilterBar extends StatelessWidget {
   final TextEditingController textController = TextEditingController();
+  final Map<String, bool> _filters;
+
+  SearchFilterBar(
+    this._filters,
+  );
   @override
   Widget build(BuildContext context) {
-    // final _isLight = Provider.of<ThemeNotifier>(context, listen: false).isLight;
     final _iconTextColor = Colors.black;
 
     return Container(
@@ -16,7 +20,7 @@ class SearchFilterBar extends StatelessWidget {
         children: [
           _searchField(_iconTextColor),
           Container(
-            child: _filterDropdown(),
+            child: _filterDropdown(_filters),
             width: MediaQuery.of(context).size.width * 0.10,
           ),
         ],
@@ -70,21 +74,77 @@ class SearchFilterBar extends StatelessWidget {
     );
   }
 
-  Widget _filterDropdown() {
+  Widget _filterDropdown(Map<String, bool> _filters) {
     return PopupMenuButton(
       icon: Icon(Icons.filter_list_rounded),
-      itemBuilder: (context) {
+      onSelected: null,
+      itemBuilder: (buildContext) {
+        var filtersNotifier = Provider.of<Filters>(buildContext, listen: false);
+        var _filters = filtersNotifier.filters;
         return [
           PopupMenuItem(
+            value: 'due_date',
             child: Row(
               children: [
-                Checkbox(
-                  value: false,
-                  onChanged: (value) {
-                    print(value);
+                Consumer<Filters>(
+                  builder: (context, _filtersNotifier, child) {
+                    return Checkbox(
+                      value: _filtersNotifier.filters['due_date'],
+                      onChanged: (value) {
+                        print(value);
+                        _filtersNotifier.filters['due_date'] = value;
+                        _filtersNotifier.filters['title'] = false;
+                        _filtersNotifier.filters['location'] = false;
+                        filtersNotifier.updateFilter(_filters);
+                      },
+                    );
                   },
                 ),
                 Text('By due date'),
+              ],
+            ),
+          ),
+          PopupMenuItem(
+            value: 'title',
+            child: Row(
+              children: [
+                Consumer<Filters>(
+                  builder: (context, _filtersNotifier, child) {
+                    return Checkbox(
+                      value: _filtersNotifier.filters['title'],
+                      onChanged: (value) {
+                        print(value);
+                        _filtersNotifier.filters['title'] = value;
+                        _filtersNotifier.filters['location'] = false;
+                        _filtersNotifier.filters['due_date'] = false;
+                        filtersNotifier.updateFilter(_filters);
+                      },
+                    );
+                  },
+                ),
+                Text('By title'),
+              ],
+            ),
+          ),
+          PopupMenuItem(
+            value: 'location',
+            child: Row(
+              children: [
+                Consumer<Filters>(
+                  builder: (context, _filtersNotifier, child) {
+                    return Checkbox(
+                      value: _filtersNotifier.filters['location'],
+                      onChanged: (value) {
+                        print(value);
+                        _filtersNotifier.filters['location'] = value;
+                        _filtersNotifier.filters['due_date'] = false;
+                        _filtersNotifier.filters['title'] = false;
+                        filtersNotifier.updateFilter(_filters);
+                      },
+                    );
+                  },
+                ),
+                Text('By location'),
               ],
             ),
           ),
