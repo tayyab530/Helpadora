@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/models/theme_data.dart';
+import 'package:helpadora/src/notifiers/theme_data.dart';
 import 'package:provider/provider.dart';
 
 class ThemeToggleTile extends StatelessWidget {

@@ -18,7 +18,7 @@ class ThemeNotifier with ChangeNotifier {
       ),
     ),
     primaryColor: Color(0xffFFC107),
-    primaryColorLight: const Color(0xffFFC107),
+    primaryColorLight: HSLColor.fromAHSL(1, 45, 1, .45).toColor(),
     primaryColorDark: const Color(0xff0288D1),
     accentColor: Color(0xff03A9F4),
     errorColor: Color(0xffFF5959),

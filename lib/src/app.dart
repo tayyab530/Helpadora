@@ -5,7 +5,7 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import 'blocs/change_password_bloc.dart';
-import 'models/theme_data.dart';
+import 'notifiers/theme_data.dart';
 import 'screens/chats_rating_screen.dart';
 import 'screens/password_change_screen.dart';
 import 'blocs/login_bloc.dart';
