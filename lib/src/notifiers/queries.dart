@@ -8,11 +8,12 @@ class Queries with ChangeNotifier {
 
   searchQueries(
       String _seachContent, List<QueryDocumentSnapshot> listOfQueries) {
-    _listOfQueries = listOfQueries
-        .where(
-          (query) => query.data()['title'].contains(_seachContent),
-        )
-        .toList();
+    _listOfQueries = listOfQueries.where(
+      (query) {
+        var _query = query;
+        return _query.data()['title'].contains(_seachContent);
+      },
+    ).toList();
     notifyListeners();
   }
 
