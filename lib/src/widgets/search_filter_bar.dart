@@ -1,24 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/notifiers/filters.dart';
+import 'package:helpadora/src/notifiers/queries.dart';
 import 'package:provider/provider.dart';
 
 class SearchFilterBar extends StatelessWidget {
   final TextEditingController textController = TextEditingController();
   final Map<String, bool> _filters;
+  final List<QueryDocumentSnapshot> _listOfQueries;
 
   SearchFilterBar(
     this._filters,
+    this._listOfQueries,
   );
   @override
   Widget build(BuildContext context) {
     final _iconTextColor = Colors.black;
+    final _queriesNotifier = Provider.of<Queries>(context, listen: false);
 
     return Container(
       color: Theme.of(context).dividerColor,
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
       child: Row(
         children: [
-          _searchField(_iconTextColor),
+          _searchField(_iconTextColor, _queriesNotifier, _listOfQueries),
           Container(
             child: _filterDropdown(_filters),
             width: MediaQuery.of(context).size.width * 0.10,
@@ -28,7 +33,8 @@ class SearchFilterBar extends StatelessWidget {
     );
   }
 
-  Widget _searchField(Color _iconTextColor) {
+  Widget _searchField(Color _iconTextColor, Queries _queriesNotifier,
+      List<QueryDocumentSnapshot> _listOfQueries) {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
@@ -56,6 +62,7 @@ class SearchFilterBar extends StatelessWidget {
                 ),
                 onSubmitted: (value) {
                   print(value);
+                  _queriesNotifier.searchQueries(value, _listOfQueries);
                 },
               ),
             ),
@@ -66,6 +73,7 @@ class SearchFilterBar extends StatelessWidget {
               ),
               onPressed: () {
                 textController.clear();
+                _queriesNotifier.setToNull();
               },
             ),
           ],

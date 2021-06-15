@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/notifiers/filters.dart';
+import 'package:helpadora/src/notifiers/queries.dart';
 import 'package:helpadora/src/widgets/search_filter_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -27,11 +28,14 @@ class CommunityTab extends StatelessWidget {
               snapshot.data == null)
             return Center(child: CircularProgressIndicator());
           else {
-            var _listOfQueries = snapshot.data.docs;
+            final _queriesNotifier = Provider.of<Queries>(context);
+            final _seachedQueries = _queriesNotifier.listOfQueries;
+            var _listOfQueries =
+                _seachedQueries != null ? _seachedQueries : snapshot.data.docs;
 
             return Column(
               children: [
-                SearchFilterBar(_filters),
+                SearchFilterBar(_filters, _listOfQueries),
                 Expanded(
                   child: ListOfQueries(
                     sortList(_listOfQueries, _filters),

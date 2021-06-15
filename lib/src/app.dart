@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/notifiers/filters.dart';
+import 'package:helpadora/src/notifiers/queries.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
@@ -62,6 +63,9 @@ class App extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (context) => Filters(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => Queries(),
       ),
     ];
   }
