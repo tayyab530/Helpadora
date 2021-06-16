@@ -49,7 +49,12 @@ class ChatTextfield extends StatelessWidget {
               ),
             ),
           ),
-          ThumbUp(),
+          ThumbUp(
+            dbFirestore: _dbFirestore,
+            query: _queryDetails,
+            senderUid: senderUid,
+            receiverUid: receiverUid,
+          ),
         ],
       ),
     );
@@ -72,7 +77,9 @@ class InputTextField extends StatelessWidget {
       child: TextField(
         controller: _messageController,
         maxLines: null,
+        style: TextStyle(color: Colors.black),
         decoration: InputDecoration(
+          hintStyle: TextStyle(color: Colors.black),
           hintText: 'type your message...',
           enabledBorder: InputBorder.none,
           disabledBorder: InputBorder.none,
@@ -119,7 +126,10 @@ class SendMessage extends StatelessWidget {
               _toChat(_uid, text, receiverUid), _queryDetails, senderUid);
         },
         builder: (ctx, TapDebouncerFunc onTap) => IconButton(
-          icon: Icon(Icons.send),
+          icon: Icon(
+            Icons.send,
+            color: Colors.black,
+          ),
           onPressed: onTap,
         ),
       ),
@@ -128,19 +138,39 @@ class SendMessage extends StatelessWidget {
 }
 
 class ThumbUp extends StatelessWidget {
+  final DbFirestore dbFirestore;
+  final QueryDocumentSnapshot query;
+  final String senderUid;
+  final String receiverUid;
+
   const ThumbUp({
     Key key,
+    this.dbFirestore,
+    this.query,
+    this.senderUid,
+    this.receiverUid,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final _uid =
+        Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
     return Expanded(
       flex: 1,
       child: IconButton(
         alignment: Alignment.centerRight,
         icon: Icon(Icons.thumb_up),
         color: Theme.of(context).accentColor,
-        onPressed: () {},
+        onPressed: () {
+          dbFirestore.sendChat(
+              Chat(
+                  text: '👍',
+                  senderUid: _uid,
+                  receiverUid: receiverUid,
+                  timestamp: Timestamp.now()),
+              query,
+              senderUid);
+        },
       ),
     );
   }

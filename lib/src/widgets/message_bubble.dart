@@ -12,14 +12,22 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Bubble(
-      child: Text(_message.text),
+      padding: BubbleEdges.all(8.0),
+      child: Text(
+        _message.text,
+        style: TextStyle(color: Colors.black),
+      ),
       margin: BubbleEdges.all(10.0),
-      color: Theme.of(context).primaryColorLight,
-      nip: BubbleNip.rightBottom,
+      color: _currentUid == _message.senderUid
+          ? Color(0xFFFEE28E)
+          : Theme.of(context).dividerColor,
+      nip: _currentUid == _message.senderUid
+          ? BubbleNip.rightBottom
+          : BubbleNip.leftBottom,
       alignment: _currentUid == _message.senderUid
           ? Alignment.centerRight
           : Alignment.centerLeft,
-      elevation: 5,
+      elevation: 3,
     );
   }
 }
