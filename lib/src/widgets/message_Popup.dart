@@ -59,7 +59,10 @@ class Dialogs {
               onPressed: () async {
                 return Navigator.of(context).pop(true);
               },
-              child: Text(buttonLabels[0]),
+              child: Text(
+                buttonLabels[0],
+                style: TextStyle(color: Colors.white),
+              ),
               style: TextButton.styleFrom(
                 backgroundColor: buttonBGcolor,
               ),
@@ -68,7 +71,10 @@ class Dialogs {
               onPressed: () async {
                 return Navigator.of(context).pop(false);
               },
-              child: Text(buttonLabels[1]),
+              child: Text(
+                buttonLabels[1],
+                style: TextStyle(color: Colors.black),
+              ),
               style: TextButton.styleFrom(
                 backgroundColor: Colors.white,
               ),
@@ -99,7 +105,10 @@ class Dialogs {
                     arguments: {'queryId': query});
                 // return Navigator.of(context).pop(true);
               },
-              child: Text(buttonLabels[0]),
+              child: Text(
+                buttonLabels[0],
+                style: TextStyle(color: Colors.white),
+              ),
               style: TextButton.styleFrom(
                 backgroundColor: buttonBGcolor,
               ),
@@ -108,7 +117,10 @@ class Dialogs {
               onPressed: () async {
                 return Navigator.of(context).pop(false);
               },
-              child: Text(buttonLabels[1]),
+              child: Text(
+                buttonLabels[1],
+                style: TextStyle(color: Colors.black),
+              ),
               style: TextButton.styleFrom(
                 backgroundColor: Colors.white,
               ),
