@@ -68,13 +68,4 @@ class CommunityTab extends StatelessWidget {
 
     return _list;
   }
-
-  List<QueryDocumentSnapshot> searchList(
-      List<QueryDocumentSnapshot> listOfQueries, String searchContent) {
-    List<QueryDocumentSnapshot> _list;
-
-    listOfQueries.forEach((element) {
-      if (element.data().toString().contains(searchContent)) _list.add(element);
-    });
-  }
 }
