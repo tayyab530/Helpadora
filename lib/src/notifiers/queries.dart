@@ -10,8 +10,11 @@ class Queries with ChangeNotifier {
       String _seachContent, List<QueryDocumentSnapshot> listOfQueries) {
     _listOfQueries = listOfQueries.where(
       (query) {
-        var _query = query;
-        return _query.data()['title'].contains(_seachContent);
+        // var _pattern = RegExp(r'[a-z]', caseSensitive: false);
+        String _query =
+            query.data()['title'] + '' + query.data()['description'];
+
+        return _query.toLowerCase().contains(_seachContent.toLowerCase());
       },
     ).toList();
     notifyListeners();
