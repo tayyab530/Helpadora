@@ -31,7 +31,7 @@ class _SelfTabState extends State<SelfTab> {
               : Container(),
         ],
       ),
-      floatingActionButton: floatingActionButton(context),
+      // floatingActionButton: floatingActionButton(context),
     );
   }
 

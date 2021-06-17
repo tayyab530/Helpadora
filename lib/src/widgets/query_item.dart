@@ -27,7 +27,7 @@ class QueryItem extends StatelessWidget {
               BoxShadow(
                 blurRadius: 3.0,
                 color: theme.shadowColor,
-                offset: Offset(-3, 3),
+                offset: Offset(0, 3),
               ),
             ],
           ),
@@ -74,7 +74,9 @@ class QueryItem extends StatelessWidget {
             },
           ),
         ),
-        Divider(),
+        SizedBox(
+          height: 10.0,
+        )
       ],
     );
   }
