@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../list_of_conversation.dart';
 
-class ConversaionTab extends StatelessWidget {
+class MeChatsTab extends StatelessWidget {
   static const routeName = '/conversation_tab';
 
   @override

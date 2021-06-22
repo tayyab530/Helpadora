@@ -10,10 +10,10 @@ import '../list_of_queries_swapable.dart';
 
 class SelfTab extends StatefulWidget {
   @override
-  _SelfTabState createState() => _SelfTabState();
+  _MyQyeryTabState createState() => _MyQyeryTabState();
 }
 
-class _SelfTabState extends State<SelfTab> {
+class _MyQyeryTabState extends State<SelfTab> {
   bool showSolvedQueries = false;
   @override
   Widget build(BuildContext context) {

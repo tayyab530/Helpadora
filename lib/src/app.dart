@@ -91,7 +91,9 @@ class App extends StatelessWidget {
     MainScreen.routeName: (ctx) => MainScreen(),
     LoginScreen.routeName: (ctx) => LoginScreen(),
     RegistrationScreen.routeName: (ctx) => ChangeNotifierProvider(
-        create: (ctx) => RegistrationBloc(), child: RegistrationScreen()),
+          create: (ctx) => RegistrationBloc(),
+          child: RegistrationScreen(),
+        ),
     WriteQuery.routeName: (ctx) => ChangeNotifierProvider(
           create: (ctx) => WriteQueryBloc(),
           child: WriteQuery(),
