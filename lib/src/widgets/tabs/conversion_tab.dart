@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/widgets/tabs/my_query_chat_tab.dart';
+import 'package:helpadora/src/widgets/tabs/others_chats_tab.dart';
 
 class ConversationTab extends StatelessWidget {
   static const String routeName = '/self_tab';
@@ -24,7 +25,7 @@ class ConversationTab extends StatelessWidget {
         body: TabBarView(
           children: [
             MeChatsTab(),
-            Text('data2'),
+            OthersChatsTab(),
           ],
         ),
       ),
