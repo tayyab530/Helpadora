@@ -38,7 +38,7 @@ class LoginScreen extends StatelessWidget {
                   right: 15.0,
                   top: 80.0,
                   child: Text(
-                    'HELPADODA',
+                    'HELPADORA',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 35.0,

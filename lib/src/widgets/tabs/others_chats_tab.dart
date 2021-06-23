@@ -11,8 +11,8 @@ class OthersChatsTab extends StatelessWidget {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
     final _uid =
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
-    return StreamBuilder(
-        stream: _dbFirestore.otherChatStream(_uid),
+    return FutureBuilder(
+        future: _dbFirestore.otherChatStream(_uid),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting ||
               snapshot.data == null ||
@@ -20,19 +20,26 @@ class OthersChatsTab extends StatelessWidget {
             return Center(
               child: CircularProgressIndicator(),
             );
-          return ListView.builder(
-            itemBuilder: (context, index) {
-              var _query = snapshot.data.docs[index];
-              return ConversationItem(
-                _query,
-                'last message',
-                Timestamp.now(),
-                [_query.data()['sender_uid'], _query.data()['receiver_uid']],
-                'w07VvGDU43ZtnBUYEzFeMbidgE33DOE1VdvV5xQzH9eq5aRnUQR68fl1',
-              );
-            },
-            itemCount: 2,
-          );
+          print('object');
+          print(snapshot.data.docs.toString());
+          return snapshot.data.docs == []
+              ? Container()
+              : ListView.builder(
+                  itemBuilder: (context, index) {
+                    var _query = snapshot.data.docs[index];
+                    return ConversationItem(
+                      _query,
+                      'last message',
+                      Timestamp.now(),
+                      [
+                        _query.data()['sender_uid'],
+                        _query.data()['receiver_uid']
+                      ],
+                      'w07VvGDU43ZtnBUYEzFeMbidgE33DOE1VdvV5xQzH9eq5aRnUQR68fl1',
+                    );
+                  },
+                  itemCount: 2,
+                );
         });
   }
 }
