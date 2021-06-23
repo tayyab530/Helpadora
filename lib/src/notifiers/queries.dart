@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
-class Queries with ChangeNotifier {
+class QueriesNotifier with ChangeNotifier {
   List<QueryDocumentSnapshot> _listOfQueries;
 
   List<QueryDocumentSnapshot> get listOfQueries => _listOfQueries;

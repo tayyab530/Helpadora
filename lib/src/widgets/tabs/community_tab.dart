@@ -28,7 +28,7 @@ class CommunityTab extends StatelessWidget {
               snapshot.data == null)
             return Center(child: CircularProgressIndicator());
           else {
-            final _queriesNotifier = Provider.of<Queries>(context);
+            final _queriesNotifier = Provider.of<QueriesNotifier>(context);
             final _seachedQueries = _queriesNotifier.listOfQueries;
             var _listOfQueries =
                 _seachedQueries != null ? _seachedQueries : snapshot.data.docs;

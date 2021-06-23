@@ -65,7 +65,7 @@ class App extends StatelessWidget {
         create: (context) => Filters(),
       ),
       ChangeNotifierProvider(
-        create: (context) => Queries(),
+        create: (context) => QueriesNotifier(),
       ),
     ];
   }

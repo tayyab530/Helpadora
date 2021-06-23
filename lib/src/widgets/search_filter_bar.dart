@@ -16,7 +16,8 @@ class SearchFilterBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _iconTextColor = Colors.black;
-    final _queriesNotifier = Provider.of<Queries>(context, listen: false);
+    final _queriesNotifier =
+        Provider.of<QueriesNotifier>(context, listen: false);
 
     return Container(
       color: Theme.of(context).dividerColor,
@@ -33,7 +34,7 @@ class SearchFilterBar extends StatelessWidget {
     );
   }
 
-  Widget _searchField(Color _iconTextColor, Queries _queriesNotifier,
+  Widget _searchField(Color _iconTextColor, QueriesNotifier _queriesNotifier,
       List<QueryDocumentSnapshot> _listOfQueries) {
     return Expanded(
       child: Container(
