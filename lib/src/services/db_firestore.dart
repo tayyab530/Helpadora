@@ -51,15 +51,21 @@ class DbFirestore with ChangeNotifier {
 
   Future<void> solveQuery(
           String queryId, String solverUid, double rating) async =>
-      _firestore.collection('query').doc(queryId).update({
-        'isSolved': true,
-        'solver_uid': solverUid,
-      }).then((_) => _firestore.collection('user').doc(solverUid).update({
+      _firestore.collection('query').doc(queryId).update(
+        {
+          'isSolved': true,
+          'solver_uid': solverUid,
+        },
+      ).then(
+        (_) => _firestore.collection('user').doc(solverUid).update(
+          {
             'ratings': FieldValue.arrayUnion(
               [rating],
             ),
             'list_of_queries': FieldValue.arrayRemove([queryId]),
-          }));
+          },
+        ),
+      );
 
   Future<void> sendChat(
       Chat chat, QueryDocumentSnapshot query, String senderUid) async {
@@ -96,7 +102,8 @@ class DbFirestore with ChangeNotifier {
   Query get solvedQueryStream =>
       _firestore.collection('query').where('isSolved', isEqualTo: true);
 
-  Stream<QuerySnapshot> chatStream(QueryDocumentSnapshot qDetails, String uid) {
+  Stream<QuerySnapshot> meChatStream(
+      QueryDocumentSnapshot qDetails, String uid) {
     return _firestore
         .collection('query')
         .doc(qDetails.id)
@@ -104,6 +111,13 @@ class DbFirestore with ChangeNotifier {
         .doc(uid + qDetails.data()['poster_uid'])
         .collection('messages')
         .orderBy('time', descending: true)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> otherChatStream(String uid) {
+    return _firestore
+        .collection('query')
+        .where('chat_members', arrayContains: uid)
         .snapshots();
   }
 

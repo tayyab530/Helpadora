@@ -19,7 +19,7 @@ class MessagesList extends StatelessWidget {
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
 
     return StreamBuilder(
-        stream: _dbFirestore.chatStream(queryDetails, senderUid),
+        stream: _dbFirestore.meChatStream(queryDetails, senderUid),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting ||
               snapshot.data == null)
