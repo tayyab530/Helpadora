@@ -37,6 +37,7 @@ dependencies:
   intl: ^0.17.0
   bubble: ^1.2.1
   shared_preferences: ^2.0.6
+  splashscreen: ^1.3.5
 
 dev_dependencies:
   flutter_test:
@@ -54,8 +55,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - assets/svg/login.svg
+  assets:
+    - assets/images/splash_screen.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -77,6 +78,11 @@ flutter:
           weight: 700
         - asset: assets/fonts/Helvetica-light.ttf
           weight: 200
+          
+    - family: HelpadoraIcons
+      fonts:
+        - asset: assets/fonts/HelpadoraIcons.ttf
+        
   # - family: Trajan Pro
   #   fonts:
   #     - asset: fonts/TrajanPro.ttf

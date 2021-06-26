@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
 import 'package:helpadora/src/services/db_firestore.dart';
 import 'package:provider/provider.dart';
 
@@ -73,7 +74,7 @@ class Profile extends StatelessWidget {
           CircleAvatar(
             radius: 25,
             child: Icon(
-              Icons.person,
+              HelpadoraIcons.profile,
               size: 40.0,
             ),
           ),

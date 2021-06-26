@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/widgets/tabs/my_query_chat_tab.dart';
+
 import 'package:helpadora/src/widgets/tabs/conversation_tab.dart';
 import 'package:helpadora/src/widgets/tabs/self_tab.dart';
-
+import 'package:intl/intl.dart';
 import '../widgets/tabs/community_tab.dart';
 import '../widgets/tabs/conversation_tab.dart';
 import '../widgets/tabs/settings_tab.dart';
@@ -23,17 +23,19 @@ class MainScreen extends StatelessWidget {
           bottom: TabBar(
             tabs: [
               Tab(
-                icon: Icon(Icons.people),
+                icon: Icon(
+                  CommunityTab.icon,
+                ),
               ),
               Tab(
-                icon: Icon(Icons.pending),
+                icon: Icon(SelfTab.icon),
               ),
               Tab(
                 icon: Icon(
-                  Icons.messenger,
+                  ConversationTab.icon,
                 ),
               ),
-              Tab(icon: Icon(Icons.settings)),
+              Tab(icon: Icon(SettingsTab.icon)),
             ],
           ),
         ),

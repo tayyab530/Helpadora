@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
 import 'package:helpadora/src/screens/password_change_screen.dart';
 import 'package:helpadora/src/widgets/theme_toggle_tile.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +10,7 @@ import '../../services/auth_services.dart';
 
 class SettingsTab extends StatelessWidget {
   static const routeName = '/settings';
-
+  static const icon = HelpadoraIcons.hamburger;
   @override
   Widget build(BuildContext context) {
     final _auth = Provider.of<AuthService>(context);
@@ -36,7 +37,6 @@ class SettingsTab extends StatelessWidget {
             ),
             darkThemeTile(
               context,
-              Icons.nights_stay_outlined,
               'Dark Theme',
             )
           ],
@@ -60,7 +60,7 @@ class SettingsTab extends StatelessWidget {
     );
   }
 
-  Widget darkThemeTile(BuildContext context, IconData icon, String title) {
+  Widget darkThemeTile(BuildContext context, String title) {
     return Column(
       children: [ThemeToggleTile(), divider],
     );

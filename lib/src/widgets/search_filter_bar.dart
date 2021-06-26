@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
 import 'package:helpadora/src/notifiers/filters.dart';
 import 'package:helpadora/src/notifiers/queries.dart';
 import 'package:provider/provider.dart';
@@ -69,7 +70,7 @@ class SearchFilterBar extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(
-                Icons.cancel,
+                HelpadoraIcons.cross,
                 color: _iconTextColor,
               ),
               onPressed: () {
@@ -85,7 +86,13 @@ class SearchFilterBar extends StatelessWidget {
 
   Widget _filterDropdown(Map<String, bool> _filters) {
     return PopupMenuButton(
-      icon: Icon(Icons.filter_list_rounded),
+      icon: Padding(
+        padding: const EdgeInsets.only(right: 5.0),
+        child: Icon(
+          HelpadoraIcons.search_filters,
+          size: 15.0,
+        ),
+      ),
       onSelected: null,
       itemBuilder: (buildContext) {
         var filtersNotifier = Provider.of<Filters>(buildContext, listen: false);

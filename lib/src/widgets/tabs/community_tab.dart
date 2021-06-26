@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
 import 'package:helpadora/src/notifiers/filters.dart';
 import 'package:helpadora/src/notifiers/queries.dart';
 import 'package:helpadora/src/widgets/search_filter_bar.dart';
@@ -11,6 +12,7 @@ import '../../services/db_firestore.dart';
 import '../list_of_queries.dart';
 
 class CommunityTab extends StatelessWidget {
+  static const icon = HelpadoraIcons.community;
   @override
   Widget build(BuildContext context) {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);

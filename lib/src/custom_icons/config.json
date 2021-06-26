@@ -1,0 +1,106 @@
+{
+  "name": "HelpadoraIcons",
+  "css_prefix_text": "",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "2cfb3f2b46b34a1790aec0aa846297b6",
+      "css": "menu",
+      "code": 59392,
+      "src": "entypo"
+    },
+    {
+      "uid": "e36d581e4f2844db345bddc205d15dda",
+      "css": "group",
+      "code": 59393,
+      "src": "elusive"
+    },
+    {
+      "uid": "c709da589c923ba3c2ad48d9fc563e93",
+      "css": "cancel",
+      "code": 59394,
+      "src": "entypo"
+    },
+    {
+      "uid": "3dbc94f3878ecb524fd61d9de3aeabd5",
+      "css": "moon",
+      "code": 59395,
+      "src": "iconic"
+    },
+    {
+      "uid": "c2152732d525871cf35345955854f711",
+      "css": "moon-inv",
+      "code": 59396,
+      "src": "iconic"
+    },
+    {
+      "uid": "ecaaecf7e6bf690f1e91812527e30134",
+      "css": "restore",
+      "code": 59397,
+      "src": "material"
+    },
+    {
+      "uid": "8b80d36d4ef43889db10bc1f0dc9a862",
+      "css": "user",
+      "code": 59398,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "12f4ece88e46abd864e40b35e05b11cd",
+      "css": "ok",
+      "code": 59399,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "c42cc8614419b562885e3bf4319df490",
+      "css": "chat",
+      "code": 59400,
+      "src": "material"
+    },
+    {
+      "uid": "a142f41258ceabe276af25ac8a368301",
+      "css": "chat_circle_grey",
+      "code": 59401,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "",
+        "width": 1000
+      },
+      "search": [
+        "chat_circle_grey"
+      ]
+    },
+    {
+      "uid": "390e9787f7942f0ec11d16311435f2df",
+      "css": "chat_circle_lime",
+      "code": 59402,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "",
+        "width": 1000
+      },
+      "search": [
+        "chat_circle_lime"
+      ]
+    },
+    {
+      "uid": "1c8d94069461c7ab16070f7f47e34ae3",
+      "css": "search_filters",
+      "code": 59406,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M0 1000H500V833.3H0V1000ZM0 0V166.7H1500V0H0ZM0 583.3H1000V416.7H0V583.3Z",
+        "width": 1500
+      },
+      "search": [
+        "search_filters"
+      ]
+    }
+  ]
+}

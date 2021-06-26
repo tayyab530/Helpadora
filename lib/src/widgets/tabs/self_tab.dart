@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../screens/write_query_screen.dart';
@@ -9,6 +10,7 @@ import '../list_of_queries.dart';
 import '../list_of_queries_swapable.dart';
 
 class SelfTab extends StatefulWidget {
+  static const icon = HelpadoraIcons.pending;
   @override
   _MyQyeryTabState createState() => _MyQyeryTabState();
 }

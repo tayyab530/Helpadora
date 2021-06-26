@@ -3,6 +3,7 @@ import 'package:helpadora/src/notifiers/filters.dart';
 import 'package:helpadora/src/notifiers/queries.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 import 'blocs/change_password_bloc.dart';
 import 'notifiers/theme_data.dart';
@@ -34,8 +35,17 @@ class App extends StatelessWidget {
             theme: theme.getTheme(),
             debugShowCheckedModeBanner: false,
             title: 'Helpadora',
-            home: ChangeNotifierProvider(
-                create: (context) => LoginBloc(), child: Home()),
+            home: SplashScreen(
+              seconds: 5,
+              backgroundColor: Theme.of(context).primaryColor,
+              image: Image.asset('assets/images/splash_screen.png'),
+              photoSize: 100.0,
+              loadingText: Text('Loading...'),
+              navigateAfterSeconds: ChangeNotifierProvider(
+                create: (context) => LoginBloc(),
+                child: Home(),
+              ),
+            ),
             routes: _routes,
             onGenerateRoute: route,
           );
