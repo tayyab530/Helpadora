@@ -1,10 +1,10 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/notifiers/filters.dart';
-import 'package:helpadora/src/notifiers/queries.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
-import 'package:splashscreen/splashscreen.dart';
 
+import 'package:helpadora/src/notifiers/filters.dart';
+import 'package:helpadora/src/notifiers/queries.dart';
 import 'blocs/change_password_bloc.dart';
 import 'notifiers/theme_data.dart';
 import 'screens/chats_rating_screen.dart';
@@ -35,16 +35,12 @@ class App extends StatelessWidget {
             theme: theme.getTheme(),
             debugShowCheckedModeBanner: false,
             title: 'Helpadora',
-            home: SplashScreen(
-              seconds: 5,
+            home: AnimatedSplashScreen(
+              duration: 5,
+              splash: 'assets/images/splash_screen.png',
               backgroundColor: Theme.of(context).primaryColor,
-              image: Image.asset('assets/images/splash_screen.png'),
-              photoSize: 100.0,
-              loadingText: Text('Loading...'),
-              navigateAfterSeconds: ChangeNotifierProvider(
-                create: (context) => LoginBloc(),
-                child: Home(),
-              ),
+              nextScreen: Home(),
+              splashTransition: SplashTransition.fadeTransition,
             ),
             routes: _routes,
             onGenerateRoute: route,
@@ -112,3 +108,50 @@ class App extends StatelessWidget {
     ChangePasswordScreen.routeName: (ctx) => ChangePasswordScreen(),
   };
 }
+
+//   enum PageTransitionType {
+//   /// Fade Animation
+//   fade,
+
+//   /// Right to left animation
+//   rightToLeft,
+
+//   /// Left to right animation
+//   leftToRight,
+
+//   /// Top the bottom animation
+
+//   topToBottom,
+
+//   /// bottom the top animation
+
+//   bottomToTop,
+
+//   /// scale animation
+
+//   scale,
+
+//   /// Rotate animation
+
+//   rotate,
+
+//   /// Size animation
+
+//   size,
+
+//   /// Right to left with fading animation
+
+//   rightToLeftWithFade,
+
+//   /// Left to right with fading animation
+
+//   leftToRightWithFade,
+
+//   /// Left to right slide as if joined
+
+//   leftToRightJoined,
+
+//   /// Right to left slide as if joined
+
+//   rightToLeftJoined,
+// }
