@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/models/dialog_messages.dart';
 import 'package:helpadora/src/screens/chats_rating_screen.dart';
 
 export '../models/dialog_messages.dart';
@@ -43,28 +44,24 @@ class Dialogs {
     );
   }
 
-  static Future<bool> alertDialogForQuery(
-      BuildContext context,
-      String confirmationMessage,
-      List<String> buttonLabels,
-      Color buttonBGcolor) async {
+  static Future<bool> alertDialogForQueryDelete(BuildContext context) async {
     return await showDialog<bool>(
       barrierDismissible: true,
       context: context,
       builder: (ctx) {
         return AlertDialog(
-          title: Text(confirmationMessage),
+          title: Text(DialogMessages.queryDeleteConfirm),
           actions: [
             TextButton(
               onPressed: () async {
                 return Navigator.of(context).pop(true);
               },
               child: Text(
-                buttonLabels[0],
+                'Delete',
                 style: TextStyle(color: Colors.white),
               ),
               style: TextButton.styleFrom(
-                backgroundColor: buttonBGcolor,
+                backgroundColor: Theme.of(context).errorColor,
               ),
             ),
             TextButton(
@@ -72,7 +69,7 @@ class Dialogs {
                 return Navigator.of(context).pop(false);
               },
               child: Text(
-                buttonLabels[1],
+                'Cancel',
                 style: TextStyle(color: Colors.black),
               ),
               style: TextButton.styleFrom(
@@ -86,17 +83,13 @@ class Dialogs {
   }
 
   static Future<bool> alertDialogForQuerySolve(
-      BuildContext context,
-      QueryDocumentSnapshot query,
-      String confirmationMessage,
-      List<String> buttonLabels,
-      Color buttonBGcolor) async {
+      BuildContext context, QueryDocumentSnapshot query) async {
     return await showDialog<bool>(
       barrierDismissible: true,
       context: context,
       builder: (ctx) {
         return AlertDialog(
-          title: Text(confirmationMessage),
+          title: Text(DialogMessages.querySolveConfirm),
           actions: [
             TextButton(
               onPressed: () async {
@@ -106,11 +99,11 @@ class Dialogs {
                 // return Navigator.of(context).pop(true);
               },
               child: Text(
-                buttonLabels[0],
+                'Proceed',
                 style: TextStyle(color: Colors.white),
               ),
               style: TextButton.styleFrom(
-                backgroundColor: buttonBGcolor,
+                backgroundColor: Colors.green,
               ),
             ),
             TextButton(
@@ -118,7 +111,7 @@ class Dialogs {
                 return Navigator.of(context).pop(false);
               },
               child: Text(
-                buttonLabels[1],
+                'Cancel',
                 style: TextStyle(color: Colors.black),
               ),
               style: TextButton.styleFrom(

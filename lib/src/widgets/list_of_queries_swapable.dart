@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
 import 'package:helpadora/src/models/dialog_messages.dart';
 import 'package:provider/provider.dart';
 
@@ -34,18 +35,12 @@ class ListOfQueriesSwapable extends StatelessWidget {
           // ignore: missing_return
           confirmDismiss: (direction) async {
             if (direction == DismissDirection.endToStart)
-              return await Dialogs.alertDialogForQuery(
-                  context,
-                  DialogMessages.queryDeleteConfirm,
-                  ['Delete', 'Cancel'],
-                  Theme.of(context).errorColor);
+              return await Dialogs.alertDialogForQueryDelete(
+                context,
+              );
             else if (direction == DismissDirection.startToEnd)
               return await Dialogs.alertDialogForQuerySolve(
-                  context,
-                  queries[index],
-                  DialogMessages.querySolveConfirm,
-                  ['Proceed', 'No'],
-                  Colors.green);
+                  context, queries[index]);
           },
           background: SolvedBG(),
           secondaryBackground: DeleteBG(),
@@ -84,7 +79,7 @@ class SolvedBG extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
       margin: EdgeInsets.only(bottom: 20.0, top: 3.0),
       alignment: AlignmentDirectional.centerStart,
-      child: Icon(Icons.fact_check),
+      child: Icon(HelpadoraIcons.check),
     );
   }
 }

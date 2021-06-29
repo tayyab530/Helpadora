@@ -41,6 +41,7 @@ class App extends StatelessWidget {
               backgroundColor: Theme.of(context).primaryColor,
               nextScreen: Home(),
               splashTransition: SplashTransition.fadeTransition,
+              animationDuration: Duration(milliseconds: 800),
             ),
             routes: _routes,
             onGenerateRoute: route,
