@@ -48,7 +48,7 @@ class App extends StatelessWidget {
                     },
                     backgroundColor: Theme.of(context).primaryColor,
                     splashTransition: SplashTransition.fadeTransition,
-                    splash: HelpadoraIcons.community,
+                    splash: Image.asset('assets/images/cover.png'),
                   )
                 : Home(),
             routes: _routes,
