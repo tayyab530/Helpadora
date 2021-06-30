@@ -1,10 +1,12 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import 'package:helpadora/src/notifiers/filters.dart';
 import 'package:helpadora/src/notifiers/queries.dart';
+
 import 'blocs/change_password_bloc.dart';
 import 'notifiers/theme_data.dart';
 import 'screens/chats_rating_screen.dart';
@@ -26,6 +28,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     // debugPaintSizeEnabled = true;
     // debugPaintLayerBordersEnabled = true;
+    final _themeData = Provider.of<ThemeNotifier>(context, listen: false);
+    final bool _showSplash = _themeData.showSplash;
+
     return MultiProvider(
       providers: _providers,
       child: Consumer<ThemeNotifier>(
@@ -35,14 +40,17 @@ class App extends StatelessWidget {
             theme: theme.getTheme(),
             debugShowCheckedModeBanner: false,
             title: 'Helpadora',
-            home: AnimatedSplashScreen(
-              duration: 5,
-              splash: 'assets/images/splash_screen.png',
-              backgroundColor: Theme.of(context).primaryColor,
-              nextScreen: Home(),
-              splashTransition: SplashTransition.fadeTransition,
-              animationDuration: Duration(milliseconds: 800),
-            ),
+            home: _showSplash
+                ? AnimatedSplashScreen.withScreenFunction(
+                    screenFunction: () async {
+                      _themeData.setSplashtoFalse();
+                      return Home();
+                    },
+                    backgroundColor: Theme.of(context).primaryColor,
+                    splashTransition: SplashTransition.fadeTransition,
+                    splash: HelpadoraIcons.community,
+                  )
+                : Home(),
             routes: _routes,
             onGenerateRoute: route,
           );
@@ -64,9 +72,6 @@ class App extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (context) => ChangePasswordBloc(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => ThemeNotifier(),
       ),
       ChangeNotifierProvider(
         create: (context) => Filters(),

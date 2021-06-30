@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/storage_sharedPrefs_theme.dart';
 
 class ThemeNotifier with ChangeNotifier {
+  bool showSplash = true;
   final darkTheme = ThemeData(
     brightness: Brightness.dark,
     primaryTextTheme: TextTheme(
@@ -82,5 +83,9 @@ class ThemeNotifier with ChangeNotifier {
     StorageManager.saveData('themeMode', 'light');
     isLight = true;
     notifyListeners();
+  }
+
+  setSplashtoFalse() {
+    showSplash = false;
   }
 }
