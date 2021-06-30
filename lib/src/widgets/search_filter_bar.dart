@@ -90,7 +90,7 @@ class SearchFilterBar extends StatelessWidget {
         padding: const EdgeInsets.only(right: 5.0),
         child: Icon(
           HelpadoraIcons.search_filters,
-          size: 15.0,
+          size: 12.0,
         ),
       ),
       onSelected: null,
