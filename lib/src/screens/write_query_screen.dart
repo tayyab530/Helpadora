@@ -12,6 +12,11 @@ import '../models/query_model.dart';
 
 class WriteQuery extends StatelessWidget {
   static const routeName = '/write-query';
+  final _underLineBorder = UnderlineInputBorder(
+    borderSide: BorderSide(
+      color: Colors.blueAccent,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +46,13 @@ class WriteQuery extends StatelessWidget {
         stream: _wqBloc.title,
         builder: (context, AsyncSnapshot<String> snapshot) {
           return TextField(
+            maxLength: 30,
             decoration: InputDecoration(
               labelText: 'Title',
               errorText: !snapshot.hasData ? snapshot.error : '',
+              errorBorder: _underLineBorder,
+              focusedBorder: _underLineBorder,
+              focusedErrorBorder: _underLineBorder,
             ),
             onChanged: _wqBloc.changeTitle,
           );
@@ -58,6 +67,9 @@ class WriteQuery extends StatelessWidget {
             decoration: InputDecoration(
               labelText: 'Description',
               errorText: !snapshot.hasData ? snapshot.error : '',
+              errorBorder: _underLineBorder,
+              focusedBorder: _underLineBorder,
+              focusedErrorBorder: _underLineBorder,
             ),
             onChanged: _wqBloc.changeDescription,
             maxLines: 4,
@@ -73,7 +85,9 @@ class WriteQuery extends StatelessWidget {
         builder: (context, AsyncSnapshot<Date> snapshot) {
           return Row(
             children: [
-              Text('Due Date'),
+              Text('Due Date '),
+              if (_wqBloc.getDueDate() != '')
+                Chip(label: Text(_wqBloc.getDueDate())),
               IconButton(
                 icon: Icon(Icons.calendar_today),
                 onPressed: () async {
@@ -100,7 +114,9 @@ class WriteQuery extends StatelessWidget {
         builder: (context, AsyncSnapshot<String> snapshot) {
           return Row(
             children: [
-              Text('Select Location'),
+              Text('Select Location '),
+              if (_wqBloc.getLocation() != '')
+                Chip(label: Text(_wqBloc.getLocation())),
               PopupMenuButton(
                 icon: Icon(Icons.expand_more),
                 itemBuilder: (context) {
@@ -171,7 +187,11 @@ class WriteQuery extends StatelessWidget {
                     : Colors.grey[350],
               ),
               onPressed: onTap,
-              child: Text('Post'),
+              child: Text(
+                'Post',
+                style: TextStyle(
+                    color: Theme.of(context).primaryTextTheme.headline1.color),
+              ),
             ),
           );
         });

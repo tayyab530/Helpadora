@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
-import 'package:helpadora/src/models/dialog_messages.dart';
 import 'package:provider/provider.dart';
 
 import '../services/db_firestore.dart';

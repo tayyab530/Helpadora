@@ -42,6 +42,7 @@ class QueryItem extends StatelessWidget {
                       fontWeight: primaryTextTheme.headline1.fontWeight,
                       fontSize: primaryTextTheme.headline1.fontSize,
                       color: primaryTextTheme.headline1.color),
+                  overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(
                   height: 10.0,

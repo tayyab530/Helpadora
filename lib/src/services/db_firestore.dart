@@ -121,8 +121,13 @@ class DbFirestore with ChangeNotifier {
         .get();
   }
 
-  Future<DocumentSnapshot> getQuriesList(String uid) {
-    return _firestore.collection('user').doc(uid).get();
+  Future<QuerySnapshot> getQuriesList(String uid) {
+    return _firestore
+        .collection('query')
+        .where('poster_uid', isEqualTo: uid)
+        .where('isDeleted', isEqualTo: false)
+        .where('isSolved', isEqualTo: false)
+        .get();
   }
 
   Future<QuerySnapshot> querySnap(String uid) async => _firestore

@@ -23,23 +23,18 @@ class SettingsTab extends StatelessWidget {
           margin: EdgeInsets.only(bottom: 30.0),
           child: ProfileView(_auth.getCurrentUser().uid),
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            passwordTile(
-              context,
-              Icons.vpn_key,
-              'Change Password',
-              () => Navigator.of(context).pushNamed(
-                ChangePasswordScreen.routeName,
-                arguments: {'_deviceWidth': _deviceWidth},
-              ),
-            ),
-            darkThemeTile(
-              context,
-              'Dark Theme',
-            )
-          ],
+        passwordTile(
+          context,
+          Icons.vpn_key,
+          'Change Password',
+          () => Navigator.of(context).pushNamed(
+            ChangePasswordScreen.routeName,
+            arguments: {'_deviceWidth': _deviceWidth},
+          ),
+        ),
+        darkThemeTile(
+          context,
+          'Dark Theme',
         ),
         LogoutButton(_deviceWidth),
       ],
@@ -68,5 +63,7 @@ class SettingsTab extends StatelessWidget {
 
   Widget get divider => Divider(
         color: Colors.black,
+        indent: 10.0,
+        endIndent: 10.0,
       );
 }

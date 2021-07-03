@@ -1,6 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
@@ -28,8 +27,6 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     // debugPaintSizeEnabled = true;
     // debugPaintLayerBordersEnabled = true;
-    final _themeData = Provider.of<ThemeNotifier>(context, listen: false);
-    final bool _showSplash = _themeData.showSplash;
 
     return MultiProvider(
       providers: _providers,
@@ -40,15 +37,19 @@ class App extends StatelessWidget {
             theme: theme.getTheme(),
             debugShowCheckedModeBanner: false,
             title: 'Helpadora',
-            home: _showSplash
+            home: theme.showSplash
                 ? AnimatedSplashScreen.withScreenFunction(
+                    splashIconSize: double.infinity,
                     screenFunction: () async {
-                      _themeData.setSplashtoFalse();
+                      print('showSplash1 ${theme.showSplash}');
+                      theme.setSplashtoFalse();
+                      print('showSplash2 ${theme.showSplash}');
                       return Home();
                     },
                     backgroundColor: Theme.of(context).primaryColor,
                     splashTransition: SplashTransition.fadeTransition,
                     splash: Image.asset('assets/images/cover.png'),
+                    duration: 3,
                   )
                 : Home(),
             routes: _routes,

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class ThemeToggleTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _theme = Provider.of<ThemeNotifier>(context, listen: false);
+    final _theme = Provider.of<ThemeNotifier>(context);
     bool isLight = _theme.isLight;
 
     return ListTile(
@@ -14,6 +14,7 @@ class ThemeToggleTile extends StatelessWidget {
           isLight ? HelpadoraIcons.theme_light : HelpadoraIcons.theme_dark),
       title: Text('Dark Mode'),
       trailing: Switch(
+        activeColor: Theme.of(context).primaryColor,
         value: isLight ? false : true,
         onChanged: (_isLight) {
           print(_isLight);

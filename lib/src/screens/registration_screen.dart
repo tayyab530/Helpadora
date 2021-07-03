@@ -14,6 +14,11 @@ import '../models/user_model.dart';
 
 class RegistrationScreen extends StatelessWidget {
   static const routeName = '/registration';
+  final _underLineBorder = UnderlineInputBorder(
+    borderSide: BorderSide(
+      color: Colors.blueAccent,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +95,12 @@ class RegistrationScreen extends StatelessWidget {
         builder: (context, AsyncSnapshot<String> snapshot) {
           return TextField(
             decoration: InputDecoration(
+              errorStyle: TextStyle(color: Theme.of(context).dividerColor),
               labelText: 'UserName',
               errorText: snapshot.hasError ? snapshot.error : '',
+              errorBorder: _underLineBorder,
+              focusedBorder: _underLineBorder,
+              focusedErrorBorder: _underLineBorder,
             ),
             onChanged: bloc.changeUserName,
           );
@@ -105,8 +114,12 @@ class RegistrationScreen extends StatelessWidget {
           return TextField(
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
+              errorStyle: TextStyle(color: Theme.of(context).dividerColor),
               labelText: 'Email Address',
               errorText: snapshot.hasError ? snapshot.error : '',
+              errorBorder: _underLineBorder,
+              focusedBorder: _underLineBorder,
+              focusedErrorBorder: _underLineBorder,
             ),
             onChanged: bloc.changeEmail,
           );
@@ -120,8 +133,12 @@ class RegistrationScreen extends StatelessWidget {
           return TextField(
             obscureText: true,
             decoration: InputDecoration(
+              errorStyle: TextStyle(color: Theme.of(context).dividerColor),
               labelText: 'Create Password',
               errorText: snapshot.hasError ? snapshot.error : '',
+              errorBorder: _underLineBorder,
+              focusedBorder: _underLineBorder,
+              focusedErrorBorder: _underLineBorder,
             ),
             onChanged: bloc.changePassword,
           );
@@ -136,8 +153,12 @@ class RegistrationScreen extends StatelessWidget {
           return TextField(
             obscureText: true,
             decoration: InputDecoration(
+              errorStyle: TextStyle(color: Theme.of(context).dividerColor),
               labelText: 'Confirm Password',
               errorText: !snapshot.hasData ? 'Password does not match!' : '',
+              errorBorder: _underLineBorder,
+              focusedBorder: _underLineBorder,
+              focusedErrorBorder: _underLineBorder,
             ),
             onChanged: bloc.changeConfirmPassword,
           );
@@ -151,25 +172,13 @@ class RegistrationScreen extends StatelessWidget {
           return Container(
             alignment: Alignment.bottomLeft,
             child: DropdownButton(
-              hint: Text('Gender'),
+              hint: Text('Gender '),
               icon: Row(
                 children: [
-                  snapshot.data == null
-                      ? Container(
-                          width: 75.0,
-                        )
-                      : Container(
-                          padding: EdgeInsets.all(4.0),
-                          margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 2.0),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                          ),
-                          child: Container(
-                            child: Text(snapshot.data),
-                          ),
-                        ),
+                  if (snapshot.data != null)
+                    Chip(
+                      label: Text(snapshot.data),
+                    ),
                   Icon(Icons.expand_more),
                 ],
               ),
@@ -202,25 +211,17 @@ class RegistrationScreen extends StatelessWidget {
         stream: _regisBloc.date,
         initialData: Date(DateTime(1997), DateTime(1997)),
         builder: (context, AsyncSnapshot<Date> snapshot) {
+          final _pickedDate = snapshot.data.pickedDate;
           return Row(
             children: [
-              Text('Date of Birth'),
-              snapshot.data == null
-                  ? Container()
-                  : Container(
-                      padding: EdgeInsets.all(4.0),
-                      margin: EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 2.0),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15.0),
-                        ),
-                      ),
-                      child: Container(
-                        child: Text(
-                            "${snapshot.data.pickedDate.day}/${snapshot.data.pickedDate.month}"),
-                      ),
-                    ),
+              Text('Date of Birth '),
+              if (snapshot.data != null)
+                Chip(
+                  label: Container(
+                    child: Text(
+                        "${_pickedDate.day}/${_pickedDate.month}/${_pickedDate.year}"),
+                  ),
+                ),
               IconButton(
                 icon: Icon(Icons.calendar_today_rounded),
                 onPressed: () {
@@ -239,25 +240,15 @@ class RegistrationScreen extends StatelessWidget {
           return Container(
             alignment: Alignment.bottomLeft,
             child: DropdownButton(
-              hint: Text('Program'),
+              hint: Text('Program '),
               icon: Row(
                 children: [
-                  snapshot.data == null
-                      ? Container(
-                          width: 75.0,
-                        )
-                      : Container(
-                          margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          padding: EdgeInsets.all(4.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 2.0),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                          ),
-                          child: Container(
-                            child: Text(snapshot.data),
-                          ),
-                        ),
+                  if (snapshot.data != null)
+                    Chip(
+                      label: Container(
+                        child: Text(snapshot.data),
+                      ),
+                    ),
                   Icon(Icons.expand_more),
                 ],
               ),
@@ -348,8 +339,8 @@ class RegistrationScreen extends StatelessWidget {
     final DateTime pickedDate = await showDatePicker(
       context: context,
       initialDate: snapshot.data.currentDate,
-      firstDate: DateTime(1995),
-      lastDate: DateTime(2015),
+      firstDate: DateTime(DateTime.now().year - 30),
+      lastDate: DateTime(DateTime.now().year - 10),
       currentDate: snapshot.data.currentDate,
     );
     if (pickedDate != null && pickedDate != snapshot.data.currentDate) {

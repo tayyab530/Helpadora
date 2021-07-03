@@ -12,6 +12,11 @@ import '../services/auth_services.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/login';
+  final _underLineBorder = UnderlineInputBorder(
+    borderSide: BorderSide(
+      color: Colors.blueAccent,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +104,11 @@ class LoginScreen extends StatelessWidget {
             textCapitalization: TextCapitalization.none,
             decoration: InputDecoration(
               labelText: 'Email',
+              errorStyle: TextStyle(color: Theme.of(context).disabledColor),
               errorText: snapshot.hasError ? snapshot.error : "",
+              errorBorder: _underLineBorder,
+              focusedBorder: _underLineBorder,
+              focusedErrorBorder: _underLineBorder,
             ),
             keyboardType: TextInputType.emailAddress,
             onChanged: bloc.changeEmail,
@@ -116,7 +125,11 @@ class LoginScreen extends StatelessWidget {
             textCapitalization: TextCapitalization.none,
             decoration: InputDecoration(
               labelText: 'Password',
+              errorStyle: TextStyle(color: Theme.of(context).dividerColor),
               errorText: snapshot.hasError ? snapshot.error : '',
+              errorBorder: _underLineBorder,
+              focusedBorder: _underLineBorder,
+              focusedErrorBorder: _underLineBorder,
             ),
             onChanged: bloc.changePassword,
           );

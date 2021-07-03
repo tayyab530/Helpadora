@@ -87,7 +87,6 @@ class Profile extends StatelessWidget {
               fontWeight:
                   Theme.of(context).primaryTextTheme.headline1.fontWeight,
               fontSize: 22.0,
-              backgroundColor: Colors.black12,
             ),
           ),
           SizedBox(

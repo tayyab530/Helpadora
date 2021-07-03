@@ -43,9 +43,10 @@ class WriteQueryBloc extends ChangeNotifier with WriteQueryValidatorsMixin {
 
   String getTitle() => _title.value;
   String getDescription() => _description.value;
-  String getDueDate() =>
-      DateFormat('dd MM yyyy').format(_dueDate.value.pickedDate);
-  String getLocation() => _location.value;
+  String getDueDate() => _dueDate.value == null
+      ? ''
+      : DateFormat('dd MM yyyy').format(_dueDate.value.pickedDate);
+  String getLocation() => _location.value == null ? '' : _location.value;
 }
 
 //Please do not turn off the PC!!!!

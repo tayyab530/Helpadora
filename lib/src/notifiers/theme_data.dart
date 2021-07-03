@@ -55,9 +55,8 @@ class ThemeNotifier with ChangeNotifier {
   bool isLight;
 
   ThemeNotifier() {
-    StorageManager.readData('themeMode').then((value) {
-      print('value read from storage: ' + value.toString());
-      var themeMode = value ?? 'light';
+    StorageManager.readData('themeMode').then((theme) {
+      var themeMode = theme ?? 'light';
       if (themeMode == 'light') {
         isLight = true;
         _themeData = lightTheme;

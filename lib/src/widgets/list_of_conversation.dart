@@ -15,7 +15,7 @@ class ListOfConversation extends StatelessWidget {
 
     return FutureBuilder(
         future: _dbFirestore.getQuriesList(_uid),
-        builder: (context, AsyncSnapshot<DocumentSnapshot> userSnapshot) {
+        builder: (context, AsyncSnapshot<QuerySnapshot> userSnapshot) {
           if (userSnapshot.connectionState == ConnectionState.waiting ||
               userSnapshot.data == null)
             return Center(
@@ -24,10 +24,8 @@ class ListOfConversation extends StatelessWidget {
               ),
             );
           else {
-            List<dynamic> _listOfQuries =
-                userSnapshot.data.data()['list_of_queries'] != null
-                    ? userSnapshot.data.data()['list_of_queries']
-                    : [];
+            List<QueryDocumentSnapshot> _listOfQuries =
+                userSnapshot.data.docs != null ? userSnapshot.data.docs : [];
             print(_listOfQuries.toString());
             return _listOfQuries == []
                 ? Center(
@@ -46,19 +44,19 @@ class ListOfConversation extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           ..._listOfQuries.map(
-            (queryId) => FutureBuilder(
+            (query) => FutureBuilder(
               future: _dbFirestore.querySnap(_uid),
               builder: (context, AsyncSnapshot<QuerySnapshot> querySnapshot) {
                 if (querySnapshot.connectionState == ConnectionState.waiting ||
                     querySnapshot.data == null) return Container();
 
                 final querySnap = querySnapshot.data.docs.firstWhere(
-                  (query) => query.id == queryId,
+                  (_query) => _query.id == query.id,
                   orElse: () => null,
                 );
 
                 return querySnap != null
-                    ? ListOfChatsforConversation(queryId, querySnap)
+                    ? ListOfChatsforConversation(query.id, querySnap)
                     : Container();
               },
             ),
