@@ -5,27 +5,29 @@ import 'package:flutter/material.dart';
 import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
 import 'package:helpadora/src/notifiers/filters.dart';
 import 'package:helpadora/src/notifiers/queries.dart';
+import 'package:helpadora/src/repositories/repository.dart';
 import 'package:helpadora/src/widgets/search_filter_bar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:helpadora/src/services/auth_services.dart';
 import '../../screens/write_query_screen.dart';
-import '../../services/db_firestore.dart';
 import '../list_of_queries.dart';
 
 class CommunityTab extends StatelessWidget {
   static const icon = HelpadoraIcons.community;
   @override
   Widget build(BuildContext context) {
-    final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
+    // final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
     final _auth = Provider.of<AuthService>(context, listen: false);
     final Map<String, bool> _filters = Provider.of<Filters>(context).filters;
+    final _repository = Provider.of<Repository>(context);
 
     return Scaffold(
-      body: StreamBuilder(
-        stream: _dbFirestore.publicQueryStream
-            .where('poster_uid', isNotEqualTo: _auth.getCurrentUser().uid)
-            .snapshots(),
+      body: FutureBuilder(
+        // stream: _dbFirestore.publicQueryStream
+        //     .where('poster_uid', isNotEqualTo: _auth.getCurrentUser().uid)
+        //     .snapshots(),
+        future: _repository.fetchPublicQueries(_auth.getCurrentUser().uid),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           // print("Length ${snapshot.data.docs.toString()}");
           if (snapshot.connectionState == ConnectionState.waiting ||

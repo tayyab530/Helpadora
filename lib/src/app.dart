@@ -1,5 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/repositories/repository.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
@@ -78,6 +79,9 @@ class App extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (context) => QueriesNotifier(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => Repository(),
       ),
     ];
   }

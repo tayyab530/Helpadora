@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
+import 'package:helpadora/src/repositories/repository.dart';
 import 'package:provider/provider.dart';
 
 import '../../screens/write_query_screen.dart';
@@ -20,16 +21,18 @@ class _MyQyeryTabState extends State<SelfTab> {
   @override
   Widget build(BuildContext context) {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
-    final _auth = Provider.of<AuthService>(context, listen: false);
+    final _uid =
+        Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
+    final _repository = Provider.of<Repository>(context, listen: false);
 
     var deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Column(
         children: [
-          _listOfActiveQueries(deviceHeight, context, _dbFirestore, _auth),
+          _listOfActiveQueries(deviceHeight, context, _repository, _uid),
           bottomSlider(context),
           showSolvedQueries
-              ? solvedQueriesList(deviceHeight, _dbFirestore, _auth)
+              ? solvedQueriesList(deviceHeight, _repository, _uid)
               : Container(),
         ],
       ),
@@ -38,15 +41,16 @@ class _MyQyeryTabState extends State<SelfTab> {
   }
 
   Container _listOfActiveQueries(double deviceHeight, BuildContext context,
-      DbFirestore _dbFirestore, AuthService _auth) {
+      Repository _repository, String uid) {
     return Container(
       height: showSolvedQueries
           ? ((deviceHeight / 2) - 86)
           : ((deviceHeight - MediaQuery.of(context).padding.top) - 163),
-      child: StreamBuilder(
-        stream: _dbFirestore.unsolvedQueryStream
-            .where('poster_uid', isEqualTo: _auth.getCurrentUser().uid)
-            .snapshots(),
+      child: FutureBuilder(
+        // stream: _repository.unsolvedQueryStream
+        //     .where('poster_uid', isEqualTo: _auth.getCurrentUser().uid)
+        //     .snapshots(),
+        future: _repository.fetchSelfActiveQueries(uid),
         builder: (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return Center(child: CircularProgressIndicator());
@@ -91,13 +95,11 @@ class _MyQyeryTabState extends State<SelfTab> {
   }
 
   Container solvedQueriesList(
-      double deviceHeight, DbFirestore _dbFirestore, AuthService _auth) {
+      double deviceHeight, Repository _repository, String uid) {
     return Container(
       height: (deviceHeight / 2) - 77,
-      child: StreamBuilder(
-        stream: _dbFirestore.solvedQueryStream
-            .where('poster_uid', isEqualTo: _auth.getCurrentUser().uid)
-            .snapshots(),
+      child: FutureBuilder(
+        future: _repository.fetchSelfSolvedQueries(uid),
         builder: (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return Center(child: CircularProgressIndicator());
