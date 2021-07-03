@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import 'package:helpadora/src/notifiers/filters.dart';
 import 'package:helpadora/src/notifiers/queries.dart';
-
 import 'blocs/change_password_bloc.dart';
 import 'notifiers/theme_data.dart';
 import 'screens/chats_rating_screen.dart';
@@ -115,50 +114,3 @@ class App extends StatelessWidget {
     ChangePasswordScreen.routeName: (ctx) => ChangePasswordScreen(),
   };
 }
-
-//   enum PageTransitionType {
-//   /// Fade Animation
-//   fade,
-
-//   /// Right to left animation
-//   rightToLeft,
-
-//   /// Left to right animation
-//   leftToRight,
-
-//   /// Top the bottom animation
-
-//   topToBottom,
-
-//   /// bottom the top animation
-
-//   bottomToTop,
-
-//   /// scale animation
-
-//   scale,
-
-//   /// Rotate animation
-
-//   rotate,
-
-//   /// Size animation
-
-//   size,
-
-//   /// Right to left with fading animation
-
-//   rightToLeftWithFade,
-
-//   /// Left to right with fading animation
-
-//   leftToRightWithFade,
-
-//   /// Left to right slide as if joined
-
-//   leftToRightJoined,
-
-//   /// Right to left slide as if joined
-
-//   rightToLeftJoined,
-// }

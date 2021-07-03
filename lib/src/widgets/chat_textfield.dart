@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/models/chat_model.dart';
+import 'package:helpadora/src/models/message_model.dart';
 import 'package:helpadora/src/services/auth_services.dart';
 import 'package:helpadora/src/services/db_firestore.dart';
 import 'package:provider/provider.dart';
@@ -163,11 +163,12 @@ class ThumbUp extends StatelessWidget {
         color: Theme.of(context).accentColor,
         onPressed: () {
           dbFirestore.sendChat(
-              Chat(
-                  text: '👍',
-                  senderUid: _uid,
-                  receiverUid: receiverUid,
-                  timestamp: Timestamp.now()),
+              // Message(
+              //     text: '👍',
+              //     senderUid: _uid,
+              //     receiverUid: receiverUid,
+              //     time: Timestamp.now()),
+              _toChat(_uid, '👍', receiverUid),
               query,
               senderUid);
         },
@@ -177,9 +178,9 @@ class ThumbUp extends StatelessWidget {
 }
 
 _toChat(String senderUid, String text, String rUid) {
-  return Chat(
+  return Message(
       text: text,
       senderUid: senderUid,
       receiverUid: rUid,
-      timestamp: Timestamp.now());
+      time: Timestamp.now());
 }

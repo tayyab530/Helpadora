@@ -40,6 +40,6 @@ class MessagesList extends StatelessWidget {
         receiverUid: message['receiver_uid'],
         senderUid: message['sender_uid'],
         text: message['text'],
-        dateTime: message['time'].toDate());
+        time: message['time']);
   }
 }

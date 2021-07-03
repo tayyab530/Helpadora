@@ -1,15 +1,16 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class Message {
-  final String receiverUid;
-  final String senderUid;
   final String text;
-  final DateTime dateTime;
+  final String senderUid;
+  final String receiverUid;
+  final Timestamp time;
 
   Message({
-    @required this.receiverUid,
-    @required this.senderUid,
     @required this.text,
-    @required this.dateTime,
+    @required this.senderUid,
+    @required this.receiverUid,
+    @required this.time,
   });
 }

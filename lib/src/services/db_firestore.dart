@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:helpadora/src/models/chat_model.dart';
+import 'package:helpadora/src/models/message_model.dart';
 
 import '../models/user_model.dart';
 import '../models/query_model.dart';
@@ -68,7 +68,7 @@ class DbFirestore with ChangeNotifier {
       );
 
   Future<void> sendChat(
-      Chat chat, QueryDocumentSnapshot query, String senderUid) async {
+      Message message, QueryDocumentSnapshot query, String senderUid) async {
     var _chatRef = _firestore
         .collection('query')
         .doc(query.id)
@@ -78,14 +78,14 @@ class DbFirestore with ChangeNotifier {
     print(senderUid + query.data()['poster_uid']);
 
     return _chatRef.collection('messages').doc().set({
-      'sender_uid': chat.senderUid,
-      'receiver_uid': chat.receiverUid,
-      'text': chat.text,
-      'time': chat.timestamp
+      'sender_uid': message.senderUid,
+      'receiver_uid': message.receiverUid,
+      'text': message.text,
+      'time': message.time,
     }).then((_) => _chatRef.set({
-          'last_message': chat.text,
-          'time': chat.timestamp,
-          'chat_members': [chat.senderUid, chat.receiverUid]
+          'last_message': message.text,
+          'time': message.time,
+          'chat_members': [message.senderUid, message.receiverUid]
         }));
   }
 
