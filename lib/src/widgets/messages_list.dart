@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/models/message_model.dart';
+import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/services/auth_services.dart';
 import 'package:helpadora/src/services/db_firestore.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'message_bubble.dart';
 
 class MessagesList extends StatelessWidget {
-  final QueryDocumentSnapshot queryDetails;
+  final QueryModel queryDetails;
   final senderUid;
 
   MessagesList(this.queryDetails, this.senderUid);

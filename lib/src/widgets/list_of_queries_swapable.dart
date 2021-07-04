@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
+import 'package:helpadora/src/models/query_model.dart';
 import 'package:provider/provider.dart';
 
 import '../services/db_firestore.dart';
@@ -8,7 +8,7 @@ import 'query_item.dart';
 import 'message_Popup.dart';
 
 class ListOfQueriesSwapable extends StatelessWidget {
-  final List<QueryDocumentSnapshot> queries;
+  final List<QueryModel> queries;
 
   ListOfQueriesSwapable(this.queries);
 
@@ -20,7 +20,7 @@ class ListOfQueriesSwapable extends StatelessWidget {
       itemCount: queries.length,
       itemBuilder: (context, index) {
         return Dismissible(
-          key: Key(queries[index].id),
+          key: Key(queries[index].qid),
           child: QueryItem(
             queries[index],
           ),

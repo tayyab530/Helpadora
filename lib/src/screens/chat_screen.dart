@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/services/auth_services.dart';
 import 'package:provider/provider.dart';
 
@@ -15,26 +16,26 @@ class ChatScreen extends StatelessWidget {
     // final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
     final _uid =
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
-    final _queryDetails = args['queryDetails'];
+    final QueryModel _queryDetails = args['queryDetails'];
     final chatMembers = args['chatMembers'];
 
-    final senderUid = _uid == _queryDetails.data()['poster_uid']
+    final senderUid = _uid == _queryDetails.posterUid
         ? checkSenderUid(chatMembers, _uid)
         : _uid;
-    final receiverUid = _uid == _queryDetails.data()['poster_uid']
+    final receiverUid = _uid == _queryDetails.posterUid
         ? checkSenderUid(chatMembers, _uid)
-        : _queryDetails.data()['poster_uid'];
+        : _queryDetails.posterUid;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(args['queryDetails']['title']),
+        title: Text(_queryDetails.title),
       ),
       body: Container(
         margin: EdgeInsets.only(bottom: 70.0),
-        child: MessagesList(args['queryDetails'], senderUid),
+        child: MessagesList(_queryDetails, senderUid),
       ),
       bottomSheet: ChatTextfield(
-        args['queryDetails'],
+        _queryDetails,
         args['chatMembers'],
         {'sender': senderUid, 'receiver': receiverUid},
       ),

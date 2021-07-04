@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/models/query_model.dart';
 
 import 'query_item.dart';
 
 class ListOfQueries extends StatelessWidget {
-  final List<QueryDocumentSnapshot> queries;
+  final List<QueryModel> queries;
 
   ListOfQueries(this.queries);
 

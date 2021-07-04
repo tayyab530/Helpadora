@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/services/db_firestore.dart';
 import 'package:provider/provider.dart';
 
@@ -7,7 +8,7 @@ import 'conversation_item.dart';
 
 class ListOfChatsforConversation extends StatefulWidget {
   final queryId;
-  final QueryDocumentSnapshot querySnap;
+  final QueryModel querySnap;
   ListOfChatsforConversation(this.queryId, this.querySnap);
 
   @override
@@ -43,7 +44,7 @@ class _ListOfChatsforConversationState
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Chip(
-                          label: Text(widget.querySnap.data()['title']),
+                          label: Text(widget.querySnap.title),
                           backgroundColor: Theme.of(context).accentColor,
                         ),
                         IconButton(

@@ -35,19 +35,20 @@ class DbFirestore with ChangeNotifier {
         'isDeleted': query.isDeleted,
         'isSolved': query.isSolved,
         'solver_uid': query.solverUid,
+        'posted_time': query.postedTime,
       },
     ).then((_) => _firestore.collection('user').doc(query.posterUid).update({
           'list_of_queries': FieldValue.arrayUnion([documentRef.id])
         }));
   }
 
-  Future<void> deleteQuery(QueryDocumentSnapshot query) async => _firestore
+  Future<void> deleteQuery(QueryModel query) async => _firestore
       .collection('query')
-      .doc(query.id)
-      .update({'isDeleted': true}).then((value) =>
-          _firestore.collection('user').doc(query['poster_uid']).update({
-            'list_of_queries': FieldValue.arrayRemove([query.id])
-          }));
+      .doc(query.qid)
+      .update({'isDeleted': true}).then(
+          (value) => _firestore.collection('user').doc(query.posterUid).update({
+                'list_of_queries': FieldValue.arrayRemove([query.qid])
+              }));
 
   Future<void> solveQuery(
           String queryId, String solverUid, double rating) async =>
@@ -68,14 +69,14 @@ class DbFirestore with ChangeNotifier {
       );
 
   Future<void> sendChat(
-      Message message, QueryDocumentSnapshot query, String senderUid) async {
+      Message message, QueryModel query, String senderUid) async {
     var _chatRef = _firestore
         .collection('query')
-        .doc(query.id)
+        .doc(query.qid)
         .collection('chats')
-        .doc(senderUid + query.data()['poster_uid']);
+        .doc(senderUid + query.posterUid);
 
-    print(senderUid + query.data()['poster_uid']);
+    print(senderUid + query.posterUid);
 
     return _chatRef.collection('messages').doc().set({
       'sender_uid': message.senderUid,
@@ -102,13 +103,12 @@ class DbFirestore with ChangeNotifier {
   Query get solvedQueryStream =>
       _firestore.collection('query').where('isSolved', isEqualTo: true);
 
-  Stream<QuerySnapshot> meChatStream(
-      QueryDocumentSnapshot qDetails, String uid) {
+  Stream<QuerySnapshot> meChatStream(QueryModel qDetails, String uid) {
     return _firestore
         .collection('query')
-        .doc(qDetails.id)
+        .doc(qDetails.qid)
         .collection('chats')
-        .doc(uid + qDetails.data()['poster_uid'])
+        .doc(uid + qDetails.posterUid)
         .collection('messages')
         .orderBy('time', descending: true)
         .snapshots();

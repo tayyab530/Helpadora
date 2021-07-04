@@ -32,6 +32,7 @@ class App extends StatelessWidget {
       providers: _providers,
       child: Consumer<ThemeNotifier>(
         builder: (context, theme, _) {
+          Provider.of<Repository>(context, listen: false).init();
           return MaterialApp(
             // debugShowMaterialGrid: true,
             theme: theme.getTheme(),
@@ -89,7 +90,7 @@ class App extends StatelessWidget {
   Route route(RouteSettings settings) {
     var routeName = settings.name;
     dynamic args = settings.arguments;
-    print(args['queryDetails'].id);
+    print(args['queryDetails'].qid);
     print(args['chatMembers'].toString());
     if (routeName == ChatScreen.routeName)
       return MaterialPageRoute(

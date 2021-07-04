@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/models/query_model.dart';
 import 'package:intl/intl.dart';
 
 class ConversationItem extends StatelessWidget {
   final String lastMessage;
   final Timestamp time;
   final List<dynamic> chatMembers;
-  final QueryDocumentSnapshot queryDetails;
+  final QueryModel queryDetails;
   final String chatId;
 
   ConversationItem(this.queryDetails, this.lastMessage, this.time,

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/models/query_model.dart';
 import 'package:provider/provider.dart';
 
 import 'list_of_chats_conversational.dart';
@@ -50,10 +51,11 @@ class ListOfConversation extends StatelessWidget {
                 if (querySnapshot.connectionState == ConnectionState.waiting ||
                     querySnapshot.data == null) return Container();
 
-                final querySnap = querySnapshot.data.docs.firstWhere(
+                final querySnap =
+                    QueryModel.fromFirestore(querySnapshot.data.docs.firstWhere(
                   (_query) => _query.id == query.id,
                   orElse: () => null,
-                );
+                ));
 
                 return querySnap != null
                     ? ListOfChatsforConversation(query.id, querySnap)

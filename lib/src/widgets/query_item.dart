@@ -1,12 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/services/auth_services.dart';
 import 'package:provider/provider.dart';
 
 import 'message_Popup.dart';
 
 class QueryItem extends StatelessWidget {
-  final QueryDocumentSnapshot queryDetails;
+  final QueryModel queryDetails;
 
   QueryItem(this.queryDetails);
 
@@ -14,7 +14,7 @@ class QueryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final _uid =
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
-    final String _dueDate = queryDetails['due_date'];
+    final String _dueDate = queryDetails.dueDate;
     final theme = Theme.of(context);
     final primaryTextTheme = theme.primaryTextTheme;
     return Column(
@@ -37,7 +37,7 @@ class QueryItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  queryDetails['title'],
+                  queryDetails.title,
                   style: TextStyle(
                       fontWeight: primaryTextTheme.headline1.fontWeight,
                       fontSize: primaryTextTheme.headline1.fontSize,
@@ -56,7 +56,7 @@ class QueryItem extends StatelessWidget {
                   color: theme.primaryColorDark.withOpacity(0.8),
                 ),
                 Text(
-                  queryDetails['location'],
+                  queryDetails.location,
                   style: TextStyle(color: primaryTextTheme.headline1.color),
                 ),
               ],
@@ -69,8 +69,8 @@ class QueryItem extends StatelessWidget {
               Dialogs.queryDetailsDialog(
                 context,
                 queryDetails,
-                isMe(_uid, queryDetails.data()['poster_uid']),
-                [_uid, queryDetails.data()['poster_uid']],
+                isMe(_uid, queryDetails.posterUid),
+                [_uid, queryDetails.posterUid],
               );
             },
           ),

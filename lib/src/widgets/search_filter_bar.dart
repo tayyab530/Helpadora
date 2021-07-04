@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
+import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/notifiers/filters.dart';
 import 'package:helpadora/src/notifiers/queries.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class SearchFilterBar extends StatelessWidget {
   final TextEditingController textController = TextEditingController();
   final Map<String, bool> _filters;
-  final List<QueryDocumentSnapshot> _listOfQueries;
+  final List<QueryModel> _listOfQueries;
 
   SearchFilterBar(
     this._filters,
@@ -36,7 +36,7 @@ class SearchFilterBar extends StatelessWidget {
   }
 
   Widget _searchField(Color _iconTextColor, QueriesNotifier _queriesNotifier,
-      List<QueryDocumentSnapshot> _listOfQueries) {
+      List<QueryModel> _listOfQueries) {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(

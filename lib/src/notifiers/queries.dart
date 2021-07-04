@@ -1,18 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:helpadora/src/models/query_model.dart';
 
 class QueriesNotifier with ChangeNotifier {
-  List<QueryDocumentSnapshot> _listOfQueries;
+  List<QueryModel> _listOfQueries;
 
-  List<QueryDocumentSnapshot> get listOfQueries => _listOfQueries;
+  List<QueryModel> get listOfQueries => _listOfQueries;
 
-  searchQueries(
-      String _seachContent, List<QueryDocumentSnapshot> listOfQueries) {
+  searchQueries(String _seachContent, List<QueryModel> listOfQueries) {
     _listOfQueries = listOfQueries.where(
       (query) {
         // var _pattern = RegExp(r'[a-z]', caseSensitive: false);
-        String _query =
-            query.data()['title'] + '' + query.data()['description'];
+        String _query = query.title + '' + query.description;
 
         return _query.toLowerCase().contains(_seachContent.toLowerCase());
       },

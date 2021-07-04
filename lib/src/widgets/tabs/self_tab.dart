@@ -1,12 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
+import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/repositories/repository.dart';
 import 'package:provider/provider.dart';
 
 import '../../screens/write_query_screen.dart';
 import '../../services/auth_services.dart';
-import '../../services/db_firestore.dart';
 import '../list_of_queries.dart';
 import '../list_of_queries_swapable.dart';
 
@@ -20,7 +19,7 @@ class _MyQyeryTabState extends State<SelfTab> {
   bool showSolvedQueries = false;
   @override
   Widget build(BuildContext context) {
-    final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
+    // final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
     final _uid =
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
     final _repository = Provider.of<Repository>(context, listen: false);
@@ -51,10 +50,11 @@ class _MyQyeryTabState extends State<SelfTab> {
         //     .where('poster_uid', isEqualTo: _auth.getCurrentUser().uid)
         //     .snapshots(),
         future: _repository.fetchSelfActiveQueries(uid),
-        builder: (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting)
+        builder: (ctx, AsyncSnapshot<List<QueryModel>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting ||
+              snapshot.data == null)
             return Center(child: CircularProgressIndicator());
-          return ListOfQueriesSwapable(snapshot.data.docs);
+          return ListOfQueriesSwapable(snapshot.data);
         },
       ),
     );
@@ -100,10 +100,10 @@ class _MyQyeryTabState extends State<SelfTab> {
       height: (deviceHeight / 2) - 77,
       child: FutureBuilder(
         future: _repository.fetchSelfSolvedQueries(uid),
-        builder: (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+        builder: (ctx, AsyncSnapshot<List<QueryModel>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return Center(child: CircularProgressIndicator());
-          return ListOfQueries(snapshot.data.docs);
+          return ListOfQueries(snapshot.data);
         },
       ),
     );

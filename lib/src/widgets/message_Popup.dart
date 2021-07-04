@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/models/dialog_messages.dart';
+import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/screens/chats_rating_screen.dart';
 
 export '../models/dialog_messages.dart';
@@ -83,7 +83,7 @@ class Dialogs {
   }
 
   static Future<bool> alertDialogForQuerySolve(
-      BuildContext context, QueryDocumentSnapshot query) async {
+      BuildContext context, QueryModel query) async {
     return await showDialog<bool>(
       barrierDismissible: true,
       context: context,
@@ -124,7 +124,7 @@ class Dialogs {
     );
   }
 
-  static queryDetailsDialog(BuildContext context, QueryDocumentSnapshot query,
+  static queryDetailsDialog(BuildContext context, QueryModel query,
       bool showChaticon, List<String> chatmembers) {
     return showDialog(
         context: context,
@@ -132,7 +132,7 @@ class Dialogs {
           return SimpleDialog(
             title: Text('Details'),
             children: [
-              Text(query['description'], textAlign: TextAlign.center),
+              Text(query.description, textAlign: TextAlign.center),
               showChaticon
                   ? Container(
                       margin: EdgeInsets.only(right: 15.0),

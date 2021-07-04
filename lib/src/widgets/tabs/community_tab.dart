@@ -1,15 +1,15 @@
 import 'dart:ui' as ui;
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
-import 'package:helpadora/src/notifiers/filters.dart';
-import 'package:helpadora/src/notifiers/queries.dart';
-import 'package:helpadora/src/repositories/repository.dart';
-import 'package:helpadora/src/widgets/search_filter_bar.dart';
 import 'package:provider/provider.dart';
 
-import 'package:helpadora/src/services/auth_services.dart';
+import '../../models/query_model.dart';
+import '../../notifiers/filters.dart';
+import '../../notifiers/queries.dart';
+import '../../repositories/repository.dart';
+import '../../widgets/search_filter_bar.dart';
+import '../../custom_icons/helpadora_icons.dart';
+import '../../services/auth_services.dart';
 import '../../screens/write_query_screen.dart';
 import '../list_of_queries.dart';
 
@@ -18,62 +18,64 @@ class CommunityTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
-    final _auth = Provider.of<AuthService>(context, listen: false);
+    final _uid =
+        Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
     final Map<String, bool> _filters = Provider.of<Filters>(context).filters;
     final _repository = Provider.of<Repository>(context);
 
-    return Scaffold(
-      body: FutureBuilder(
-        // stream: _dbFirestore.publicQueryStream
-        //     .where('poster_uid', isNotEqualTo: _auth.getCurrentUser().uid)
-        //     .snapshots(),
-        future: _repository.fetchPublicQueries(_auth.getCurrentUser().uid),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          // print("Length ${snapshot.data.docs.toString()}");
-          if (snapshot.connectionState == ConnectionState.waiting ||
-              snapshot.data == null)
-            return Center(child: CircularProgressIndicator());
-          else {
-            final _queriesNotifier = Provider.of<QueriesNotifier>(context);
-            final _seachedQueries = _queriesNotifier.listOfQueries;
-            var _listOfQueries =
-                _seachedQueries != null ? _seachedQueries : snapshot.data.docs;
+    return RefreshIndicator(
+      onRefresh: () async => await _repository.clearQueries(_uid),
+      child: Scaffold(
+        body: FutureBuilder(
+          // stream: _dbFirestore.publicQueryStream
+          //     .where('poster_uid', isNotEqualTo: _auth.getCurrentUser().uid)
+          //     .snapshots(),
+          future: _repository.fetchPublicQueries(_uid),
+          builder: (context, AsyncSnapshot<List<QueryModel>> snapshot) {
+            // print("Length ${snapshot.data.docs.toString()}");
+            if (snapshot.connectionState == ConnectionState.waiting ||
+                snapshot.data == null)
+              return Center(child: CircularProgressIndicator());
+            else {
+              print('enter in community tab');
+              final _queriesNotifier = Provider.of<QueriesNotifier>(context);
+              final _seachedQueries = _queriesNotifier.listOfQueries;
+              var _listOfQueries =
+                  _seachedQueries != null ? _seachedQueries : snapshot.data;
 
-            return Column(
-              children: [
-                SearchFilterBar(_filters, _listOfQueries),
-                Expanded(
-                  child: ListOfQueries(
-                    sortList(_listOfQueries, _filters),
+              return Column(
+                children: [
+                  SearchFilterBar(_filters, _listOfQueries),
+                  Expanded(
+                    child: ListOfQueries(
+                      sortList(_listOfQueries, _filters),
+                    ),
                   ),
-                ),
-              ],
-            );
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, WriteQuery.routeName),
-        child: CustomPaint(
-          size: Size(21, 21),
-          painter: AddIcon(),
+                ],
+              );
+            }
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => Navigator.pushNamed(context, WriteQuery.routeName),
+          child: CustomPaint(
+            size: Size(21, 21),
+            painter: AddIcon(),
+          ),
         ),
       ),
     );
   }
 
-  List<QueryDocumentSnapshot> sortList(
-      List<QueryDocumentSnapshot> listOfQueries, Map<String, bool> _filters) {
+  List<QueryModel> sortList(
+      List<QueryModel> listOfQueries, Map<String, bool> _filters) {
     var _list = listOfQueries;
     if (_filters['title'])
-      listOfQueries
-          .sort((a, b) => a.data()['title'].compareTo(b.data()['title']));
+      listOfQueries.sort((a, b) => a.title.compareTo(b.title));
     if (_filters['due_date'])
-      listOfQueries
-          .sort((a, b) => a.data()['due_date'].compareTo(b.data()['due_date']));
+      listOfQueries.sort((a, b) => a.dueDate.compareTo(b.dueDate));
     if (_filters['location'])
-      listOfQueries
-          .sort((a, b) => a.data()['location'].compareTo(b.data()['location']));
+      listOfQueries.sort((a, b) => a.location.compareTo(b.location));
 
     return _list;
   }

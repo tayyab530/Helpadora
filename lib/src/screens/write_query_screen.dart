@@ -167,6 +167,7 @@ class WriteQuery extends StatelessWidget {
                 : () async {
                     await _dbFirestore
                         .postQuery(QueryModel(
+                          qid: '',
                           title: _wqBloc.getTitle(),
                           description: _wqBloc.getDescription(),
                           dueDate: _wqBloc.getDueDate(),

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/models/message_model.dart';
+import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/services/auth_services.dart';
 import 'package:helpadora/src/services/db_firestore.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,7 @@ import 'package:tap_debouncer/tap_debouncer.dart';
 
 class ChatTextfield extends StatelessWidget {
   final _messageController = TextEditingController();
-  final QueryDocumentSnapshot _queryDetails;
+  final QueryModel _queryDetails;
   final List<dynamic> chatMembers;
   final Map<String, String> senderReceiver;
 
@@ -92,26 +93,26 @@ class InputTextField extends StatelessWidget {
 }
 
 class SendMessage extends StatelessWidget {
+  final TextEditingController _messageController;
+  final DbFirestore _dbFirestore;
+  final String _uid;
+  final String receiverUid;
+  final QueryModel _queryDetails;
+  final String senderUid;
+
   const SendMessage({
     Key key,
     @required TextEditingController messageController,
     @required DbFirestore dbFirestore,
     @required String uid,
     @required this.receiverUid,
-    @required QueryDocumentSnapshot queryDetails,
+    @required QueryModel queryDetails,
     @required this.senderUid,
   })  : _messageController = messageController,
         _dbFirestore = dbFirestore,
         _uid = uid,
         _queryDetails = queryDetails,
         super(key: key);
-
-  final TextEditingController _messageController;
-  final DbFirestore _dbFirestore;
-  final String _uid;
-  final String receiverUid;
-  final QueryDocumentSnapshot _queryDetails;
-  final String senderUid;
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +140,7 @@ class SendMessage extends StatelessWidget {
 
 class ThumbUp extends StatelessWidget {
   final DbFirestore dbFirestore;
-  final QueryDocumentSnapshot query;
+  final QueryModel query;
   final String senderUid;
   final String receiverUid;
 

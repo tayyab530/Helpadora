@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/services/auth_services.dart';
 import 'package:helpadora/src/services/db_firestore.dart';
 import 'package:helpadora/src/widgets/conversation_item.dart';
@@ -28,7 +29,7 @@ class OthersChatsTab extends StatelessWidget {
                   itemBuilder: (context, index) {
                     var _query = snapshot.data.docs[index];
                     return ConversationItem(
-                      _query,
+                      _query as QueryModel,
                       'last message',
                       Timestamp.now(),
                       [
