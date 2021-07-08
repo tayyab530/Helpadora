@@ -18,12 +18,12 @@ class ThemeNotifier with ChangeNotifier {
         color: Color(0xff757575),
       ),
     ),
-    primaryColor: Color(0xffFFC107),
-    primaryColorLight: HSLColor.fromAHSL(1, 45, 1, .55).toColor(),
+    primaryColor: const Color(0xffFFC107),
+    primaryColorLight: const HSLColor.fromAHSL(1, 45, 1, .55).toColor(),
     primaryColorDark: const Color(0xff0288D1),
-    accentColor: Color(0xff03A9F4),
-    errorColor: Color(0xffFF5959),
-    dividerColor: Color(0xffBDBDBD),
+    accentColor: const Color(0xff03A9F4),
+    errorColor: const Color(0xffFF5959),
+    dividerColor: const Color(0xffBDBDBD),
   );
 
   final lightTheme = ThemeData(

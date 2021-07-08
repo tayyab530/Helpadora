@@ -34,25 +34,27 @@ class App extends StatelessWidget {
       child: Consumer<ThemeNotifier>(
         builder: (context, theme, _) {
           Provider.of<Repository>(context, listen: false).init();
+          final _showSplash = theme.showSplash;
           return MaterialApp(
             // debugShowMaterialGrid: true,
             theme: theme.getTheme(),
             debugShowCheckedModeBanner: false,
             title: 'Helpadora',
-            home: theme.showSplash
+            home: _showSplash
                 ? AnimatedSplashScreen.withScreenFunction(
                     splashIconSize: double.infinity,
                     screenFunction: () async {
-                      print('showSplash1 ${theme.showSplash}');
+                      print('showSplash1 ${_showSplash}');
                       theme.setSplashtoFalse();
-                      print('showSplash2 ${theme.showSplash}');
+                      print('showSplash2 ${_showSplash}');
                       return Home();
                     },
                     backgroundColor: Theme.of(context).primaryColor,
                     splashTransition: SplashTransition.fadeTransition,
                     // splash: Image.asset('assets/images/cover.png'),
                     splash: Icon(HelpadoraIcons.community),
-                    duration: 3,
+
+                    animationDuration: Duration(seconds: 1),
                   )
                 : Home(),
             routes: _routes,
