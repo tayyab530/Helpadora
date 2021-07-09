@@ -34,31 +34,20 @@ class App extends StatelessWidget {
       child: Consumer<ThemeNotifier>(
         builder: (themeContext, theme, _) {
           Provider.of<Repository>(themeContext, listen: false).init();
-          final _deviceWidth = 150.0;
+
           return MaterialApp(
             // debugShowMaterialGrid: true,
             theme: theme.getTheme(),
             debugShowCheckedModeBanner: false,
             title: 'Helpadora',
             home: theme.showSplash
-                ? AnimatedSplashScreen.withScreenFunction(
+                ? AnimatedSplashScreen(
                     splashIconSize: double.infinity,
-                    screenFunction: () async {
-                      print('showSplash1 ${theme.showSplash}');
-                      theme.setSplashtoFalse();
-                      print('showSplash2 ${theme.showSplash}');
-                      return Home();
-                    },
+                    nextScreen: Home(),
                     backgroundColor: Theme.of(context).primaryColor,
                     splashTransition: SplashTransition.fadeTransition,
-                    splash: CustomPaint(
-                      size: Size(
-                          _deviceWidth,
-                          (_deviceWidth * 1.1784037558685445)
-                              .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                      painter: SplashLogo(),
-                    ),
-                    duration: 3,
+                    splash: Image.asset('assets/images/Frame.png'),
+                    animationDuration: Duration(seconds: 1),
                   )
                 : Home(),
             routes: _routes,
