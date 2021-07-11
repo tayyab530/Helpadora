@@ -9,7 +9,7 @@ class Repository with ChangeNotifier {
     DbFirestoreMain(),
   ];
 
-  final List<Cache> _cache = <Cache>[
+  final List<Cache> _caches = <Cache>[
     DbSqlLite(),
   ];
 
@@ -24,7 +24,7 @@ class Repository with ChangeNotifier {
         break;
       }
     }
-    for (var cache in _cache) {
+    for (var cache in _caches) {
       print('enter in cache loop');
       if (source != cache as Source) {
         print('enter in cache if');
@@ -41,8 +41,28 @@ class Repository with ChangeNotifier {
   }
 
   Future<List<QueryModel>> fetchSelfActiveQueries(String uid) async {
-    List<QueryModel> queries = await _sources[1].fetchSelfActiveQueries(uid);
+    int i = 0;
+    Source source;
+    List<QueryModel> queries = [];
 
+    for (source in _sources) {
+      queries = await source.fetchSelfActiveQueries(uid);
+      print(queries.length);
+      if (queries.isNotEmpty) break;
+    }
+
+    for (var cache in _caches) {
+      if (source != cache as Source) {
+        print('caching...');
+        queries.forEach(
+          (query) async {
+            i++;
+            print(i);
+            await cache.cacheQuery(query);
+          },
+        );
+      }
+    }
     return queries;
   }
 
@@ -57,7 +77,7 @@ class Repository with ChangeNotifier {
   }
 
   clearQueries(String uid) async {
-    for (var cache in _cache) {
+    for (var cache in _caches) {
       await cache.clear();
     }
     await fetchPublicQueries(uid);
@@ -69,7 +89,7 @@ class Repository with ChangeNotifier {
     _sources.forEach((source) async {
       await source.init();
     });
-    _cache.forEach((cache) async {
+    _caches.forEach((cache) async {
       await cache.init();
     });
   }
