@@ -50,10 +50,6 @@ class ThemeNotifier with ChangeNotifier {
     dividerColor: Color(0xffBDBDBD),
   );
 
-  ThemeData _themeData;
-  ThemeData getTheme() => _themeData;
-  bool isLight;
-
   ThemeNotifier() {
     StorageManager.readData('themeMode').then((theme) {
       var themeMode = theme ?? 'light';
@@ -65,10 +61,16 @@ class ThemeNotifier with ChangeNotifier {
         isLight = false;
         _themeData = darkTheme;
       }
+      StorageManager.readData('showOnboarding').then((_showOnboarding) {
+        showOnboarding = _showOnboarding ?? true;
+      });
 
       notifyListeners();
     });
   }
+  ThemeData _themeData;
+  ThemeData getTheme() => _themeData;
+  bool isLight, showOnboarding;
 
   void setDarkMode() async {
     _themeData = darkTheme;
@@ -86,5 +88,10 @@ class ThemeNotifier with ChangeNotifier {
 
   setSplashtoFalse() {
     showSplash = false;
+  }
+
+  setShowOnboardingFalse() {
+    StorageManager.saveData('showOnboarding', false);
+    showOnboarding = false;
   }
 }
