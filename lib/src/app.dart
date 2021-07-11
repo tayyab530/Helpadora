@@ -1,6 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
 import 'package:helpadora/src/repositories/repository.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
@@ -235,9 +234,9 @@ class SplashLogo extends CustomPainter {
         size.height * 0.5423028);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Colors.white.withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0fill = Paint()..style = PaintingStyle.fill;
+    paint0fill.color = Colors.white.withOpacity(1.0);
+    canvas.drawPath(path_0, paint0fill);
 
     Path path_1 = Path();
     path_1.moveTo(size.width * 0.8714507, size.height * 0.01517610);
@@ -544,9 +543,9 @@ class SplashLogo extends CustomPainter {
         size.height * 0.0001497916);
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Colors.white.withOpacity(1.0);
-    canvas.drawPath(path_1, paint_1_fill);
+    Paint paint1fill = Paint()..style = PaintingStyle.fill;
+    paint1fill.color = Colors.white.withOpacity(1.0);
+    canvas.drawPath(path_1, paint1fill);
 
     Path path_2 = Path();
     path_2.moveTo(size.width * 0.08931127, size.height * 0.9021793);
@@ -607,9 +606,9 @@ class SplashLogo extends CustomPainter {
     path_2.lineTo(size.width * 0.09375023, size.height * 0.8984223);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Colors.white.withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2fill = Paint()..style = PaintingStyle.fill;
+    paint2fill.color = Colors.white.withOpacity(1.0);
+    canvas.drawPath(path_2, paint2fill);
 
     Path path_3 = Path();
     path_3.moveTo(size.width * 0.1990418, size.height * 0.9021793);
@@ -669,9 +668,9 @@ class SplashLogo extends CustomPainter {
     path_3.lineTo(size.width * 0.2034808, size.height * 0.8984223);
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Colors.white.withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3fill = Paint()..style = PaintingStyle.fill;
+    paint3fill.color = Colors.white.withOpacity(1.0);
+    canvas.drawPath(path_3, paint3fill);
 
     Path path_4 = Path();
     path_4.moveTo(size.width * 0.2452052, size.height * 0.9021793);
@@ -698,9 +697,9 @@ class SplashLogo extends CustomPainter {
     path_4.lineTo(size.width * 0.2496441, size.height * 0.8984223);
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Colors.white.withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4fill = Paint()..style = PaintingStyle.fill;
+    paint4fill.color = Colors.white.withOpacity(1.0);
+    canvas.drawPath(path_4, paint4fill);
 
     Path path_5 = Path();
     path_5.moveTo(size.width * 0.3750005, size.height * 0.9021793);
@@ -862,9 +861,9 @@ class SplashLogo extends CustomPainter {
     path_5.lineTo(size.width * 0.3490770, size.height * 0.9447052);
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Colors.white.withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5fill = Paint()..style = PaintingStyle.fill;
+    paint5fill.color = Colors.white.withOpacity(1.0);
+    canvas.drawPath(path_5, paint5fill);
 
     Path path_6 = Path();
     path_6.moveTo(size.width * 0.4538347, size.height * 0.8984223);
@@ -883,9 +882,9 @@ class SplashLogo extends CustomPainter {
     path_6.lineTo(size.width * 0.4522366, size.height * 0.9598805);
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Colors.white.withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6fill = Paint()..style = PaintingStyle.fill;
+    paint6fill.color = Colors.white.withOpacity(1.0);
+    canvas.drawPath(path_6, paint6fill);
 
     Path path_7 = Path();
     path_7.moveTo(size.width * 0.6060000, size.height * 0.9006773);
@@ -969,9 +968,9 @@ class SplashLogo extends CustomPainter {
     path_7.lineTo(size.width * 0.5612582, size.height * 0.9155538);
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Colors.white.withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7fill = Paint()..style = PaintingStyle.fill;
+    paint7fill.color = Colors.white.withOpacity(1.0);
+    canvas.drawPath(path_7, paint7fill);
 
     Path path_8 = Path();
     path_8.moveTo(size.width * 0.7444977, size.height * 0.9884303);
@@ -1091,9 +1090,9 @@ class SplashLogo extends CustomPainter {
         size.height * 0.9734064);
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Colors.white.withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8fill = Paint()..style = PaintingStyle.fill;
+    paint8fill.color = Colors.white.withOpacity(1.0);
+    canvas.drawPath(path_8, paint8fill);
 
     Path path_9 = Path();
     path_9.moveTo(size.width * 0.8554695, size.height * 0.9009761);
@@ -1239,9 +1238,9 @@ class SplashLogo extends CustomPainter {
     path_9.lineTo(size.width * 0.8050423, size.height * 0.9155538);
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Colors.white.withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9fill = Paint()..style = PaintingStyle.fill;
+    paint9fill.color = Colors.white.withOpacity(1.0);
+    canvas.drawPath(path_9, paint9fill);
 
     Path path_10 = Path();
     path_10.moveTo(size.width * 0.9311080, size.height * 0.8984223);
@@ -1260,9 +1259,9 @@ class SplashLogo extends CustomPainter {
     path_10.lineTo(size.width * 0.9295070, size.height * 0.9598805);
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Colors.white.withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint1_fill = Paint()..style = PaintingStyle.fill;
+    paint1_fill.color = Colors.white.withOpacity(1.0);
+    canvas.drawPath(path_10, paint1_fill);
   }
 
   @override
