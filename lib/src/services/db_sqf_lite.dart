@@ -9,16 +9,18 @@ class DbSqlLite with EquatableMixin implements Cache, Source {
   final String name = 'sqfLite';
 
   Future<List<QueryModel>> fetchPublicQueries(String uid) async {
-    print('fetch from sqf');
     print(_db.path);
-    var queries = await _db.query(
-      'query',
-      where: 'poster_uid != ? and isDeleted = ? and isSolved = ?',
-      whereArgs: [uid, false, false],
-    );
+    print('fetch from sqf');
+
     List<QueryModel> _queries = [];
 
-    queries.forEach((queryMap) {
+    var _queriesAsMaps = await _db.query(
+      'query',
+      where: 'poster_uid != ? and isDeleted = ? and isSolved = ?',
+      whereArgs: [uid, 0, 0],
+    );
+
+    _queriesAsMaps.forEach((queryMap) {
       _queries.add(QueryModel.fromDbMap(queryMap));
     });
     return _queries;

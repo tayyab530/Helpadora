@@ -16,26 +16,27 @@ class Repository with ChangeNotifier {
 
   Future<List<QueryModel>> fetchPublicQueries(String uid) async {
     Source source;
+    Cache cache;
     List<QueryModel> _queries = [];
 
     for (source in _sources) {
       _queries = await source.fetchPublicQueries(uid);
       print('fetch queries ${_queries.isEmpty}');
       if (_queries.isNotEmpty) {
-        break;
-      }
-    }
-    for (var cache in _caches) {
-      print('enter in cache loop');
-      if (source != cache as Source) {
-        print('enter in cache if');
-        var i = 0;
-        for (QueryModel queryDoc in _queries) {
-          await cache.cacheQuery(queryDoc);
-          i++;
-          print(i);
+        for (cache in _caches) {
+          print('enter in cache loop');
+          if (source != cache) {
+            print('enter in cache if');
+            var i = 0;
+            for (QueryModel queryDoc in _queries) {
+              await cache.cacheQuery(queryDoc);
+              i++;
+              print(i);
+            }
+            print('cached');
+          }
         }
-        print('cached');
+        break;
       }
     }
     return _queries;

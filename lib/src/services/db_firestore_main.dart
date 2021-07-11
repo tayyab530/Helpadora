@@ -20,7 +20,7 @@ class DbFirestoreMain with EquatableMixin implements S.Source {
       var query = QueryModel.fromFirestore(querySnap);
       _queries.add(query);
     });
-    return _queries == [] ? null : _queries;
+    return _queries;
   }
 
   Future<List<QueryModel>> fetchSelfActiveQueries(String uid) async {
