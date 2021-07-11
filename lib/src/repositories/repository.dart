@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/services/db_firestore_main.dart';
@@ -43,24 +44,26 @@ class Repository with ChangeNotifier {
   Future<List<QueryModel>> fetchSelfActiveQueries(String uid) async {
     int i = 0;
     Source source;
+    Cache cache;
     List<QueryModel> queries = [];
 
     for (source in _sources) {
       queries = await source.fetchSelfActiveQueries(uid);
       print(queries.length);
-      if (queries.isNotEmpty) break;
-    }
-
-    for (var cache in _caches) {
-      if (source != cache as Source) {
-        print('caching...');
-        queries.forEach(
-          (query) async {
-            i++;
-            print(i);
-            await cache.cacheQuery(query);
-          },
-        );
+      if (queries.isNotEmpty) {
+        for (cache in _caches) {
+          if (source != cache) {
+            print('caching...');
+            queries.forEach(
+              (query) async {
+                i++;
+                print(i);
+                await cache.cacheQuery(query);
+              },
+            );
+          }
+        }
+        break;
       }
     }
     return queries;

@@ -40,6 +40,7 @@ dependencies:
   animated_splash_screen: ^1.1.0
   sqflite: ^2.0.0+3
   introduction_screen: ^2.1.0
+  equatable: ^2.0.0
 
 dev_dependencies:
   flutter_test:
