@@ -14,7 +14,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final showOnboarding =
         Provider.of<ThemeNotifier>(context, listen: false).showOnboarding;
-    if (!showOnboarding)
+    if (showOnboarding)
       return OnboardingScreen();
     else {
       final _isLoggedIn =
