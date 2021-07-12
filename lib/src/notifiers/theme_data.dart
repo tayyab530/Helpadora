@@ -62,7 +62,7 @@ class ThemeNotifier with ChangeNotifier {
         _themeData = darkTheme;
       }
       StorageManager.readData('showOnboarding').then((_showOnboarding) {
-        showOnboarding = _showOnboarding ?? true;
+        showOnboarding = _showOnboarding == null ? true : _showOnboarding;
       });
 
       notifyListeners();

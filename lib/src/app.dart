@@ -1,5 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
 import 'package:helpadora/src/repositories/repository.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
@@ -39,13 +40,13 @@ class App extends StatelessWidget {
             theme: theme.getTheme(),
             debugShowCheckedModeBanner: false,
             title: 'Helpadora',
-            home: theme.showSplash
+            home: false
                 ? AnimatedSplashScreen(
                     splashIconSize: double.infinity,
                     nextScreen: Home(),
                     backgroundColor: Theme.of(context).primaryColor,
                     splashTransition: SplashTransition.fadeTransition,
-                    splash: Image.asset('assets/images/Frame.png'),
+                    splash: Text('data'),
                     animationDuration: Duration(seconds: 1),
                   )
                 : Home(),
