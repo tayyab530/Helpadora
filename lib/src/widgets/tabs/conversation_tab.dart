@@ -8,29 +8,30 @@ class ConversationTab extends StatelessWidget {
   static const icon = HelpadoraIcons.chat;
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          bottom: TabBar(
-            tabs: [
-              Container(
-                child: Text('me'),
-              ),
-              Container(
-                child: Text('others'),
-              )
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            MeChatsTab(),
-            OthersChatsTab(),
-          ],
-        ),
-      ),
-    );
+    // return DefaultTabController(
+    //   length: 2,
+    //   child: Scaffold(
+    //     appBar: AppBar(
+    //       automaticallyImplyLeading: false,
+    //       bottom: TabBar(
+    //         tabs: [
+    //           Container(
+    //             child: Text('me'),
+    //           ),
+    //           Container(
+    //             child: Text('others'),
+    //           )
+    //         ],
+    //       ),
+    //     ),
+    //     body: TabBarView(
+    //       children: [
+    //         MeChatsTab(),
+    //         OthersChatsTab(),
+    //       ],
+    //     ),
+    //   ),
+    // );
+    return MeChatsTab();
   }
 }

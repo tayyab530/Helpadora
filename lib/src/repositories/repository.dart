@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/services/db_firestore_main.dart';
@@ -9,40 +10,63 @@ class Repository with ChangeNotifier {
     DbFirestoreMain(),
   ];
 
-  final List<Cache> _cache = <Cache>[
+  final List<Cache> _caches = <Cache>[
     DbSqlLite(),
   ];
 
   Future<List<QueryModel>> fetchPublicQueries(String uid) async {
     Source source;
+    Cache cache;
     List<QueryModel> _queries = [];
 
     for (source in _sources) {
       _queries = await source.fetchPublicQueries(uid);
       print('fetch queries ${_queries.isEmpty}');
       if (_queries.isNotEmpty) {
-        break;
-      }
-    }
-    for (var cache in _cache) {
-      print('enter in cache loop');
-      if (source != cache as Source) {
-        print('enter in cache if');
-        var i = 0;
-        for (QueryModel queryDoc in _queries) {
-          await cache.cacheQuery(queryDoc);
-          i++;
-          print(i);
+        for (cache in _caches) {
+          print('enter in cache loop');
+          if (source != cache) {
+            print('enter in cache if');
+            var i = 0;
+            for (QueryModel queryDoc in _queries) {
+              await cache.cacheQuery(queryDoc);
+              i++;
+              print(i);
+            }
+            print('cached');
+          }
         }
-        print('cached');
+        break;
       }
     }
     return _queries;
   }
 
   Future<List<QueryModel>> fetchSelfActiveQueries(String uid) async {
-    List<QueryModel> queries = await _sources[1].fetchSelfActiveQueries(uid);
+    int i = 0;
+    Source source;
+    Cache cache;
+    List<QueryModel> queries = [];
 
+    for (source in _sources) {
+      queries = await source.fetchSelfActiveQueries(uid);
+      print(queries.length);
+      if (queries.isNotEmpty) {
+        for (cache in _caches) {
+          if (source != cache) {
+            print('caching...');
+            queries.forEach(
+              (query) async {
+                i++;
+                print(i);
+                await cache.cacheQuery(query);
+              },
+            );
+          }
+        }
+        break;
+      }
+    }
     return queries;
   }
 
@@ -57,7 +81,7 @@ class Repository with ChangeNotifier {
   }
 
   clearQueries(String uid) async {
-    for (var cache in _cache) {
+    for (var cache in _caches) {
       await cache.clear();
     }
     await fetchPublicQueries(uid);
@@ -69,7 +93,7 @@ class Repository with ChangeNotifier {
     _sources.forEach((source) async {
       await source.init();
     });
-    _cache.forEach((cache) async {
+    _caches.forEach((cache) async {
       await cache.init();
     });
   }

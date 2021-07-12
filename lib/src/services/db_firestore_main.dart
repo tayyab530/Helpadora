@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:equatable/equatable.dart';
 import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/repositories/repository.dart' as S;
 
-class DbFirestoreMain implements S.Source {
+class DbFirestoreMain with EquatableMixin implements S.Source {
   final _firestore = FirebaseFirestore.instance;
+  final String name = 'firestore';
 
   Future<List<QueryModel>> fetchPublicQueries(String uid) async {
     var queries = await _firestore
@@ -18,7 +20,7 @@ class DbFirestoreMain implements S.Source {
       var query = QueryModel.fromFirestore(querySnap);
       _queries.add(query);
     });
-    return _queries == [] ? null : _queries;
+    return _queries;
   }
 
   Future<List<QueryModel>> fetchSelfActiveQueries(String uid) async {
@@ -57,4 +59,10 @@ class DbFirestoreMain implements S.Source {
   init() {
     return null;
   }
+
+  @override
+  List<Object> get props => [name];
+
+  @override
+  bool get stringify => true;
 }

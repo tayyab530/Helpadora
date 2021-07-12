@@ -1,25 +1,54 @@
+import 'package:equatable/equatable.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../models/query_model.dart';
 import '../repositories/repository.dart' show Cache, Source;
 
-class DbSqlLite implements Cache, Source {
+class DbSqlLite with EquatableMixin implements Cache, Source {
   Database _db;
+  final String name = 'sqfLite';
 
   Future<List<QueryModel>> fetchPublicQueries(String uid) async {
-    print('fetch from sqf');
     print(_db.path);
-    var queries = await _db.query('query');
+    print('fetch from sqf');
+
     List<QueryModel> _queries = [];
 
-    queries.forEach((queryMap) {
+    var _queriesAsMaps = await _db.query(
+      'query',
+      where: 'poster_uid != ? and isDeleted = ? and isSolved = ?',
+      whereArgs: [uid, 0, 0],
+    );
+
+    _queriesAsMaps.forEach((queryMap) {
       _queries.add(QueryModel.fromDbMap(queryMap));
     });
-    return _queries == [] ? null : _queries;
+    return _queries;
   }
 
-  Future<List<QueryModel>> fetchSelfActiveQueries(String uid) {
-    return null;
+  Future<List<QueryModel>> fetchSelfActiveQueries(String uid) async {
+    var _queriesAsMaps = [];
+    List<QueryModel> _queries = [];
+    print('fetchFromDb self');
+    _queriesAsMaps = await _db.query(
+      'query',
+      where: 'poster_uid = ? and isDeleted = ? and isSolved = ?',
+      whereArgs: [uid, 0, 0],
+    );
+    print('fetched');
+    print(_queriesAsMaps.isEmpty);
+    if (_queriesAsMaps.isNotEmpty) {
+      print('data obtained');
+      _queriesAsMaps.forEach(
+        (queryMap) {
+          print('adding...');
+          _queries.add(
+            QueryModel.fromDbMap(queryMap),
+          );
+        },
+      );
+    }
+    return _queries;
   }
 
   Future<List<QueryModel>> fetchSelfSolvedQueries(String uid) {
@@ -30,7 +59,7 @@ class DbSqlLite implements Cache, Source {
     var _cache = await _db.insert(
       'query',
       query.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.ignore,
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
     return _cache;
   }
@@ -68,4 +97,10 @@ class DbSqlLite implements Cache, Source {
   Future<int> clear() async {
     return await _db.delete('query', where: null);
   }
+
+  @override
+  List<Object> get props => [name];
+
+  @override
+  bool get stringify => true;
 }
