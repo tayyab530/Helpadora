@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/models/query_model.dart';
 import 'package:provider/provider.dart';
 
 import '../screens/main_screen.dart';
@@ -11,9 +12,9 @@ class RatingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, QueryDocumentSnapshot> args =
+    final Map<String, QueryModel> args =
         ModalRoute.of(context).settings.arguments;
-    final QueryDocumentSnapshot queryDetails = args['queryId'];
+    final QueryModel queryDetails = args['queryId'];
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
@@ -26,12 +27,16 @@ class RatingScreen extends StatelessWidget {
         title: Text('Select helper\'s chat'),
       ),
       body: FutureBuilder(
-        future: _dbFirestore.getChatsForRating(queryDetails.id),
+        future: _dbFirestore.getChatsForRating(queryDetails.qid),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting ||
               snapshot.data == null) return CircularProgressIndicator();
           return ListView(
             children: [
+              if (snapshot.data.docs.isEmpty)
+                Center(
+                  child: Text('Oops! No solver yet.'),
+                ),
               ...snapshot.data.docs.map(
                 (chat) => RatingItem(
                   queryDetails,

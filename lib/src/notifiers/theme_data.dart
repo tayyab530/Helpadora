@@ -70,7 +70,7 @@ class ThemeNotifier with ChangeNotifier {
   }
   ThemeData _themeData;
   ThemeData getTheme() => _themeData;
-  bool isLight, showOnboarding;
+  bool isLight, showOnboarding = true;
 
   void setDarkMode() async {
     _themeData = darkTheme;

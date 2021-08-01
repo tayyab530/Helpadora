@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/services/db_firestore_main.dart';

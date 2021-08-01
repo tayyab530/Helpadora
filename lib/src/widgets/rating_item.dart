@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/widgets/rating_dialog.dart';
 import 'package:intl/intl.dart';
 
@@ -7,7 +8,7 @@ class RatingItem extends StatelessWidget {
   final String lastMessage;
   final Timestamp time;
   final List<dynamic> chatMembers;
-  final QueryDocumentSnapshot queryDetails;
+  final QueryModel queryDetails;
   final String chatId;
 
   RatingItem(this.queryDetails, this.lastMessage, this.time, this.chatMembers,
@@ -15,9 +16,12 @@ class RatingItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _time = DateFormat('hh:mm a').format(time.toDate());
-    var _solverUid =
-        checkSolver(chatMembers, queryDetails['poster_uid']).toString();
+    var _time = DateFormat(
+      'hh:mm a',
+    ).format(
+      time.toDate(),
+    );
+    var _solverUid = checkSolver(chatMembers, queryDetails.posterUid);
     return ListTile(
       leading: CircleAvatar(
         child: Icon(
@@ -35,7 +39,7 @@ class RatingItem extends StatelessWidget {
         showRatingSlider(
           context,
           _solverUid,
-          queryDetails.id,
+          queryDetails.qid,
         );
       },
     );

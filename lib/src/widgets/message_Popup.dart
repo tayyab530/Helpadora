@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/models/dialog_messages.dart';
 import 'package:helpadora/src/models/query_model.dart';
-import 'package:helpadora/src/screens/chats_rating_screen.dart';
+import 'package:helpadora/src/screens/rating_screen.dart';
 
 export '../models/dialog_messages.dart';
 
