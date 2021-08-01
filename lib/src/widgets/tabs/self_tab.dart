@@ -28,8 +28,9 @@ class _MyQyeryTabState extends State<SelfTab> {
     return Scaffold(
       body: Column(
         children: [
-          _listOfActiveQueries(deviceHeight, context, _repository, _uid),
-          bottomSlider(context),
+          ListOfActiveQueries(
+              deviceHeight, showSolvedQueries, _repository, _uid),
+          BottomSlider(showSolvedQueries, toggleSlider),
           showSolvedQueries
               ? solvedQueriesList(deviceHeight, _repository, _uid)
               : Container(),
@@ -39,8 +40,38 @@ class _MyQyeryTabState extends State<SelfTab> {
     );
   }
 
-  Container _listOfActiveQueries(double deviceHeight, BuildContext context,
-      Repository _repository, String uid) {
+  Container solvedQueriesList(
+      double deviceHeight, Repository _repository, String uid) {
+    return Container(
+      height: (deviceHeight / 2) - 77,
+      child: FutureBuilder(
+        future: _repository.fetchSelfSolvedQueries(uid),
+        builder: (ctx, AsyncSnapshot<List<QueryModel>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting)
+            return Center(child: CircularProgressIndicator());
+          return ListOfQueries(snapshot.data);
+        },
+      ),
+    );
+  }
+
+  toggleSlider() {
+    setState(() {
+      showSolvedQueries = !showSolvedQueries;
+    });
+  }
+}
+
+class ListOfActiveQueries extends StatelessWidget {
+  ListOfActiveQueries(
+      this.deviceHeight, this.showSolvedQueries, this._repository, this.uid);
+
+  final double deviceHeight;
+  final bool showSolvedQueries;
+  final Repository _repository;
+  final String uid;
+
+  Widget build(BuildContext context) {
     return Container(
       height: showSolvedQueries
           ? ((deviceHeight / 2) - 86)
@@ -59,8 +90,18 @@ class _MyQyeryTabState extends State<SelfTab> {
       ),
     );
   }
+}
 
-  ClipRRect bottomSlider(BuildContext context) {
+class BottomSlider extends StatelessWidget {
+  BottomSlider(
+    this.showSolvedQueries,
+    this.toggleSlider,
+  );
+
+  final bool showSolvedQueries;
+  final Function toggleSlider;
+
+  Widget build(context) {
     return ClipRRect(
       borderRadius: BorderRadius.only(
         topLeft: const Radius.circular(10.0),
@@ -81,38 +122,12 @@ class _MyQyeryTabState extends State<SelfTab> {
                 icon: Icon(!showSolvedQueries
                     ? Icons.arrow_drop_up
                     : Icons.arrow_drop_down),
-                onPressed: () {
-                  setState(() {
-                    showSolvedQueries = !showSolvedQueries;
-                  });
-                },
+                onPressed: toggleSlider,
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Container solvedQueriesList(
-      double deviceHeight, Repository _repository, String uid) {
-    return Container(
-      height: (deviceHeight / 2) - 77,
-      child: FutureBuilder(
-        future: _repository.fetchSelfSolvedQueries(uid),
-        builder: (ctx, AsyncSnapshot<List<QueryModel>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting)
-            return Center(child: CircularProgressIndicator());
-          return ListOfQueries(snapshot.data);
-        },
-      ),
-    );
-  }
-
-  FloatingActionButton floatingActionButton(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () => Navigator.pushNamed(context, WriteQuery.routeName),
-      child: Icon(Icons.add),
     );
   }
 }
