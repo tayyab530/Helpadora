@@ -29,7 +29,7 @@ class DbSqlLite with EquatableMixin implements Cache, Source {
   Future<List<QueryModel>> fetchSelfActiveQueries(String uid) async {
     var _queriesAsMaps = [];
     List<QueryModel> _queries = [];
-    print('fetchFromDb self');
+    print('fetchFromDb self active');
     _queriesAsMaps = await _db.query(
       'query',
       where: 'poster_uid = ? and isDeleted = ? and isSolved = ?',
@@ -51,8 +51,29 @@ class DbSqlLite with EquatableMixin implements Cache, Source {
     return _queries;
   }
 
-  Future<List<QueryModel>> fetchSelfSolvedQueries(String uid) {
-    return null;
+  Future<List<QueryModel>> fetchSelfSolvedQueries(String uid) async {
+    var _queriesAsMaps = [];
+    List<QueryModel> _queries = [];
+    print('fetchFromDb self solved');
+    _queriesAsMaps = await _db.query(
+      'query',
+      where: 'poster_uid = ? and isDeleted = ? and isSolved = ?',
+      whereArgs: [uid, 0, 1],
+    );
+    print('fetched');
+    print('query empty' + _queriesAsMaps.isEmpty.toString());
+    if (_queriesAsMaps.isNotEmpty) {
+      print('data obtained');
+      _queriesAsMaps.forEach(
+        (queryMap) {
+          print('adding...');
+          _queries.add(
+            QueryModel.fromDbMap(queryMap),
+          );
+        },
+      );
+    }
+    return _queries;
   }
 
   Future<int> cacheQuery(QueryModel query) async {

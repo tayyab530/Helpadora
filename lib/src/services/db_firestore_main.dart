@@ -32,7 +32,7 @@ class DbFirestoreMain with EquatableMixin implements S.Source {
         .get();
 
     List<QueryModel> _queries = [];
-
+    print('fetch self active from fire');
     queries.docs.forEach((querySnap) {
       var query = QueryModel.fromFirestore(querySnap);
       _queries.add(query);
@@ -50,6 +50,10 @@ class DbFirestoreMain with EquatableMixin implements S.Source {
         .get();
 
     List<QueryModel> _queries = [];
+
+    //logs
+    print('fetch self solved from fire');
+
     queries.docs.forEach((query) {
       _queries.add(QueryModel.fromFirestore(query));
     });

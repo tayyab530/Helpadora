@@ -1,5 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/constants/device_dimensions_info.dart';
 
 import 'package:helpadora/src/repositories/repository.dart';
 import 'package:nested/nested.dart';
@@ -40,7 +41,7 @@ class App extends StatelessWidget {
             theme: theme.getTheme(),
             debugShowCheckedModeBanner: false,
             title: 'Helpadora',
-            home: theme.showSplash
+            home: false
                 ? AnimatedSplashScreen(
                     splashIconSize: double.infinity,
                     nextScreen: Home(),
@@ -80,6 +81,9 @@ class App extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (context) => Repository(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => DeviceDimensionsInfo(),
       ),
     ];
   }

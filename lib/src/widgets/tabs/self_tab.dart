@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/constants/device_dimensions_info.dart';
 import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
 import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/repositories/repository.dart';
 import 'package:provider/provider.dart';
 
-import '../../screens/write_query_screen.dart';
 import '../../services/auth_services.dart';
 import '../list_of_queries.dart';
 import '../list_of_queries_swapable.dart';
@@ -19,20 +19,21 @@ class _MyQyeryTabState extends State<SelfTab> {
   bool showSolvedQueries = false;
   @override
   Widget build(BuildContext context) {
-    // final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
     final _uid =
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
     final _repository = Provider.of<Repository>(context, listen: false);
+    final _deviceDimension =
+        Provider.of<DeviceDimensionsInfo>(context, listen: false);
 
     var deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Column(
         children: [
-          ListOfActiveQueries(
-              deviceHeight, showSolvedQueries, _repository, _uid),
-          BottomSlider(showSolvedQueries, toggleSlider),
+          ListOfActiveQueries(deviceHeight, showSolvedQueries, _repository,
+              _uid, _deviceDimension),
+          BottomSheet(showSolvedQueries, toggleSheet, _deviceDimension),
           showSolvedQueries
-              ? solvedQueriesList(deviceHeight, _repository, _uid)
+              ? SolvedQueriesList(_uid, _repository, _deviceDimension)
               : Container(),
         ],
       ),
@@ -40,68 +41,90 @@ class _MyQyeryTabState extends State<SelfTab> {
     );
   }
 
-  Container solvedQueriesList(
-      double deviceHeight, Repository _repository, String uid) {
-    return Container(
-      height: (deviceHeight / 2) - 77,
-      child: FutureBuilder(
-        future: _repository.fetchSelfSolvedQueries(uid),
-        builder: (ctx, AsyncSnapshot<List<QueryModel>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting)
-            return Center(child: CircularProgressIndicator());
-          return ListOfQueries(snapshot.data);
-        },
-      ),
-    );
-  }
-
-  toggleSlider() {
+  toggleSheet() {
     setState(() {
       showSolvedQueries = !showSolvedQueries;
     });
   }
 }
 
-class ListOfActiveQueries extends StatelessWidget {
-  ListOfActiveQueries(
-      this.deviceHeight, this.showSolvedQueries, this._repository, this.uid);
+class SolvedQueriesList extends StatelessWidget {
+  SolvedQueriesList(
+    this.uid,
+    this._repository,
+    this._deviceInfo,
+  );
 
-  final double deviceHeight;
-  final bool showSolvedQueries;
-  final Repository _repository;
   final String uid;
+  final Repository _repository;
+  final DeviceDimensionsInfo _deviceInfo;
 
+  @override
   Widget build(BuildContext context) {
     return Container(
-      height: showSolvedQueries
-          ? ((deviceHeight / 2) - 86)
-          : ((deviceHeight - MediaQuery.of(context).padding.top) - 163),
+      height: _deviceInfo.height * 0.4,
       child: FutureBuilder(
-        // stream: _repository.unsolvedQueryStream
-        //     .where('poster_uid', isEqualTo: _auth.getCurrentUser().uid)
-        //     .snapshots(),
-        future: _repository.fetchSelfActiveQueries(uid),
+        future: _repository.fetchSelfSolvedQueries(uid),
         builder: (ctx, AsyncSnapshot<List<QueryModel>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting ||
-              snapshot.data == null)
+          if (snapshot.connectionState == ConnectionState.waiting)
             return Center(child: CircularProgressIndicator());
-          return ListOfQueriesSwapable(snapshot.data);
+          else if (snapshot.data.isEmpty) return Text('No Queries!');
+          return ListOfQueries(snapshot.data);
         },
       ),
     );
   }
 }
 
-class BottomSlider extends StatelessWidget {
-  BottomSlider(
+class ListOfActiveQueries extends StatelessWidget {
+  ListOfActiveQueries(this.deviceHeight, this.showSolvedQueries,
+      this._repository, this.uid, this._deviceInfo);
+
+  final double deviceHeight;
+  final bool showSolvedQueries;
+  final Repository _repository;
+  final String uid;
+  final DeviceDimensionsInfo _deviceInfo;
+
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        await _repository.clearActiveSelfQueries(uid);
+      },
+      child: Container(
+        height: showSolvedQueries
+            ? (_deviceInfo.height * 0.54)
+            : _deviceInfo.height * 0.94,
+        child: FutureBuilder(
+          future: _repository.fetchSelfActiveQueries(uid),
+          builder: (ctx, AsyncSnapshot<List<QueryModel>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting ||
+                snapshot.data == null)
+              return Center(child: CircularProgressIndicator());
+
+            return ListOfQueriesSwapable(snapshot.data);
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class BottomSheet extends StatelessWidget {
+  BottomSheet(
     this.showSolvedQueries,
     this.toggleSlider,
+    this._deviceInfo,
   );
 
   final bool showSolvedQueries;
   final Function toggleSlider;
+  final DeviceDimensionsInfo _deviceInfo;
 
   Widget build(context) {
+    final _repository = Provider.of<Repository>(context, listen: false);
+    final _uid =
+        Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
     return ClipRRect(
       borderRadius: BorderRadius.only(
         topLeft: const Radius.circular(10.0),
@@ -109,7 +132,7 @@ class BottomSlider extends StatelessWidget {
       ),
       child: Container(
         color: Theme.of(context).accentColor,
-        height: 35.0,
+        height: (_deviceInfo.height * 0.06),
         width: double.infinity,
         alignment: Alignment.center,
         child: Row(
@@ -124,6 +147,13 @@ class BottomSlider extends StatelessWidget {
                     : Icons.arrow_drop_down),
                 onPressed: toggleSlider,
               ),
+            ),
+            IconButton(
+              alignment: Alignment.center,
+              onPressed: () async {
+                await _repository.clearSolvedSelfQueries(_uid);
+              },
+              icon: const Icon(Icons.refresh),
             ),
           ],
         ),

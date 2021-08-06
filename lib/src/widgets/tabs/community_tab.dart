@@ -24,7 +24,7 @@ class CommunityTab extends StatelessWidget {
     final _repository = Provider.of<Repository>(context);
 
     return RefreshIndicator(
-      onRefresh: () async => await _repository.clearQueries(_uid),
+      onRefresh: () async => await _repository.clearPublicQueries(_uid),
       child: Scaffold(
         body: FutureBuilder(
           // stream: _dbFirestore.publicQueryStream

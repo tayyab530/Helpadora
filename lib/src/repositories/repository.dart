@@ -70,21 +70,52 @@ class Repository with ChangeNotifier {
   }
 
   Future<List<QueryModel>> fetchSelfSolvedQueries(String uid) async {
+    int i = 0;
     Source source;
+    Cache cache;
+    List<QueryModel> queries = [];
 
     for (source in _sources) {
-      List<QueryModel> queries = await source.fetchSelfSolvedQueries(uid);
-      if (queries != null) return queries;
+      queries = await source.fetchSelfSolvedQueries(uid);
+      print(queries.length);
+      if (queries.isNotEmpty) {
+        for (cache in _caches) {
+          if (source != cache) {
+            print('caching...');
+            queries.forEach(
+              (query) async {
+                i++;
+                print(i);
+                await cache.cacheQuery(query);
+              },
+            );
+          }
+        }
+        break;
+      }
     }
-    return null;
+    return queries;
   }
 
-  clearQueries(String uid) async {
+  clearPublicQueries(String uid) async {
     for (var cache in _caches) {
       await cache.clear();
     }
     await fetchPublicQueries(uid);
+  }
+
+  clearActiveSelfQueries(String uid) async {
+    for (var cache in _caches) {
+      await cache.clear();
+    }
+
     await fetchSelfActiveQueries(uid);
+  }
+
+  clearSolvedSelfQueries(String uid) async {
+    for (var cache in _caches) {
+      await cache.clear();
+    }
     await fetchSelfSolvedQueries(uid);
   }
 
