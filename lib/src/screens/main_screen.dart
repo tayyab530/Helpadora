@@ -39,6 +39,8 @@ class MainScreen extends StatelessWidget {
       ),
     );
     final appBarHeight = appBar.preferredSize.height;
+
+    // ignore: unused_local_variable
     final _updateDeviceInfo =
         Provider.of<DeviceDimensionsInfo>(context, listen: false)
             .update(mediaQuery, appBarHeight);

@@ -33,6 +33,8 @@
 ///         License:   SIL ()
 ///         Homepage:  http://fortawesome.github.com/Font-Awesome/
 ///
+import 'dart:ui' as ui;
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -1214,6 +1216,62 @@ class SplashLogo extends CustomPainter {
     Paint paint1Fill = Paint()..style = PaintingStyle.fill;
     paint1Fill.color = Colors.white.withOpacity(1.0);
     canvas.drawPath(path_10, paint1Fill);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+class AddIcon extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Path path_0 = Path();
+    path_0.moveTo(19.6667, 12.1667);
+    path_0.lineTo(20.1667, 12.1667);
+    path_0.lineTo(20.1667, 11.6667);
+    path_0.lineTo(20.1667, 9);
+    path_0.lineTo(20.1667, 8.5);
+    path_0.lineTo(19.6667, 8.5);
+    path_0.lineTo(12.1667, 8.5);
+    path_0.lineTo(12.1667, 1);
+    path_0.lineTo(12.1667, 0.5);
+    path_0.lineTo(11.6667, 0.5);
+    path_0.lineTo(9, 0.5);
+    path_0.lineTo(8.5, 0.5);
+    path_0.lineTo(8.5, 1);
+    path_0.lineTo(8.5, 8.5);
+    path_0.lineTo(1, 8.5);
+    path_0.lineTo(0.5, 8.5);
+    path_0.lineTo(0.5, 9);
+    path_0.lineTo(0.5, 11.6667);
+    path_0.lineTo(0.5, 12.1667);
+    path_0.lineTo(1, 12.1667);
+    path_0.lineTo(8.5, 12.1667);
+    path_0.lineTo(8.5, 19.6667);
+    path_0.lineTo(8.5, 20.1667);
+    path_0.lineTo(9, 20.1667);
+    path_0.lineTo(11.6667, 20.1667);
+    path_0.lineTo(12.1667, 20.1667);
+    path_0.lineTo(12.1667, 19.6667);
+    path_0.lineTo(12.1667, 12.1667);
+    path_0.lineTo(19.6667, 12.1667);
+    path_0.close();
+
+    Paint paint0stroke = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+    paint0stroke.color = Color(0xff323232).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0stroke);
+
+    Paint paint0fill = Paint()..style = PaintingStyle.fill;
+    paint0fill.shader = ui.Gradient.linear(
+        Offset(size.width * 0.5238143, size.height * 0.5230000),
+        Offset(size.width * 0.5234048, size.height * 0.5234048),
+        [Color(0xffC4C4C4).withOpacity(1), Color(0xff0288D1).withOpacity(1)],
+        [0, 1]);
+    canvas.drawPath(path_0, paint0fill);
   }
 
   @override
