@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shifting_tabbar/shifting_tabbar.dart';
 
 import '../../custom_icons/helpadora_icons.dart';
 import 'my_query_chat_tab.dart';
@@ -12,18 +13,18 @@ class ConversationTab extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          bottom: TabBar(
-            tabs: [
-              Container(
-                child: Text('me'),
-              ),
-              Container(
-                child: Text('others'),
-              )
-            ],
-          ),
+        appBar: ShiftingTabBar(
+          color: Colors.transparent,
+          tabs: [
+            ShiftingTab(
+              icon: Icon(Icons.chat_bubble),
+              text: 'me',
+            ),
+            ShiftingTab(
+              icon: Icon(Icons.message),
+              text: 'others',
+            ),
+          ],
         ),
         body: TabBarView(
           children: [
