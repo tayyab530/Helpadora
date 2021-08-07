@@ -16,25 +16,32 @@ class ConversationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _time = DateFormat('hh:mm a').format(time.toDate());
-    return ListTile(
-      leading: CircleAvatar(
-        child: Icon(
-          Icons.person,
+    return Column(
+      children: [
+        ListTile(
+          leading: CircleAvatar(
+            child: Icon(
+              Icons.person,
+              color: Colors.black,
+            ),
+            backgroundColor: Theme.of(context).dividerColor,
+          ),
+          title: Text(
+            lastMessage,
+            overflow: TextOverflow.ellipsis,
+          ),
+          trailing: Text(' $_time'),
+          onTap: () {
+            Navigator.of(context).pushNamed('/chat/$chatId', arguments: {
+              'queryDetails': queryDetails,
+              'chatMembers': chatMembers
+            });
+          },
+        ),
+        Divider(
           color: Colors.black,
         ),
-        backgroundColor: Theme.of(context).dividerColor,
-      ),
-      title: Text(
-        lastMessage,
-        overflow: TextOverflow.ellipsis,
-      ),
-      trailing: Text(' $_time'),
-      onTap: () {
-        Navigator.of(context).pushNamed('/chat/$chatId', arguments: {
-          'queryDetails': queryDetails,
-          'chatMembers': chatMembers
-        });
-      },
+      ],
     );
   }
 }

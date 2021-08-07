@@ -120,21 +120,12 @@ class DbFirestore with ChangeNotifier {
         .get();
   }
 
-  Future<QuerySnapshot> getQuriesList(String uid) {
-    return _firestore
-        .collection('query')
-        .where('poster_uid', isEqualTo: uid)
-        .where('isDeleted', isEqualTo: false)
-        .where('isSolved', isEqualTo: false)
-        .get();
+  Future<DocumentSnapshot> getQuriesList(String uid) {
+    return _firestore.collection('user').doc(uid).get();
   }
 
-  Future<QuerySnapshot> querySnap(String uid) async => _firestore
-      .collection('query')
-      .where('poster_uid', isEqualTo: uid)
-      .where('isDeleted', isEqualTo: false)
-      .where('isSolved', isEqualTo: false)
-      .get();
+  Future<DocumentSnapshot> querySnap(String qid) async =>
+      _firestore.collection('query').doc(qid).get();
 
   Stream<QuerySnapshot> queryChatStream(String qUid) {
     return _firestore

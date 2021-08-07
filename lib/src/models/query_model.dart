@@ -40,7 +40,7 @@ class QueryModel {
     };
   }
 
-  QueryModel.fromFirestore(QueryDocumentSnapshot query)
+  QueryModel.fromFirestore(DocumentSnapshot query)
       : qid = query.id,
         title = query.data()['title'],
         posterUid = query.data()['poster_uid'],

@@ -41,7 +41,7 @@ class App extends StatelessWidget {
             theme: theme.getTheme(),
             debugShowCheckedModeBanner: false,
             title: 'Helpadora',
-            home: false
+            home: true
                 ? AnimatedSplashScreen(
                     splashIconSize: double.infinity,
                     nextScreen: Home(),

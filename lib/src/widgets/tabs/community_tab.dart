@@ -13,6 +13,7 @@ import '../list_of_queries.dart';
 
 class CommunityTab extends StatelessWidget {
   static const icon = HelpadoraIcons.community;
+
   @override
   Widget build(BuildContext context) {
     // final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);

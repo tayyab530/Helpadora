@@ -16,7 +16,7 @@ class ListOfConversation extends StatelessWidget {
 
     return FutureBuilder(
       future: _dbFirestore.getQuriesList(uid),
-      builder: (context, AsyncSnapshot<QuerySnapshot> userSnapshot) {
+      builder: (context, AsyncSnapshot<DocumentSnapshot> userSnapshot) {
         if (userSnapshot.connectionState == ConnectionState.waiting ||
             userSnapshot.data == null)
           return Center(
@@ -25,10 +25,13 @@ class ListOfConversation extends StatelessWidget {
             ),
           );
         else {
-          List<QueryDocumentSnapshot> _listOfQuriesIds =
-              userSnapshot.data.docs != null ? userSnapshot.data.docs : [];
-          print(_listOfQuriesIds.toString());
-          return _listOfQuriesIds == []
+          List<dynamic> _listOfQuriesIds = userSnapshot.data.exists != null
+              ? userSnapshot.data.data()['list_of_queries']
+              : [];
+          _listOfQuriesIds.forEach((element) {
+            print('query id ' + element);
+          });
+          return _listOfQuriesIds.isEmpty
               ? Center(
                   child: Text('No chats!'),
                 )
@@ -49,33 +52,35 @@ class ListOfConversations extends StatelessWidget {
     @required this.uid,
   });
 
-  final List<QueryDocumentSnapshot> listOfQueries;
+  final List<dynamic> listOfQueries;
   final String uid;
 
   Widget build(context) {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
     return Container(
-      margin: EdgeInsets.all(10.0),
+      margin: EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           ...listOfQueries.map(
-            (query) => FutureBuilder(
-              future: _dbFirestore.querySnap(uid),
-              builder: (context, AsyncSnapshot<QuerySnapshot> querySnapshot) {
+            (queryId) => FutureBuilder(
+              future: _dbFirestore.querySnap(queryId.toString()),
+              builder:
+                  (context, AsyncSnapshot<DocumentSnapshot> querySnapshot) {
                 if (querySnapshot.connectionState == ConnectionState.waiting ||
-                    querySnapshot.data == null) return Container();
-
-                final _query = QueryModel.fromFirestore(
-                  querySnapshot.data.docs.firstWhere(
-                    (_query) => _query.id == _query.id,
-                    orElse: () => null,
-                  ),
-                );
-
-                return _query != null
-                    ? ListOfChatsforConversation(_query)
-                    : Container();
+                    !querySnapshot.hasData)
+                  return Text('Loading...');
+                else {
+                  print('ID:' + queryId.toString());
+                  print(querySnapshot.data.data()['title'].toString());
+                  final _query = QueryModel.fromFirestore(querySnapshot.data);
+                  print(listOfQueries.length);
+                  return _query != null
+                      ? ListOfConversationItem(
+                          query: _query,
+                        )
+                      : Container();
+                }
               },
             ),
           ),
