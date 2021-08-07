@@ -13,7 +13,6 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
     final _uid =
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
     final QueryModel _queryDetails = args['queryDetails'];

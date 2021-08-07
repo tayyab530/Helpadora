@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/constants/device_dimensions_info.dart';
 import 'package:helpadora/src/screens/main_screen.dart';
 import 'package:helpadora/src/services/db_firestore.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,11 @@ class _RatingDialogBoxState extends State<RatingDialog> {
   @override
   Widget build(BuildContext context) {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
-    final _deviceWidth = MediaQuery.of(context).size.width;
+    final _deviceWidth = Provider.of<DeviceDimensionsInfo>(
+      context,
+      listen: false,
+    ).width;
+
     return SimpleDialog(
       title: Text(
         'Please give points to your solver',
@@ -43,6 +48,7 @@ class _RatingDialogBoxState extends State<RatingDialog> {
         Container(
           margin: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.2),
           child: TextButton(
+            child: Text('Submit'),
             style: TextButton.styleFrom(
               backgroundColor: Theme.of(context).accentColor,
               primary: Theme.of(context).primaryTextTheme.headline1.color,
@@ -51,7 +57,6 @@ class _RatingDialogBoxState extends State<RatingDialog> {
               _dbFirestore.solveQuery(widget.queryId, widget.solverUid, _value);
               Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
             },
-            child: Text('Submit'),
           ),
         ),
       ],

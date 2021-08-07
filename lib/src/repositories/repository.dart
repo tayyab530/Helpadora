@@ -102,6 +102,7 @@ class Repository with ChangeNotifier {
       await cache.clear();
     }
     await fetchPublicQueries(uid);
+    notifyListeners();
   }
 
   clearActiveSelfQueries(String uid) async {
@@ -110,6 +111,7 @@ class Repository with ChangeNotifier {
     }
 
     await fetchSelfActiveQueries(uid);
+    notifyListeners();
   }
 
   clearSolvedSelfQueries(String uid) async {
@@ -117,6 +119,7 @@ class Repository with ChangeNotifier {
       await cache.clear();
     }
     await fetchSelfSolvedQueries(uid);
+    notifyListeners();
   }
 
   Future<void> init() async {

@@ -43,12 +43,15 @@ class DbFirestore with ChangeNotifier {
   }
 
   Future<void> deleteQuery(QueryModel query) async => _firestore
-      .collection('query')
-      .doc(query.qid)
-      .update({'isDeleted': true}).then(
-          (value) => _firestore.collection('user').doc(query.posterUid).update({
-                'list_of_queries': FieldValue.arrayRemove([query.qid])
-              }));
+          .collection('query')
+          .doc(query.qid)
+          .update({'isDeleted': true}).then(
+        (value) => _firestore.collection('user').doc(query.posterUid).update(
+          {
+            'list_of_queries': FieldValue.arrayRemove([query.qid])
+          },
+        ),
+      );
 
   Future<void> solveQuery(
           String queryId, String solverUid, double rating) async =>
@@ -70,11 +73,8 @@ class DbFirestore with ChangeNotifier {
 
   Future<void> sendChat(
       Message message, QueryModel query, String senderUid) async {
-    var _chatRef = _firestore
-        .collection('query')
-        .doc(query.qid)
-        .collection('chats')
-        .doc(senderUid + query.posterUid);
+    var _chatRef =
+        _firestore.collection('chats').doc(senderUid + query.posterUid);
 
     print(senderUid + query.posterUid);
 
@@ -86,7 +86,8 @@ class DbFirestore with ChangeNotifier {
     }).then((_) => _chatRef.set({
           'last_message': message.text,
           'time': message.time,
-          'chat_members': [message.senderUid, message.receiverUid]
+          'chat_members': [message.senderUid, message.receiverUid],
+          'qid': query.qid,
         }));
   }
 
@@ -105,8 +106,6 @@ class DbFirestore with ChangeNotifier {
 
   Stream<QuerySnapshot> meChatStream(QueryModel qDetails, String uid) {
     return _firestore
-        .collection('query')
-        .doc(qDetails.qid)
         .collection('chats')
         .doc(uid + qDetails.posterUid)
         .collection('messages')
@@ -139,9 +138,8 @@ class DbFirestore with ChangeNotifier {
 
   Stream<QuerySnapshot> queryChatStream(String qUid) {
     return _firestore
-        .collection('query')
-        .doc(qUid)
         .collection('chats')
+        .where('qid', isEqualTo: qUid)
         .snapshots();
   }
 

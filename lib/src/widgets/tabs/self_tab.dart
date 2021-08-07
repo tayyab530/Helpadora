@@ -21,7 +21,6 @@ class _MyQyeryTabState extends State<SelfTab> {
   Widget build(BuildContext context) {
     final _uid =
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
-    final _repository = Provider.of<Repository>(context, listen: false);
     final _deviceDimension =
         Provider.of<DeviceDimensionsInfo>(context, listen: false);
 
@@ -29,11 +28,11 @@ class _MyQyeryTabState extends State<SelfTab> {
     return Scaffold(
       body: Column(
         children: [
-          ListOfActiveQueries(deviceHeight, showSolvedQueries, _repository,
-              _uid, _deviceDimension),
+          ListOfActiveQueries(
+              deviceHeight, showSolvedQueries, _uid, _deviceDimension),
           BottomSheet(showSolvedQueries, toggleSheet, _deviceDimension),
           showSolvedQueries
-              ? SolvedQueriesList(_uid, _repository, _deviceDimension)
+              ? SolvedQueriesList(_uid, _deviceDimension)
               : Container(),
         ],
       ),
@@ -48,45 +47,22 @@ class _MyQyeryTabState extends State<SelfTab> {
   }
 }
 
-class SolvedQueriesList extends StatelessWidget {
-  SolvedQueriesList(
+class ListOfActiveQueries extends StatelessWidget {
+  ListOfActiveQueries(
+    this.deviceHeight,
+    this.showSolvedQueries,
     this.uid,
-    this._repository,
     this._deviceInfo,
   );
 
-  final String uid;
-  final Repository _repository;
-  final DeviceDimensionsInfo _deviceInfo;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: _deviceInfo.height * 0.4,
-      child: FutureBuilder(
-        future: _repository.fetchSelfSolvedQueries(uid),
-        builder: (ctx, AsyncSnapshot<List<QueryModel>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting)
-            return Center(child: CircularProgressIndicator());
-          else if (snapshot.data.isEmpty) return Text('No Queries!');
-          return ListOfQueries(snapshot.data);
-        },
-      ),
-    );
-  }
-}
-
-class ListOfActiveQueries extends StatelessWidget {
-  ListOfActiveQueries(this.deviceHeight, this.showSolvedQueries,
-      this._repository, this.uid, this._deviceInfo);
-
   final double deviceHeight;
   final bool showSolvedQueries;
-  final Repository _repository;
+
   final String uid;
   final DeviceDimensionsInfo _deviceInfo;
 
   Widget build(BuildContext context) {
+    final _repository = Provider.of<Repository>(context);
     return RefreshIndicator(
       onRefresh: () async {
         await _repository.clearActiveSelfQueries(uid);
@@ -105,6 +81,33 @@ class ListOfActiveQueries extends StatelessWidget {
             return ListOfQueriesSwapable(snapshot.data);
           },
         ),
+      ),
+    );
+  }
+}
+
+class SolvedQueriesList extends StatelessWidget {
+  SolvedQueriesList(
+    this.uid,
+    this._deviceInfo,
+  );
+
+  final String uid;
+  final DeviceDimensionsInfo _deviceInfo;
+
+  @override
+  Widget build(BuildContext context) {
+    final _repository = Provider.of<Repository>(context);
+    return Container(
+      height: _deviceInfo.height * 0.4,
+      child: FutureBuilder(
+        future: _repository.fetchSelfSolvedQueries(uid),
+        builder: (ctx, AsyncSnapshot<List<QueryModel>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting)
+            return Center(child: CircularProgressIndicator());
+          else if (snapshot.data.isEmpty) return Text('No Queries!');
+          return ListOfQueries(snapshot.data);
+        },
       ),
     );
   }

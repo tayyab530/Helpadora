@@ -53,25 +53,25 @@ class Dialogs {
           title: Text(DialogMessages.queryDeleteConfirm),
           actions: [
             TextButton(
-              onPressed: () async {
-                return Navigator.of(context).pop(true);
-              },
               child: Text(
                 'Delete',
                 style: TextStyle(color: Colors.white),
               ),
+              onPressed: () async {
+                return Navigator.of(context).pop(true);
+              },
               style: TextButton.styleFrom(
                 backgroundColor: Theme.of(context).errorColor,
               ),
             ),
             TextButton(
-              onPressed: () async {
-                return Navigator.of(context).pop(false);
-              },
               child: Text(
                 'Cancel',
                 style: TextStyle(color: Colors.black),
               ),
+              onPressed: () async {
+                return Navigator.of(context).pop(false);
+              },
               style: TextButton.styleFrom(
                 backgroundColor: Colors.white,
               ),
@@ -131,8 +131,16 @@ class Dialogs {
         builder: (ctx) {
           return SimpleDialog(
             title: Text('Details'),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 23.0,
+              vertical: 10.0,
+            ),
             children: [
-              Text(query.description, textAlign: TextAlign.center),
+              Text(
+                query.description,
+                textAlign: TextAlign.left,
+                softWrap: true,
+              ),
               showChaticon
                   ? Container(
                       margin: EdgeInsets.only(right: 15.0),

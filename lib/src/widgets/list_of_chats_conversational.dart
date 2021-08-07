@@ -7,9 +7,8 @@ import 'package:provider/provider.dart';
 import 'conversation_item.dart';
 
 class ListOfChatsforConversation extends StatefulWidget {
-  final queryId;
-  final QueryModel querySnap;
-  ListOfChatsforConversation(this.queryId, this.querySnap);
+  final QueryModel query;
+  ListOfChatsforConversation(this.query);
 
   @override
   _ListOfChatsforConversationState createState() =>
@@ -23,7 +22,7 @@ class _ListOfChatsforConversationState
   Widget build(BuildContext context) {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
     return StreamBuilder(
-      stream: _dbFirestore.queryChatStream(widget.queryId as String),
+      stream: _dbFirestore.queryChatStream(widget.query.qid),
       builder: (context, AsyncSnapshot<QuerySnapshot> chatSnapshot) {
         if (chatSnapshot.connectionState == ConnectionState.waiting ||
             chatSnapshot.data == null)
@@ -44,7 +43,7 @@ class _ListOfChatsforConversationState
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Chip(
-                          label: Text(widget.querySnap.title),
+                          label: Text(widget.query.title),
                           backgroundColor: Theme.of(context).accentColor,
                         ),
                         IconButton(
@@ -76,7 +75,7 @@ class _ListOfChatsforConversationState
             .map((chat) => Column(
                   children: [
                     ConversationItem(
-                      widget.querySnap,
+                      widget.query,
                       chat['last_message'],
                       chat['time'],
                       chat['chat_members'],
