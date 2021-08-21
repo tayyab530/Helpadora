@@ -19,6 +19,7 @@ class Home extends StatelessWidget {
       print('showOnboarding ' + showOnboarding.toString());
       return OnboardingScreen();
     } else {
+      print('home widget');
       final _isLoggedIn =
           Provider.of<AuthService>(context, listen: false).isLogedIn();
       return _isLoggedIn

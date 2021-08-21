@@ -24,7 +24,8 @@ class _MyQyeryTabState extends State<SelfTab> {
     final _deviceDimension =
         Provider.of<DeviceDimensionsInfo>(context, listen: false);
 
-    var deviceHeight = MediaQuery.of(context).size.height;
+    var deviceHeight =
+        Provider.of<DeviceDimensionsInfo>(context, listen: false).height;
     return Scaffold(
       body: Column(
         children: [

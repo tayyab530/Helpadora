@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/constants/device_dimensions_info.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/query_model.dart';
@@ -41,7 +42,7 @@ class CommunityTab extends StatelessWidget {
 
               return Column(
                 children: [
-                  SearchFilterBar(_filters, _listOfQueries),
+                  SearchFilterBar(_listOfQueries),
                   Expanded(
                     child: ListOfQueries(
                       sortList(_listOfQueries, _filters),
@@ -68,9 +69,9 @@ class CommunityTab extends StatelessWidget {
     var _list = listOfQueries;
     if (_filters['title'])
       listOfQueries.sort((a, b) => a.title.compareTo(b.title));
-    if (_filters['due_date'])
+    else if (_filters['due_date'])
       listOfQueries.sort((a, b) => a.dueDate.compareTo(b.dueDate));
-    if (_filters['location'])
+    else if (_filters['location'])
       listOfQueries.sort((a, b) => a.location.compareTo(b.location));
 
     return _list;

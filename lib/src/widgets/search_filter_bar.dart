@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/constants/device_dimensions_info.dart';
 import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
 import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/notifiers/filters.dart';
@@ -6,91 +7,52 @@ import 'package:helpadora/src/notifiers/queries.dart';
 import 'package:provider/provider.dart';
 
 class SearchFilterBar extends StatelessWidget {
-  final TextEditingController textController = TextEditingController();
-  final Map<String, bool> _filters;
   final List<QueryModel> _listOfQueries;
 
   SearchFilterBar(
-    this._filters,
     this._listOfQueries,
   );
+
   @override
   Widget build(BuildContext context) {
     final _iconTextColor = Colors.black;
-    final _queriesNotifier =
-        Provider.of<QueriesNotifier>(context, listen: false);
-
+    final _mediaQuery =
+        Provider.of<DeviceDimensionsInfo>(context, listen: false);
     return Container(
       color: Theme.of(context).dividerColor,
-      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
+      padding: EdgeInsets.symmetric(
+        vertical: _mediaQuery.height * 0.005,
+        horizontal: _mediaQuery.width * 0.02,
+      ),
+      height: _mediaQuery.height * 0.12,
+      width: _mediaQuery.width,
       child: Row(
         children: [
-          _searchField(_iconTextColor, _queriesNotifier, _listOfQueries),
+          SearchField(
+            iconTextColor: _iconTextColor,
+            listOfQueries: _listOfQueries,
+          ),
           Container(
-            child: _filterDropdown(_filters),
-            width: MediaQuery.of(context).size.width * 0.10,
+            child: FilterDropdown(),
+            width: _mediaQuery.width * 0.10,
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _searchField(Color _iconTextColor, QueriesNotifier _queriesNotifier,
-      List<QueryModel> _listOfQueries) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                style: TextStyle(color: _iconTextColor),
-                controller: textController,
-                textInputAction: TextInputAction.search,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  hintStyle: TextStyle(color: _iconTextColor),
-                  hintText: 'Search....',
-                  focusedBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  border: InputBorder.none,
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: _iconTextColor,
-                  ),
-                ),
-                onSubmitted: (value) {
-                  print(value);
-                  _queriesNotifier.searchQueries(value, _listOfQueries);
-                },
-              ),
-            ),
-            IconButton(
-              icon: Icon(
-                HelpadoraIcons.cross,
-                color: _iconTextColor,
-              ),
-              onPressed: () {
-                textController.clear();
-                _queriesNotifier.setToNull();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _filterDropdown(Map<String, bool> _filters) {
+class FilterDropdown extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final _mediaQuery =
+        Provider.of<DeviceDimensionsInfo>(context, listen: false);
     return PopupMenuButton(
       icon: Padding(
-        padding: const EdgeInsets.only(right: 5.0),
+        padding: EdgeInsets.only(right: _mediaQuery.width * 0.01),
         child: Icon(
           HelpadoraIcons.search_filters,
-          size: 12.0,
+          size: _mediaQuery.width * 0.05,
         ),
       ),
       onSelected: null,
@@ -166,6 +128,87 @@ class SearchFilterBar extends StatelessWidget {
           ),
         ];
       },
+    );
+  }
+}
+
+class SearchField extends StatefulWidget {
+  SearchField({
+    @required this.iconTextColor,
+    @required this.listOfQueries,
+  });
+
+  final Color iconTextColor;
+  final List<QueryModel> listOfQueries;
+
+  @override
+  _SearchFieldState createState() => _SearchFieldState();
+}
+
+class _SearchFieldState extends State<SearchField> {
+  final TextEditingController textController = TextEditingController();
+  FocusNode _focusNode;
+
+  @override
+  void initState() {
+    _focusNode = FocusNode();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final _queriesNotifier =
+        Provider.of<QueriesNotifier>(context, listen: false);
+    final _mediaQuery =
+        Provider.of<DeviceDimensionsInfo>(context, listen: false);
+    return Container(
+      width: _mediaQuery.width * 0.86,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30.0),
+      ),
+      child: TextField(
+        focusNode: _focusNode,
+        style: TextStyle(color: widget.iconTextColor),
+        controller: textController,
+        textInputAction: TextInputAction.search,
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+          hintStyle: TextStyle(color: widget.iconTextColor),
+          hintText: 'Search....',
+          focusedBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          border: InputBorder.none,
+          prefixIcon: Icon(
+            Icons.search,
+            color: widget.iconTextColor,
+          ),
+          suffixIcon: IconButton(
+            icon: Icon(
+              HelpadoraIcons.cross,
+              color: widget.iconTextColor,
+            ),
+            onPressed: () {
+              textController.clear();
+              _queriesNotifier.setToNull();
+            },
+          ),
+        ),
+        onSubmitted: (text) {
+          print(text);
+          _queriesNotifier.searchQueries(text, widget.listOfQueries);
+        },
+        onTap: () {
+          print('focus request');
+          _focusNode.requestFocus();
+        },
+      ),
     );
   }
 }

@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/constants/device_dimensions_info.dart';
-
-import 'package:helpadora/src/widgets/tabs/conversation_tab.dart';
-import 'package:helpadora/src/widgets/tabs/self_tab.dart';
 import 'package:provider/provider.dart';
-import '../widgets/tabs/community_tab.dart';
+
+import '../constants/device_dimensions_info.dart';
 import '../widgets/tabs/conversation_tab.dart';
+import '../widgets/tabs/self_tab.dart';
+import '../widgets/tabs/community_tab.dart';
 import '../widgets/tabs/settings_tab.dart';
 
 class MainScreen extends StatelessWidget {
   static const routeName = '/main-screen';
-  final int initialTab;
 
-  MainScreen({this.initialTab = 0});
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
+    print('main screen rebuild');
     final AppBar appBar = AppBar(
       automaticallyImplyLeading: false,
       title: Text('Home'),
@@ -39,11 +36,11 @@ class MainScreen extends StatelessWidget {
       ),
     );
     final appBarHeight = appBar.preferredSize.height;
-
+    final _mediaQuery = MediaQuery.of(context);
     // ignore: unused_local_variable
     final _updateDeviceInfo =
         Provider.of<DeviceDimensionsInfo>(context, listen: false)
-            .update(mediaQuery, appBarHeight);
+            .update(_mediaQuery, appBarHeight);
 
     return DefaultTabController(
       length: 4,

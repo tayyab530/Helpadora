@@ -9,7 +9,6 @@ class QueriesNotifier with ChangeNotifier {
   searchQueries(String _seachContent, List<QueryModel> listOfQueries) {
     _listOfQueries = listOfQueries.where(
       (query) {
-        // var _pattern = RegExp(r'[a-z]', caseSensitive: false);
         String _query = query.title + '' + query.description;
 
         return _query.toLowerCase().contains(_seachContent.toLowerCase());

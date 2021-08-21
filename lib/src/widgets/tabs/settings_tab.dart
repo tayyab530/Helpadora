@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/constants/device_dimensions_info.dart';
 import 'package:helpadora/src/custom_icons/helpadora_icons.dart';
 import 'package:helpadora/src/screens/password_change_screen.dart';
 import 'package:helpadora/src/widgets/theme_toggle_tile.dart';
@@ -14,15 +15,16 @@ class SettingsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _mediaQuery = MediaQuery.of(context);
+    final _mediaQuery =
+        Provider.of<DeviceDimensionsInfo>(context, listen: false);
     final _auth = Provider.of<AuthService>(context);
 
     return ListView(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       children: [
         Container(
-          height: (_mediaQuery.size.height * 0.75) * 0.35,
-          margin: EdgeInsets.only(bottom: 30.0),
+          height: (_mediaQuery.height) * 0.35,
+          margin: EdgeInsets.only(bottom: _mediaQuery.height * 0.05),
           child: ProfileView(_auth.getCurrentUser().uid),
         ),
         passwordTile(
@@ -31,14 +33,14 @@ class SettingsTab extends StatelessWidget {
           'Change Password',
           () => Navigator.of(context).pushNamed(
             ChangePasswordScreen.routeName,
-            arguments: {'_deviceWidth': _mediaQuery.size.width},
+            arguments: {'_deviceWidth': _mediaQuery.width},
           ),
         ),
         darkThemeTile(
           context,
           'Dark Theme',
         ),
-        LogoutButton(_mediaQuery.size.width),
+        LogoutButton(_mediaQuery.width),
       ],
     );
   }
