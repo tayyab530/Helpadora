@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:helpadora/src/blocs/login_bloc.dart';
-import 'package:helpadora/src/notifiers/theme_data.dart';
-import 'package:helpadora/src/screens/onboarding_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../blocs/login_bloc.dart';
+import '../constants/device_dimensions_info.dart';
+import '../notifiers/theme_data.dart';
+import '../screens/onboarding_screen.dart';
 import 'login_screen.dart';
 import 'main_screen.dart';
 import '../services/auth_services.dart';

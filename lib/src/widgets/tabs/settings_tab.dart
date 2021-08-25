@@ -15,15 +15,16 @@ class SettingsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _mediaQuery =
+    final _deviceContants =
         Provider.of<DeviceDimensionsInfo>(context, listen: false);
+    final _mediaQuery = MediaQuery.of(context).size;
     final _auth = Provider.of<AuthService>(context);
 
     return ListView(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       children: [
         Container(
-          height: (_mediaQuery.height) * 0.35,
+          height: (_mediaQuery.height - _deviceContants.kappBarHeight) * 0.35,
           margin: EdgeInsets.only(bottom: _mediaQuery.height * 0.05),
           child: ProfileView(_auth.getCurrentUser().uid),
         ),

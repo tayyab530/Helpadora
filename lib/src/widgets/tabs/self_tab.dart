@@ -21,20 +21,25 @@ class _MyQyeryTabState extends State<SelfTab> {
   Widget build(BuildContext context) {
     final _uid =
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
-    final _deviceDimension =
+    final _constants =
         Provider.of<DeviceDimensionsInfo>(context, listen: false);
-
-    var deviceHeight =
-        Provider.of<DeviceDimensionsInfo>(context, listen: false).height;
+    final _mediaQuery = MediaQuery.of(context).removePadding(removeTop: true);
+    final _height = (_mediaQuery.size.height -
+        _constants.kappBarHeight -
+        (_mediaQuery.size.height * 0.038));
+    print('selftab');
+    print(_mediaQuery.size.height);
+    print(_height);
     return Scaffold(
       body: Column(
         children: [
-          ListOfActiveQueries(
-              deviceHeight, showSolvedQueries, _uid, _deviceDimension),
-          BottomSheet(showSolvedQueries, toggleSheet, _deviceDimension),
-          showSolvedQueries
-              ? SolvedQueriesList(_uid, _deviceDimension)
-              : Container(),
+          ListOfActiveQueries(_height, showSolvedQueries, _uid),
+          BottomSheet(showSolvedQueries, toggleSheet, _height),
+          if (showSolvedQueries)
+            SolvedQueriesList(
+              _uid,
+              _height,
+            ),
         ],
       ),
       // floatingActionButton: floatingActionButton(context),
@@ -50,28 +55,24 @@ class _MyQyeryTabState extends State<SelfTab> {
 
 class ListOfActiveQueries extends StatelessWidget {
   ListOfActiveQueries(
-    this.deviceHeight,
+    this.height,
     this.showSolvedQueries,
     this.uid,
-    this._deviceInfo,
   );
 
-  final double deviceHeight;
+  final double height;
   final bool showSolvedQueries;
-
   final String uid;
-  final DeviceDimensionsInfo _deviceInfo;
 
   Widget build(BuildContext context) {
     final _repository = Provider.of<Repository>(context);
+
     return RefreshIndicator(
       onRefresh: () async {
         await _repository.clearActiveSelfQueries(uid);
       },
       child: Container(
-        height: showSolvedQueries
-            ? (_deviceInfo.height * 0.54)
-            : _deviceInfo.height * 0.94,
+        height: showSolvedQueries ? (height * 0.54) : (height * 0.94),
         child: FutureBuilder(
           future: _repository.fetchSelfActiveQueries(uid),
           builder: (ctx, AsyncSnapshot<List<QueryModel>> snapshot) {
@@ -90,17 +91,17 @@ class ListOfActiveQueries extends StatelessWidget {
 class SolvedQueriesList extends StatelessWidget {
   SolvedQueriesList(
     this.uid,
-    this._deviceInfo,
+    this.height,
   );
-
   final String uid;
-  final DeviceDimensionsInfo _deviceInfo;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     final _repository = Provider.of<Repository>(context);
+
     return Container(
-      height: _deviceInfo.height * 0.4,
+      height: height * 0.4,
       child: FutureBuilder(
         future: _repository.fetchSelfSolvedQueries(uid),
         builder: (ctx, AsyncSnapshot<List<QueryModel>> snapshot) {
@@ -118,17 +119,18 @@ class BottomSheet extends StatelessWidget {
   BottomSheet(
     this.showSolvedQueries,
     this.toggleSlider,
-    this._deviceInfo,
+    this.height,
   );
 
   final bool showSolvedQueries;
   final Function toggleSlider;
-  final DeviceDimensionsInfo _deviceInfo;
+  final double height;
 
   Widget build(context) {
     final _repository = Provider.of<Repository>(context, listen: false);
     final _uid =
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
+
     return ClipRRect(
       borderRadius: BorderRadius.only(
         topLeft: const Radius.circular(10.0),
@@ -136,7 +138,7 @@ class BottomSheet extends StatelessWidget {
       ),
       child: Container(
         color: Theme.of(context).accentColor,
-        height: (_deviceInfo.height * 0.06),
+        height: (height * 0.06),
         width: double.infinity,
         alignment: Alignment.center,
         child: Row(

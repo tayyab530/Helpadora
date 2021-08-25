@@ -24,51 +24,53 @@ class LoginScreen extends StatelessWidget {
     final _auth = Provider.of<AuthService>(context, listen: false);
     var width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                CustomPaint(
-                  size: Size(
-                      width,
-                      (width * 0.7527777777777778)
-                          .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                  painter: RPSCustomPainter(),
-                ),
-                Positioned(
-                  right: 15.0,
-                  top: 80.0,
-                  child: Text(
-                    'HELPADORA',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 35.0,
-                        fontFamily: 'Helvetica',
-                        fontWeight: FontWeight.w200),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
-              child: Column(
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                alignment: Alignment.center,
                 children: [
-                  emailField(loginBloc),
-                  passwordField(loginBloc),
-                  SizedBox(
-                    height: 20.0,
+                  CustomPaint(
+                    size: Size(
+                        width,
+                        (width * 0.7527777777777778)
+                            .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                    painter: RPSCustomPainter(),
                   ),
-                  loginButton(context, loginBloc, _auth),
-                  _createUserButton(context),
+                  Positioned(
+                    right: 15.0,
+                    top: 80.0,
+                    child: Text(
+                      'HELPADORA',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 35.0,
+                          fontFamily: 'Helvetica',
+                          fontWeight: FontWeight.w200),
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ],
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                child: Column(
+                  children: [
+                    emailField(loginBloc),
+                    passwordField(loginBloc),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    loginButton(context, loginBloc, _auth),
+                    _createUserButton(context),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

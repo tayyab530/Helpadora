@@ -13,34 +13,40 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('main screen rebuild');
+    var tabBar = TabBar(
+      tabs: [
+        Tab(
+          icon: Icon(
+            CommunityTab.icon,
+          ),
+        ),
+        Tab(
+          icon: Icon(SelfTab.icon),
+        ),
+        Tab(
+          icon: Icon(
+            ConversationTab.icon,
+          ),
+        ),
+        Tab(icon: Icon(SettingsTab.icon)),
+      ],
+    );
+
     final AppBar appBar = AppBar(
       automaticallyImplyLeading: false,
       title: Text('Home'),
-      bottom: TabBar(
-        tabs: [
-          Tab(
-            icon: Icon(
-              CommunityTab.icon,
-            ),
-          ),
-          Tab(
-            icon: Icon(SelfTab.icon),
-          ),
-          Tab(
-            icon: Icon(
-              ConversationTab.icon,
-            ),
-          ),
-          Tab(icon: Icon(SettingsTab.icon)),
-        ],
-      ),
+      bottom: tabBar,
     );
-    final appBarHeight = appBar.preferredSize.height;
-    final _mediaQuery = MediaQuery.of(context);
+
+    var kappBarHeight = appBar.preferredSize.height;
+    final _deviceInfo =
+        Provider.of<DeviceDimensionsInfo>(context, listen: false);
+    _deviceInfo.update(
+      kappBarHeight,
+      tabBar.preferredSize.height,
+    );
+
     // ignore: unused_local_variable
-    final _updateDeviceInfo =
-        Provider.of<DeviceDimensionsInfo>(context, listen: false)
-            .update(_mediaQuery, appBarHeight);
 
     return DefaultTabController(
       length: 4,

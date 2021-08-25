@@ -47,16 +47,18 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _onboarding = Provider.of<ThemeNotifier>(context, listen: false);
-    return IntroductionScreen(
-      next: const Text('Next'),
-      showSkipButton: true,
-      skip: const Text('Skip'),
-      pages: _pages,
-      done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
-      onDone: () {
-        _onboarding.setShowOnboardingFalse();
-        Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
-      },
+    return SafeArea(
+      child: IntroductionScreen(
+        next: const Text('Next'),
+        showSkipButton: true,
+        skip: const Text('Skip'),
+        pages: _pages,
+        done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
+        onDone: () {
+          _onboarding.setShowOnboardingFalse();
+          Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+        },
+      ),
     );
   }
 }

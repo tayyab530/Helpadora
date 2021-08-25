@@ -22,10 +22,7 @@ class _RatingDialogBoxState extends State<RatingDialog> {
   @override
   Widget build(BuildContext context) {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
-    final _deviceWidth = Provider.of<DeviceDimensionsInfo>(
-      context,
-      listen: false,
-    ).width;
+    final _deviceWidth = MediaQuery.of(context).size.width;
 
     return SimpleDialog(
       title: Text(

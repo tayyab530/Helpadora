@@ -14,6 +14,7 @@ import '../list_of_queries.dart';
 
 class CommunityTab extends StatelessWidget {
   static const icon = HelpadoraIcons.community;
+  CommunityTab();
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +41,19 @@ class CommunityTab extends StatelessWidget {
               var _listOfQueries =
                   _seachedQueries != null ? _seachedQueries : snapshot.data;
 
-              return Column(
-                children: [
-                  SearchFilterBar(_listOfQueries),
-                  Expanded(
-                    child: ListOfQueries(
-                      sortList(_listOfQueries, _filters),
+              final _mediaQuery = MediaQuery.of(context);
+              print(_mediaQuery.size.height);
+              return Container(
+                child: Column(
+                  children: [
+                    SearchFilterBar(_listOfQueries, _mediaQuery.size),
+                    Expanded(
+                      child: ListOfQueries(
+                        sortList(_listOfQueries, _filters),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             }
           },

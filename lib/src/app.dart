@@ -35,7 +35,6 @@ class App extends StatelessWidget {
       child: Consumer<ThemeNotifier>(
         builder: (themeContext, theme, _) {
           Provider.of<Repository>(themeContext, listen: false).init();
-
           return MaterialApp(
             // debugShowMaterialGrid: true,
             theme: theme.getTheme(),
@@ -106,7 +105,6 @@ class App extends StatelessWidget {
   }
 
   final _routes = {
-    MainScreen.routeName: (ctx) => MainScreen(),
     LoginScreen.routeName: (ctx) => LoginScreen(),
     RegistrationScreen.routeName: (ctx) => ChangeNotifierProvider(
           create: (ctx) => RegistrationBloc(),
