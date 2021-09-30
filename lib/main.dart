@@ -19,6 +19,7 @@ void main() async {
   );
 
   runApp(
+    //Lame Comment
     ChangeNotifierProvider(
       create: (context) => ThemeNotifier(),
       child: App(),
