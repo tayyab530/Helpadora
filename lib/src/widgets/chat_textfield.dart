@@ -161,14 +161,9 @@ class ThumbUp extends StatelessWidget {
       child: IconButton(
         alignment: Alignment.centerRight,
         icon: Icon(Icons.thumb_up),
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).colorScheme.secondary,
         onPressed: () {
           dbFirestore.sendChat(
-              // Message(
-              //     text: '👍',
-              //     senderUid: _uid,
-              //     receiverUid: receiverUid,
-              //     time: Timestamp.now()),
               _toChat(_uid, '👍', receiverUid),
               query,
               senderUid);

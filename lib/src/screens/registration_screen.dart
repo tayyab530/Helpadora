@@ -6,7 +6,7 @@ import 'dart:ui' as ui;
 import '../blocs/registration_bloc.dart';
 import '../models/date_model.dart';
 import '../services/auth_services.dart';
-import '../widgets/message_Popup.dart';
+import '../widgets/messages_popups.dart';
 import '../models/dialog_messages.dart';
 import '../screens/login_screen.dart';
 import '../services/db_firestore.dart';

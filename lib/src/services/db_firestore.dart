@@ -115,7 +115,7 @@ class DbFirestore with ChangeNotifier {
 
   Future<QuerySnapshot> otherChatStream(String uid) {
     return _firestore
-        .collection('query')
+        .collection('chats')
         .where('chat_members', arrayContains: uid)
         .get();
   }

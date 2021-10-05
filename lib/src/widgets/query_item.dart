@@ -3,7 +3,7 @@ import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/services/auth_services.dart';
 import 'package:provider/provider.dart';
 
-import 'message_Popup.dart';
+import 'messages_popups.dart';
 
 class QueryItem extends StatelessWidget {
   final QueryModel queryDetails;

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tap_debouncer/tap_debouncer.dart';
 import 'dart:ui' as ui;
 
-import '../widgets/message_Popup.dart';
+import '../widgets/messages_popups.dart';
 import '../blocs/login_bloc.dart';
 import 'main_screen.dart';
 import 'registration_screen.dart';

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../services/db_firestore.dart';
 import 'query_item.dart';
-import 'message_Popup.dart';
+import 'messages_popups.dart';
 
 class ListOfQueriesSwapable extends StatelessWidget {
   final List<QueryModel> queries;

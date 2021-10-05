@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:helpadora/src/screens/main_screen.dart';
 import 'package:helpadora/src/services/auth_services.dart';
-import 'package:helpadora/src/widgets/message_Popup.dart';
+import 'package:helpadora/src/widgets/messages_popups.dart';
 import 'package:provider/provider.dart';
 import 'package:tap_debouncer/tap_debouncer.dart';
 
