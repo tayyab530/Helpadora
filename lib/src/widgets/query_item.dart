@@ -70,7 +70,7 @@ class QueryItem extends StatelessWidget {
                 context,
                 queryDetails,
                 isMe(_uid, queryDetails.posterUid),
-                [_uid, queryDetails.posterUid],
+                {"sender_uid": _uid, 'receiver_uid': queryDetails.posterUid},
               );
             },
           ),

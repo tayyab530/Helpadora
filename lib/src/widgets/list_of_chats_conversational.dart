@@ -70,8 +70,10 @@ class _ListOfConversationItemState extends State<ListOfConversationItem> {
             widget.query,
             chat['last_message'],
             chat['time'],
-            chat['chat_members'],
-            chat.id,
+            {
+              'sender_uid': chat['sender_uid'],
+              'receiver_uid': chat['receiver_uid']
+            },
           ),
         )
         .toList();

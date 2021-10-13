@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:helpadora/src/models/conversation_item_model.dart';
+import 'package:helpadora/src/models/conversation_item_model.dart';
 import 'package:helpadora/src/models/message_model.dart';
 
 import '../models/user_model.dart';
@@ -73,8 +75,11 @@ class DbFirestore with ChangeNotifier {
 
   Future<void> sendChat(
       Message message, QueryModel query, String senderUid) async {
-    var _chatRef =
-        _firestore.collection('chats').doc(senderUid + query.posterUid);
+    var _chatRef = _firestore
+        .collection('chats')
+        .doc(senderUid + query.posterUid + query.qid);
+
+    bool _exists = !(await _chatRef.get()).exists;
 
     print(senderUid + query.posterUid);
 
@@ -83,12 +88,19 @@ class DbFirestore with ChangeNotifier {
       'receiver_uid': message.receiverUid,
       'text': message.text,
       'time': message.time,
-    }).then((_) => _chatRef.set({
+    }).then((_) {
+      _chatRef.set(
+        {
           'last_message': message.text,
           'time': message.time,
-          'chat_members': [message.senderUid, message.receiverUid],
-          'qid': query.qid,
-        }));
+          if (_exists) 'chat_members': [message.senderUid, message.receiverUid],
+          if (_exists) 'qid': query.qid,
+          if (_exists) 'sender_uid': message.senderUid,
+          if (_exists) 'receiver_uid': message.receiverUid,
+        },
+        SetOptions(merge: true),
+      );
+    });
   }
 
   Query get publicQueryStream => _firestore
@@ -107,17 +119,59 @@ class DbFirestore with ChangeNotifier {
   Stream<QuerySnapshot> meChatStream(QueryModel qDetails, String uid) {
     return _firestore
         .collection('chats')
-        .doc(uid + qDetails.posterUid)
+        .doc(uid + qDetails.posterUid + qDetails.qid)
         .collection('messages')
         .orderBy('time', descending: true)
         .snapshots();
   }
 
-  Future<QuerySnapshot> otherChatStream(String uid) {
-    return _firestore
+  Future<List<ConversationItemModel>> otherChatStream(String uid) async {
+    List<String> _queryIdList = [], _rUidList = [];
+    List<ConversationItemModel> _filteredChats = [];
+    QuerySnapshot _chats = await _firestore
         .collection('chats')
-        .where('chat_members', arrayContains: uid)
+        .where('sender_uid', isEqualTo: uid)
         .get();
+    print(_chats.docs.toString());
+    _chats.docs.forEach((e) {
+      String _qid = e.data()['qid'];
+      String _rUid = e.data()['receiver_uid'];
+      print('qid: $_qid');
+      print("receiver_uid: $_rUid");
+      _queryIdList.add(_qid);
+      _rUidList.add(_rUid);
+    });
+
+    QuerySnapshot _querySnaps = await _firestore
+        .collection('query')
+        .where('poster_uid', whereIn: _rUidList)
+        .where('isDeleted', isEqualTo: false)
+        .where('isSolved', isEqualTo: false)
+        .get();
+
+    _querySnaps.docs.forEach((query) {
+      print(query.id);
+      QueryDocumentSnapshot _chat = _chats.docs.firstWhere(
+        (chat) => (chat.data()['qid'] == query.id &&
+            chat.data()['receiver_uid'] == query.data()['poster_uid']),
+        orElse: () => null,
+      );
+      if (_chat != null) {
+        print(_chat.id);
+        var _query = QueryModel.fromFirestore(query);
+        print(_query.qid);
+        ConversationItemModel _conversationItem =
+            ConversationItemModel.fromFirestore(_chat, _query);
+        print(_conversationItem.query.qid);
+        _filteredChats.add(_conversationItem);
+        print('chat added');
+      }
+    });
+
+    print(_queryIdList.toString());
+    print(_rUidList.toString());
+    print(_filteredChats.toString());
+    return _filteredChats;
   }
 
   Future<DocumentSnapshot> getQuriesList(String uid) {
@@ -132,6 +186,10 @@ class DbFirestore with ChangeNotifier {
         .collection('chats')
         .where('qid', isEqualTo: qUid)
         .snapshots();
+  }
+
+  Stream<DocumentSnapshot> chatStreamWithID(String chatID) {
+    return _firestore.collection('chats').doc(chatID).snapshots();
   }
 
   getChatsForRating(String queryId) {

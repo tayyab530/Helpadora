@@ -16,7 +16,7 @@ class ChatScreen extends StatelessWidget {
     final _uid =
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
     final QueryModel _queryDetails = args['queryDetails'];
-    final chatMembers = args['chatMembers'];
+    final Map<String, String> chatMembers = args['chatMembers'];
 
     final senderUid = _uid == _queryDetails.posterUid
         ? checkSenderUid(chatMembers, _uid)
@@ -35,16 +35,15 @@ class ChatScreen extends StatelessWidget {
       ),
       bottomSheet: ChatTextfield(
         _queryDetails,
-        args['chatMembers'],
         {'sender': senderUid, 'receiver': receiverUid},
       ),
     );
   }
 
-  String checkSenderUid(List<dynamic> chatMembers, String currentUser) {
-    if (chatMembers[0] == currentUser)
-      return chatMembers[1];
+  String checkSenderUid(Map<String, String> chatMembers, String currentUser) {
+    if (chatMembers['sender_uid'] == currentUser)
+      return chatMembers['receiver_uid'];
     else
-      return chatMembers[0];
+      return chatMembers['sender_uid'];
   }
 }

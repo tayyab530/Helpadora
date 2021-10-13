@@ -125,7 +125,7 @@ class Dialogs {
   }
 
   static queryDetailsDialog(BuildContext context, QueryModel query,
-      bool showChaticon, List<String> chatmembers) {
+      bool showChaticon, Map<String, String> chatmembers) {
     return showDialog(
         context: context,
         builder: (ctx) {

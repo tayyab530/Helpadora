@@ -10,18 +10,17 @@ import 'package:tap_debouncer/tap_debouncer.dart';
 class ChatTextfield extends StatelessWidget {
   final _messageController = TextEditingController();
   final QueryModel _queryDetails;
-  final List<dynamic> chatMembers;
-  final Map<String, String> senderReceiver;
+  final Map<String, String> chatMembers;
 
-  ChatTextfield(this._queryDetails, this.chatMembers, this.senderReceiver);
+  ChatTextfield(this._queryDetails, this.chatMembers);
 
   @override
   Widget build(BuildContext context) {
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
     final _uid =
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
-    final senderUid = senderReceiver['sender'];
-    final receiverUid = senderReceiver['receiver'];
+    final senderUid = chatMembers['sender'];
+    final receiverUid = chatMembers['receiver'];
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
@@ -164,9 +163,7 @@ class ThumbUp extends StatelessWidget {
         color: Theme.of(context).colorScheme.secondary,
         onPressed: () {
           dbFirestore.sendChat(
-              _toChat(_uid, '👍', receiverUid),
-              query,
-              senderUid);
+              _toChat(_uid, '👍', receiverUid), query, senderUid);
         },
       ),
     );

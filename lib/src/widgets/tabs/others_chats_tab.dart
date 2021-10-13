@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpadora/src/models/chat_model.dart';
+import 'package:helpadora/src/models/conversation_item_model.dart';
 import 'package:helpadora/src/models/query_model.dart';
 import 'package:helpadora/src/services/auth_services.dart';
 import 'package:helpadora/src/services/db_firestore.dart';
@@ -14,32 +16,37 @@ class OthersChatsTab extends StatelessWidget {
         Provider.of<AuthService>(context, listen: false).getCurrentUser().uid;
     return FutureBuilder(
         future: _dbFirestore.otherChatStream(_uid),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        builder:
+            (context, AsyncSnapshot<List<ConversationItemModel>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting ||
-              snapshot.data == null ||
-              snapshot.data.docs == [])
+              !snapshot.hasData)
             return Center(
               child: CircularProgressIndicator(),
             );
-          print('object');
-          print(snapshot.data.docs.toString());
-          return snapshot.data.docs == []
+          return snapshot.data == []
               ? Container()
               : ListView.builder(
                   itemBuilder: (context, index) {
-                    var _query = snapshot.data.docs[index];
-                    return ConversationItem(
-                      _query as QueryModel,
-                      'last message',
-                      Timestamp.now(),
-                      [
-                        _query.data()['sender_uid'],
-                        _query.data()['receiver_uid']
-                      ],
-                      'w07VvGDU43ZtnBUYEzFeMbidgE33DOE1VdvV5xQzH9eq5aRnUQR68fl1',
-                    );
+                    var _conversationItem = snapshot.data[index];
+                    return StreamBuilder(
+                        stream: _dbFirestore
+                            .chatStreamWithID(_conversationItem.chatID),
+                        builder:
+                            (context, AsyncSnapshot<DocumentSnapshot> chat) {
+                          if (chat.connectionState == ConnectionState.waiting ||
+                              !chat.hasData)
+                            return Center(child: CircularProgressIndicator());
+                          Chat chatObj = Chat.fromFirestore(
+                              chat.data, _conversationItem.query);
+                          return ConversationItem(
+                            _conversationItem.query,
+                            chatObj.lastmessage,
+                            chatObj.time,
+                            _conversationItem.chatMembers,
+                          );
+                        });
                   },
-                  itemCount: 2,
+                  itemCount: snapshot.data.length,
                 );
         });
   }

@@ -105,6 +105,7 @@ class App extends StatelessWidget {
   }
 
   final _routes = {
+    MainScreen.routeName: (ctx) => MainScreen(),
     LoginScreen.routeName: (ctx) => LoginScreen(),
     RegistrationScreen.routeName: (ctx) => ChangeNotifierProvider(
           create: (ctx) => RegistrationBloc(),

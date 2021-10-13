@@ -6,12 +6,11 @@ import 'package:intl/intl.dart';
 class ConversationItem extends StatelessWidget {
   final String lastMessage;
   final Timestamp time;
-  final List<dynamic> chatMembers;
+  final Map<String, String> chatMembers;
   final QueryModel queryDetails;
-  final String chatId;
 
-  ConversationItem(this.queryDetails, this.lastMessage, this.time,
-      this.chatMembers, this.chatId);
+  ConversationItem(
+      this.queryDetails, this.lastMessage, this.time, this.chatMembers);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class ConversationItem extends StatelessWidget {
           ),
           trailing: Text(' $_time'),
           onTap: () {
-            Navigator.of(context).pushNamed('/chat/$chatId', arguments: {
+            Navigator.of(context).pushNamed('/chat', arguments: {
               'queryDetails': queryDetails,
               'chatMembers': chatMembers
             });
