@@ -164,6 +164,7 @@ class DbFirestore with ChangeNotifier {
             ConversationItemModel.fromFirestore(_chat, _query);
         print(_conversationItem.query.qid);
         _filteredChats.add(_conversationItem);
+        _filteredChats.sort((b, a) => a.sentTime.compareTo(b.sentTime));
         print('chat added');
       }
     });

@@ -17,36 +17,39 @@ class OthersChatsTab extends StatelessWidget {
     return FutureBuilder(
         future: _dbFirestore.otherChatStream(_uid),
         builder:
-            (context, AsyncSnapshot<List<ConversationItemModel>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting ||
-              !snapshot.hasData)
+            (context, AsyncSnapshot<List<ConversationItemModel>> listOfChats) {
+          if (listOfChats.connectionState == ConnectionState.waiting ||
+              !listOfChats.hasData)
             return Center(
               child: CircularProgressIndicator(),
             );
-          return snapshot.data == []
+
+          return listOfChats.data == []
               ? Container()
               : ListView.builder(
+                  itemCount: listOfChats.data.length,
                   itemBuilder: (context, index) {
-                    var _conversationItem = snapshot.data[index];
+                    var _conversationItem = listOfChats.data[index];
                     return StreamBuilder(
-                        stream: _dbFirestore
-                            .chatStreamWithID(_conversationItem.chatID),
-                        builder:
-                            (context, AsyncSnapshot<DocumentSnapshot> chat) {
-                          if (chat.connectionState == ConnectionState.waiting ||
-                              !chat.hasData)
-                            return Center(child: CircularProgressIndicator());
-                          Chat chatObj = Chat.fromFirestore(
-                              chat.data, _conversationItem.query);
-                          return ConversationItem(
-                            _conversationItem.query,
-                            chatObj.lastmessage,
-                            chatObj.time,
-                            _conversationItem.chatMembers,
-                          );
-                        });
+                      stream: _dbFirestore
+                          .chatStreamWithID(_conversationItem.chatID),
+                      builder:
+                          (context, AsyncSnapshot<DocumentSnapshot> chatSnap) {
+                        if (chatSnap.connectionState ==
+                                ConnectionState.waiting ||
+                            !chatSnap.hasData)
+                          return Center(child: CircularProgressIndicator());
+                        Chat chatObj = Chat.fromFirestore(
+                            chatSnap.data, _conversationItem.query);
+                        return ConversationItem(
+                          _conversationItem.query,
+                          chatObj.lastmessage,
+                          chatObj.time,
+                          _conversationItem.chatMembers,
+                        );
+                      },
+                    );
                   },
-                  itemCount: snapshot.data.length,
                 );
         });
   }
