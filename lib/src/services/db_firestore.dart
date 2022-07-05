@@ -39,42 +39,46 @@ class DbFirestore with ChangeNotifier {
         'solver_uid': query.solverUid,
         'posted_time': query.postedTime,
       },
-    ).then((_) => _firestore.collection('user').doc(query.posterUid).update({
+    ).then((_) =>
+        _firestore.collection('user').doc(query.posterUid).update({
           'list_of_queries': FieldValue.arrayUnion([documentRef.id])
         }));
   }
 
-  Future<void> deleteQuery(QueryModel query) async => _firestore
+  Future<void> deleteQuery(QueryModel query) async =>
+      _firestore
           .collection('query')
           .doc(query.qid)
           .update({'isDeleted': true}).then(
-        (value) => _firestore.collection('user').doc(query.posterUid).update(
-          {
-            'list_of_queries': FieldValue.arrayRemove([query.qid])
-          },
-        ),
+            (value) =>
+            _firestore.collection('user').doc(query.posterUid).update(
+              {
+                'list_of_queries': FieldValue.arrayRemove([query.qid])
+              },
+            ),
       );
 
-  Future<void> solveQuery(
-          String queryId, String solverUid, double rating) async =>
+  Future<void> solveQuery(String queryId, String solverUid,
+      double rating) async =>
       _firestore.collection('query').doc(queryId).update(
         {
           'isSolved': true,
           'solver_uid': solverUid,
         },
       ).then(
-        (_) => _firestore.collection('user').doc(solverUid).update(
-          {
-            'ratings': FieldValue.arrayUnion(
-              [rating],
+            (_) =>
+            _firestore.collection('user').doc(solverUid).update(
+              {
+                'ratings': FieldValue.arrayUnion(
+                  [rating],
+                ),
+                'list_of_queries': FieldValue.arrayRemove([queryId]),
+              },
             ),
-            'list_of_queries': FieldValue.arrayRemove([queryId]),
-          },
-        ),
       );
 
-  Future<void> sendChat(
-      Message message, QueryModel query, String senderUid) async {
+  Future<void> sendChat(Message message, QueryModel query,
+      String senderUid) async {
     var _chatRef = _firestore
         .collection('chats')
         .doc(senderUid + query.posterUid + query.qid);
@@ -103,15 +107,17 @@ class DbFirestore with ChangeNotifier {
     });
   }
 
-  Query get publicQueryStream => _firestore
-      .collection('query')
-      .where('isDeleted', isEqualTo: false)
-      .where('isSolved', isEqualTo: false);
+  Query get publicQueryStream =>
+      _firestore
+          .collection('query')
+          .where('isDeleted', isEqualTo: false)
+          .where('isSolved', isEqualTo: false);
 
-  Query get unsolvedQueryStream => _firestore
-      .collection('query')
-      .where('isDeleted', isEqualTo: false)
-      .where('isSolved', isEqualTo: false);
+  Query get unsolvedQueryStream =>
+      _firestore
+          .collection('query')
+          .where('isDeleted', isEqualTo: false)
+          .where('isSolved', isEqualTo: false);
 
   Query get solvedQueryStream =>
       _firestore.collection('query').where('isSolved', isEqualTo: true);
@@ -126,7 +132,8 @@ class DbFirestore with ChangeNotifier {
   }
 
   Future<List<ConversationItemModel>> otherChatStream(String uid) async {
-    List<String> _queryIdList = [], _rUidList = [];
+    List<String> _queryIdList = [],
+        _rUidList = [];
     List<ConversationItemModel> _filteredChats = [];
     QuerySnapshot _chats = await _firestore
         .collection('chats')
@@ -152,7 +159,8 @@ class DbFirestore with ChangeNotifier {
     _querySnaps.docs.forEach((query) {
       print(query.id);
       QueryDocumentSnapshot _chat = _chats.docs.firstWhere(
-        (chat) => (chat.data()['qid'] == query.id &&
+            (chat) =>
+        (chat.data()['qid'] == query.id &&
             chat.data()['receiver_uid'] == query.data()['poster_uid']),
         orElse: () => null,
       );
@@ -161,7 +169,7 @@ class DbFirestore with ChangeNotifier {
         var _query = QueryModel.fromFirestore(query);
         print(_query.qid);
         ConversationItemModel _conversationItem =
-            ConversationItemModel.fromFirestore(_chat, _query);
+        ConversationItemModel.fromFirestore(_chat, _query);
         print(_conversationItem.query.qid);
         _filteredChats.add(_conversationItem);
         _filteredChats.sort((b, a) => a.sentTime.compareTo(b.sentTime));
@@ -175,8 +183,13 @@ class DbFirestore with ChangeNotifier {
     return _filteredChats;
   }
 
-  Future<DocumentSnapshot> getQuriesList(String uid) {
-    return _firestore.collection('user').doc(uid).get();
+  Future<QuerySnapshot> getQuriesList(String uid) {
+    var result = _firestore.collection('query')
+        .where('poster_uid', isEqualTo: uid)
+        .where('isDeleted', isEqualTo: false)
+        .where('isSolved', isEqualTo: false)
+        .get();
+    return result;
   }
 
   Future<DocumentSnapshot> querySnap(String qid) async =>

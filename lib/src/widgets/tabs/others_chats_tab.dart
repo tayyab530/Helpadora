@@ -18,12 +18,13 @@ class OthersChatsTab extends StatelessWidget {
         future: _dbFirestore.otherChatStream(_uid),
         builder:
             (context, AsyncSnapshot<List<ConversationItemModel>> listOfChats) {
-          if (listOfChats.connectionState == ConnectionState.waiting ||
-              !listOfChats.hasData)
+          if (listOfChats.connectionState == ConnectionState.waiting)
             return Center(
               child: CircularProgressIndicator(),
             );
-
+          else if (!listOfChats.hasData){
+            return Text('No chats');
+          }
           return listOfChats.data == []
               ? Container()
               : ListView.builder(

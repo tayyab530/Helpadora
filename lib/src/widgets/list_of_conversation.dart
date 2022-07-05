@@ -16,7 +16,7 @@ class ListOfConversation extends StatelessWidget {
 
     return FutureBuilder(
       future: _dbFirestore.getQuriesList(uid),
-      builder: (context, AsyncSnapshot<DocumentSnapshot> userSnapshot) {
+      builder: (context, AsyncSnapshot<QuerySnapshot> userSnapshot) {
         if (userSnapshot.connectionState == ConnectionState.waiting ||
             userSnapshot.data == null)
           return Center(
@@ -25,8 +25,8 @@ class ListOfConversation extends StatelessWidget {
             ),
           );
         else {
-          List<dynamic> _listOfQuriesIds = userSnapshot.data.exists != null
-              ? userSnapshot.data.data()['list_of_queries']
+          List<dynamic> _listOfQuriesIds = userSnapshot.data.size > 0
+              ? extractQUDfromMap(userSnapshot.data.docs)
               : [];
           _listOfQuriesIds.forEach((element) {
             print('query id ' + element);
@@ -43,6 +43,14 @@ class ListOfConversation extends StatelessWidget {
 
   DateTime formatTimestamp(Timestamp timestamp) {
     return timestamp.toDate();
+  }
+
+  List<dynamic> extractQUDfromMap(List<QueryDocumentSnapshot> listQDSS){
+    List<dynamic> listOfQueries = [];
+    listQDSS.forEach((query) {
+      listOfQueries.add(query.id);
+    });
+    return listOfQueries;
   }
 }
 
