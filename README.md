@@ -1,16 +1,13 @@
-# helpadora
+# Helpadora 
+ <i>"Taking Skilled Youth Further"</i>
 
-A new Flutter project.
+A platform that helps university students to bridge the communication gap between students of:
+  - Inter different Department
+  - Inter same Department
+  - who lacks in skills awareness
 
-## Getting Started
+<h3>Description</h3>
+Here, user can post a query in the community and anyone ,who has the required skill, can reach that person out within the university by allocating a designated place in the university. This platform offers one-to-one interaction between the students and helps students to grow their skills,get things done,have a skilled network and even helps in getting a job.
+Every student who solves a query, will have ratings points out 10 from the student who actually posted.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<h4>Look into the project</h4>
