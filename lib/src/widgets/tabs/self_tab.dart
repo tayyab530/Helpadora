@@ -11,12 +11,14 @@ import '../list_of_queries_swapable.dart';
 
 class SelfTab extends StatefulWidget {
   static const icon = HelpadoraIcons.pending;
+
   @override
   _MyQyeryTabState createState() => _MyQyeryTabState();
 }
 
 class _MyQyeryTabState extends State<SelfTab> {
   bool showSolvedQueries = false;
+
   @override
   Widget build(BuildContext context) {
     final _uid =
@@ -33,13 +35,22 @@ class _MyQyeryTabState extends State<SelfTab> {
     return Scaffold(
       body: Column(
         children: [
-          ListOfActiveQueries(_height, showSolvedQueries, _uid),
-          BottomSheet(showSolvedQueries, toggleSheet, _height),
-          if (showSolvedQueries)
-            SolvedQueriesList(
-              _uid,
-              _height,
+          Expanded(child: ListOfActiveQueries(_height, showSolvedQueries, _uid)),
+          AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            curve: Curves.fastOutSlowIn,
+            height: showSolvedQueries ? 285 : 40,
+            child: Column(
+              children: [
+                BottomSheet(showSolvedQueries, toggleSheet, _height),
+                if (showSolvedQueries)
+                  SolvedQueriesList(
+                    _uid,
+                    _height,
+                  ),
+              ],
             ),
+          ),
         ],
       ),
       // floatingActionButton: floatingActionButton(context),
@@ -72,7 +83,7 @@ class ListOfActiveQueries extends StatelessWidget {
         await _repository.clearActiveSelfQueries(uid);
       },
       child: Container(
-        height: showSolvedQueries ? (height * 0.54) : (height * 0.94),
+        // height: showSolvedQueries ? (height * 0.54) : (height * 0.94),
         child: FutureBuilder(
           future: _repository.fetchSelfActiveQueries(uid),
           builder: (ctx, AsyncSnapshot<List<QueryModel>> snapshot) {
@@ -93,6 +104,7 @@ class SolvedQueriesList extends StatelessWidget {
     this.uid,
     this.height,
   );
+
   final String uid;
   final double height;
 
@@ -101,7 +113,7 @@ class SolvedQueriesList extends StatelessWidget {
     final _repository = Provider.of<Repository>(context);
 
     return Container(
-      height: height * 0.4,
+      height: height * 0.3,
       child: FutureBuilder(
         future: _repository.fetchSelfSolvedQueries(uid),
         builder: (ctx, AsyncSnapshot<List<QueryModel>> snapshot) {
