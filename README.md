@@ -1,7 +1,7 @@
 # Helpadora 
  <i>"Taking Skilled Youth Further"</i>
 
-A platform that helps university students to bridge the communication gap between students of:
+A mobile application that helps university students to bridge the communication gap between students of:
   - Inter different Department
   - Inter same Department
   - who lacks in skills awareness
@@ -22,4 +22,3 @@ Every student who solves a query, will have ratings points out 10 from the stude
     <li>Shared Prefrence: Preferences storage</li>
   </ul>
 
-<h3>Project Walkthrough</h3>
