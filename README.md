@@ -22,19 +22,39 @@ Every student who solves a query, will have ratings points out 10 from the stude
     <li>Shared Prefrence: Preferences storage</li>
   </ul>
 
-<h3>Project Walkthrough</h3>
+<h3 >Project Walkthrough</h3>
 
-<strong>Splash Screen:</strong>
-<img src="https://drive.google.com/drive/u/0/folders/1ON2QrZaIgSNQUeViIvF3WFQeuAeh73-Z"></img>
+<strong align="center">Splash Screen:</strong>
+<br/>
+<img src="https://github.com/tayyab530/Helpadora/blob/master/Screen%20shots/splash_screen.png" height=500></img>
 
-<img src=""></img>
-<img src=""></img>
-<img src=""></img>
-<img src=""></img>
-<img src=""></img>
-<img src=""></img>
-<img src=""></img>
-<img src=""></img>
-<img src=""></img>
-<img src=""></img>
-<img src=""></img>
+<strong align="center">Onboarding Screen:</strong>
+<br/>
+<img src="https://github.com/tayyab530/Helpadora/blob/master/Screen%20shots/splash_1.png" height=500></img>
+<img src="https://github.com/tayyab530/Helpadora/blob/master/Screen%20shots/splash_2.png" height=500></img>
+<img src="https://github.com/tayyab530/Helpadora/blob/master/Screen%20shots/splash_3.png" height=500></img>
+
+<strong align="center">Login and Registration Screens:</strong>
+<br/>
+<img src="https://github.com/tayyab530/Helpadora/blob/master/Screen%20shots/login_screen.png" height=500></img>
+
+
+<strong align="center">Home Screen:</strong>
+<br/>
+<img src="https://github.com/tayyab530/Helpadora/blob/master/Screen%20shots/home_tab.png" height=500></img>
+
+
+<strong align="center">Personal Tab:</strong>
+<br/>
+<img src="https://github.com/tayyab530/Helpadora/blob/master/Screen%20shots/self_tab.png" height=500></img>
+
+
+<strong align="center">Chats Tab:</strong>
+<br/>
+<img src="https://github.com/tayyab530/Helpadora/blob/master/Screen%20shots/me_chat_tab.png" height=500></img>
+<img src="https://github.com/tayyab530/Helpadora/blob/master/Screen%20shots/others_chat_tab.png" height=500></img>
+
+
+<strong align="center">Settings Tab:</strong>
+<br/>
+<img src="https://github.com/tayyab530/Helpadora/blob/master/Screen%20shots/settings_tab.png" height=500></img>
