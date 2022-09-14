@@ -22,3 +22,19 @@ Every student who solves a query, will have ratings points out 10 from the stude
     <li>Shared Prefrence: Preferences storage</li>
   </ul>
 
+<h3>Project Walkthrough</h3>
+
+<strong>Splash Screen:</strong>
+<img src="https://drive.google.com/drive/u/0/folders/1ON2QrZaIgSNQUeViIvF3WFQeuAeh73-Z"></img>
+
+<img src=""></img>
+<img src=""></img>
+<img src=""></img>
+<img src=""></img>
+<img src=""></img>
+<img src=""></img>
+<img src=""></img>
+<img src=""></img>
+<img src=""></img>
+<img src=""></img>
+<img src=""></img>
