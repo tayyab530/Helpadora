@@ -22,4 +22,4 @@ Every student who solves a query, will have ratings points out 10 from the stude
     <li>Shared Prefrence: Preferences storage</li>
   </ul>
 
-<h4>Look into the project</h4>
+<h3>Project Walkthrough</h3>
