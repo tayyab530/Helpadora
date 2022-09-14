@@ -16,7 +16,7 @@ Every student who solves a query, will have ratings points out 10 from the stude
     <li>Firebase: Firestore(Database)</li>
     <li>Firebase: Authentication</li>
     <li>Bloc Pattern: Form validation</li>
-    <li>Provider: Central provision of objects</li>
+    <li>Provider: State management</li>
     <li>SQFlite: Local Storage</li>
     <li>Clean architecture: Contract based local and remote database</li>
     <li>Shared Prefrence: Preferences storage</li>
@@ -58,3 +58,8 @@ Every student who solves a query, will have ratings points out 10 from the stude
 <strong align="center">Settings Tab:</strong>
 <br/>
 <img src="https://github.com/tayyab530/Helpadora/blob/master/Screen%20shots/settings_tab.png" height=500></img>
+
+
+<strong align="center">New Query Screen:</strong>
+<br/>
+<img src="https://github.com/tayyab530/Helpadora/blob/master/Screen%20shots/write_query.png" height=500></img>
