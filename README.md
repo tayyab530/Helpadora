@@ -1,14 +1,4 @@
-# Helpadora 
- <i>"Taking Skilled Youth Further"</i>
-
-A mobile application that helps university students to bridge the communication gap between students of:
-  - Inter different Department
-  - Inter same Department
-  - who lacks in skills awareness
-
-<h3>Description</h3>
-On this platform user can post a query in the community and anyone ,who has the required skill, can reach that person out within the university by allocating a designated place in the university. This platform offers one-to-one interaction between the students and helps students to grow their skills,get things done,have a skilled network that will eventually help in getting a job.
-Every student who solves a query, will have ratings points out 10 from the student who actually posted. 
+<div class="markdown prose w-full break-words dark:prose-invert light"><h1>🚀 Helpadora: Taking Skilled Youth Further 🚀</h1><p>A mobile application connecting university students to help each other grow their skills! 📈</p><p>"Bringing students together to bridge the communication gap." 💬</p><p>Are you a university student in need of help or looking to share your skills with others? 🤔 Look no further! Helpadora is here to help! 💡</p><p>With this application, you can:</p><ul><li>💬 Connect with students from different departments and even within your own department</li><li>🧠 Share your skills and help others grow theirs</li><li>🏆 Get recognized for your problem-solving skills and earn ratings from those you help</li><li>💼 Build a skilled network that can benefit you in your future job search</li></ul><p>Join the Helpadora community and take your skills to the next level! 🔥</p></div> 
 
 <h3>Technologies used:</h3>
   <ul>
