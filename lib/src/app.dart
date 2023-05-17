@@ -46,7 +46,7 @@ class App extends StatelessWidget {
                     nextScreen: Home(),
                     backgroundColor: Theme.of(context).primaryColor,
                     splashTransition: SplashTransition.fadeTransition,
-                    splash: Text('data'),
+                    splash: Image.asset("assets/images/Frame.png"),
                     animationDuration: Duration(seconds: 1),
                   )
                 : Home(),
