@@ -83,7 +83,7 @@ class FilterDropdown extends StatelessWidget {
                         value: _filtersNotifier.filters['due_date'],
                         onChanged: (value) {
                           print(value);
-                          _filtersNotifier.filters['due_date'] = value;
+                          _filtersNotifier.filters['due_date'] = value!;
                           _filtersNotifier.filters['title'] = false;
                           _filtersNotifier.filters['location'] = false;
                           filtersNotifier.updateFilter(_filters);
@@ -105,7 +105,7 @@ class FilterDropdown extends StatelessWidget {
                         value: _filtersNotifier.filters['title'],
                         onChanged: (value) {
                           print(value);
-                          _filtersNotifier.filters['title'] = value;
+                          _filtersNotifier.filters['title'] = value!;
                           _filtersNotifier.filters['location'] = false;
                           _filtersNotifier.filters['due_date'] = false;
                           filtersNotifier.updateFilter(_filters);
@@ -127,7 +127,7 @@ class FilterDropdown extends StatelessWidget {
                         value: _filtersNotifier.filters['location'],
                         onChanged: (value) {
                           print(value);
-                          _filtersNotifier.filters['location'] = value;
+                          _filtersNotifier.filters['location'] = value!;
                           _filtersNotifier.filters['due_date'] = false;
                           _filtersNotifier.filters['title'] = false;
                           filtersNotifier.updateFilter(_filters);
@@ -148,9 +148,9 @@ class FilterDropdown extends StatelessWidget {
 
 class SearchField extends StatelessWidget {
   SearchField({
-    @required this.iconTextColor,
-    @required this.listOfQueries,
-    @required this.width,
+    required this.iconTextColor,
+    required this.listOfQueries,
+    required this.width,
   });
 
   final Color iconTextColor;

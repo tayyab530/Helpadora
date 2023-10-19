@@ -20,7 +20,7 @@ class LogoutButton extends StatelessWidget {
             },
           );
         },
-        child: Text('Logout'),
+        child: Text('Logout',style: TextStyle(color: Colors.white),),
       ),
     );
   }

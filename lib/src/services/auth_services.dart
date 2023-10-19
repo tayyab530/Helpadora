@@ -3,15 +3,15 @@ import 'package:flutter/cupertino.dart';
 
 class AuthService with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  String _errorMessage;
+  String? _errorMessage;
   // ignore: missing_return
-  Future<User> registerWithEandP(String email, String password) async {
+  Future<User?> registerWithEandP(String email, String password) async {
     try {
       final result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       _auth.currentUser;
       if (result != null) {
-        await result.user.sendEmailVerification();
+        await result.user!.sendEmailVerification();
         return result.user;
       }
     } on FirebaseAuthException catch (e) {
@@ -21,13 +21,13 @@ class AuthService with ChangeNotifier {
   }
 
   // ignore: missing_return
-  Future<User> loginWithEandP(String email, String password) async {
+  Future<User?> loginWithEandP(String email, String password) async {
     try {
       final result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
 
       if (result != null) {
-        if (!result.user.emailVerified && !email.contains('@test.com')) {
+        if (!result.user!.emailVerified && !email.contains('@test.com')) {
           _errorMessage =
               'Email is not verified.Please verify then login again.';
           return null;
@@ -42,14 +42,14 @@ class AuthService with ChangeNotifier {
 
   Future<void> signOut() async => await _auth.signOut();
 
-  String getError() => _errorMessage;
+  String getError() => _errorMessage!;
 
-  User getCurrentUser() => _auth.currentUser;
+  User getCurrentUser() => _auth.currentUser!;
 
   bool isLogedIn() {
-    User _user = _auth.currentUser;
+    User? _user = _auth.currentUser;
     if (_user != null &&
-        (_user.emailVerified || _user.email.contains('@test.com'))) return true;
+        (_user.emailVerified || _user.email!.contains('@test.com'))) return true;
     return false;
   }
 }

@@ -19,7 +19,7 @@ class ProfileView extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting ||
               snapshot.data == null)
             return Center(child: CircularProgressIndicator());
-          final _profile = snapshot.data.data();
+          final _profile = snapshot.data!.data() as Map<String,dynamic>;
           final List<dynamic> _listOfQueries =
               _profile['list_of_queries'] ?? [0];
           final List<dynamic> _points = _profile['ratings'] ?? [0.0];
@@ -49,11 +49,11 @@ class ProfileView extends StatelessWidget {
 
 class Profile extends StatelessWidget {
   const Profile({
-    Key key,
-    @required Map<String, dynamic> profile,
-    @required List listOfQueries,
-    @required TextStyle primaryStyle,
-    @required double totalPoints,
+    Key? key,
+    required Map<String, dynamic> profile,
+    required List listOfQueries,
+    required TextStyle primaryStyle,
+    required double totalPoints,
   })  : _profile = profile,
         _listOfQueries = listOfQueries,
         _primaryStyle = primaryStyle,
@@ -85,7 +85,7 @@ class Profile extends StatelessWidget {
             ' ${_profile['user_name']} ',
             style: TextStyle(
               fontWeight:
-                  Theme.of(context).primaryTextTheme.headline1.fontWeight,
+                  FontWeight.bold,
               fontSize: 22.0,
             ),
           ),

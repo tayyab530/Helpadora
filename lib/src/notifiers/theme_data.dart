@@ -4,7 +4,7 @@ import '../services/storage_sharedPrefs_theme.dart';
 class ThemeNotifier with ChangeNotifier {
   bool showSplash = true;
   final darkTheme = ThemeData(
-    brightness: Brightness.dark,
+    // brightness: Brightness.dark,
     primaryTextTheme: TextTheme(
       headline1: TextStyle(
         fontFamily: 'Helvetica',
@@ -21,13 +21,24 @@ class ThemeNotifier with ChangeNotifier {
     primaryColor: Color(0xffFFC107),
     primaryColorLight: HSLColor.fromAHSL(1, 45, 1, .55).toColor(),
     primaryColorDark: const Color(0xff0288D1),
-    accentColor: Color(0xff03A9F4),
+    colorScheme: ColorScheme(
+      secondary: Color(0xff03A9F4),
+      brightness: Brightness.light,
+      primary: Color(0xff03A9F4),
+      onPrimary: Color(0xff03A9F4),
+      onSecondary: Color(0xffFFC107),
+      error: Colors.red,
+      onError: Colors.red,
+      background: Colors.white,
+      onBackground: Colors.white,
+      surface: Colors.white,
+      onSurface: Colors.white,
+    ),
     errorColor: Color(0xffFF5959),
     dividerColor: Color(0xffBDBDBD),
   );
 
   final lightTheme = ThemeData(
-    brightness: Brightness.light,
     primaryTextTheme: TextTheme(
       headline1: TextStyle(
         fontFamily: 'Helvetica',
@@ -45,21 +56,32 @@ class ThemeNotifier with ChangeNotifier {
     primaryColor: Color(0xff03A9F4),
     primaryColorLight: const Color(0xffB3E5FC),
     primaryColorDark: const Color(0xff0288D1),
-    accentColor: Color(0xffFFC107),
+    colorScheme: ColorScheme(
+        secondary: Color(0xffFFC107),
+        onSecondary: Colors.transparent,
+        brightness: Brightness.light,
+        primary: Color(0xff03A9F4),
+        onPrimary: Color(0xff03A9F4),
+        error: Colors.red,
+        onError: Colors.red,
+        background: Colors.white,
+        onBackground: Colors.white,
+        surface: Colors.transparent,
+        onSurface: Colors.transparent),
     errorColor: Color(0xffFF5959),
     dividerColor: Color(0xffBDBDBD),
   );
 
-  ThemeNotifier() {
+  ThemeNotifier({this.isLight = false, this.themeData}) {
     StorageManager.readData('themeMode').then((theme) {
       var themeMode = theme ?? 'light';
       if (themeMode == 'light') {
-        isLight = true;
-        _themeData = lightTheme;
+        this.isLight = true;
+        this.themeData = lightTheme;
       } else {
         print('setting dark theme');
-        isLight = false;
-        _themeData = darkTheme;
+        this.isLight = false;
+        themeData = darkTheme;
       }
       StorageManager.readData('showOnboarding').then((_showOnboarding) {
         showOnboarding = _showOnboarding == null ? true : _showOnboarding;
@@ -68,19 +90,21 @@ class ThemeNotifier with ChangeNotifier {
       notifyListeners();
     });
   }
-  ThemeData _themeData;
-  ThemeData getTheme() => _themeData;
+
+  ThemeData? themeData;
+
+  ThemeData getTheme() => lightTheme;
   bool isLight, showOnboarding = true;
 
   void setDarkMode() async {
-    _themeData = darkTheme;
+    themeData = darkTheme;
     StorageManager.saveData('themeMode', 'dark');
     isLight = false;
     notifyListeners();
   }
 
   void setLightMode() async {
-    _themeData = lightTheme;
+    themeData = lightTheme;
     StorageManager.saveData('themeMode', 'light');
     isLight = true;
     notifyListeners();

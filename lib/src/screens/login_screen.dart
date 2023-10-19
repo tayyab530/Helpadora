@@ -86,7 +86,7 @@ class LoginScreen extends StatelessWidget {
             'or',
             textAlign: TextAlign.end,
             style: TextStyle(
-                color: Theme.of(context).primaryTextTheme.headline1.color),
+                color: Colors.lightBlue),
           ),
           TextButton(
             onPressed: () =>
@@ -107,7 +107,7 @@ class LoginScreen extends StatelessWidget {
             decoration: InputDecoration(
               labelText: 'Email',
               errorStyle: TextStyle(color: Theme.of(context).disabledColor),
-              errorText: snapshot.hasError ? snapshot.error : "",
+              errorText: snapshot.hasError ? snapshot.error.toString() : "",
               errorBorder: _underLineBorder,
               focusedBorder: _underLineBorder,
               focusedErrorBorder: _underLineBorder,
@@ -128,7 +128,7 @@ class LoginScreen extends StatelessWidget {
             decoration: InputDecoration(
               labelText: 'Password',
               errorStyle: TextStyle(color: Theme.of(context).dividerColor),
-              errorText: snapshot.hasError ? snapshot.error : '',
+              errorText: snapshot.hasError ? snapshot.error.toString() : '',
               errorBorder: _underLineBorder,
               focusedBorder: _underLineBorder,
               focusedErrorBorder: _underLineBorder,
@@ -158,13 +158,14 @@ class LoginScreen extends StatelessWidget {
                       Navigator.of(context)
                           .pushReplacementNamed(MainScreen.routeName);
                   },
-            builder: (ctx, TapDebouncerFunc onTap) => Container(
+            builder: (ctx, TapDebouncerFunc? onTap) => Container(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: onTap,
                 child: Text('Login'),
                 style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).accentColor,
+                  foregroundColor: Theme.of(context).colorScheme.background,
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
                 ),
               ),
             ),

@@ -18,9 +18,9 @@ class LoginForChangePassword extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            _auth.getCurrentUser().email,
+            _auth.getCurrentUser().email!,
             style: TextStyle(
-              fontSize: Theme.of(context).primaryTextTheme.headline1.fontSize,
+              fontSize: 22,
             ),
             textAlign: TextAlign.start,
           ),
@@ -52,7 +52,7 @@ class LoginForChangePassword extends StatelessWidget {
       child: TextButton(
         onPressed: () async {
           var user = await _auth.loginWithEandP(
-              _auth.getCurrentUser().email, _passwordController.text);
+              _auth.getCurrentUser().email!, _passwordController.text);
           if (user == null)
             Dialogs.showErrorDialog(context, _auth.getError());
           else

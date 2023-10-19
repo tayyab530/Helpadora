@@ -8,9 +8,9 @@ class Message {
   final Timestamp time;
 
   Message({
-    @required this.text,
-    @required this.senderUid,
-    @required this.receiverUid,
-    @required this.time,
+    required this.text,
+    required this.senderUid,
+    required this.receiverUid,
+    required this.time,
   });
 }

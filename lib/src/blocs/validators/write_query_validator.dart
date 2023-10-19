@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:helpadora/src/models/date_model.dart';
 
-class WriteQueryValidatorsMixin {
+mixin class WriteQueryValidatorsMixin {
   titleValidate() {
     return StreamTransformer<String, String>.fromHandlers(
         handleData: (String value, sink) {

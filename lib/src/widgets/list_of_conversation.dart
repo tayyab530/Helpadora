@@ -25,8 +25,8 @@ class ListOfConversation extends StatelessWidget {
             ),
           );
         else {
-          List<dynamic> _listOfQuriesIds = userSnapshot.data.size > 0
-              ? extractQUDfromMap(userSnapshot.data.docs)
+          List<dynamic> _listOfQuriesIds = userSnapshot.data!.size > 0
+              ? extractQUDfromMap(userSnapshot.data!.docs)
               : [];
           _listOfQuriesIds.forEach((element) {
             print('query id ' + element);
@@ -56,8 +56,8 @@ class ListOfConversation extends StatelessWidget {
 
 class ListOfConversations extends StatelessWidget {
   ListOfConversations({
-    @required this.listOfQueries,
-    @required this.uid,
+    required this.listOfQueries,
+    required this.uid,
   });
 
   final List<dynamic> listOfQueries;
@@ -80,8 +80,8 @@ class ListOfConversations extends StatelessWidget {
                   return Text('Loading...');
                 else {
                   print('ID:' + queryId.toString());
-                  print(querySnapshot.data.data()['title'].toString());
-                  final _query = QueryModel.fromFirestore(querySnapshot.data);
+                  print((querySnapshot.data!.data() as Map)['title'].toString());
+                  final _query = QueryModel.fromFirestore(querySnapshot.data!);
                   print(listOfQueries.length);
                   return _query != null
                       ? ListOfConversationItem(

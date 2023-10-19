@@ -39,9 +39,9 @@ class QueryItem extends StatelessWidget {
                 Text(
                   queryDetails.title,
                   style: TextStyle(
-                      fontWeight: primaryTextTheme.headline1.fontWeight,
-                      fontSize: primaryTextTheme.headline1.fontSize,
-                      color: primaryTextTheme.headline1.color),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                      color: Colors.black),
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(
@@ -57,13 +57,13 @@ class QueryItem extends StatelessWidget {
                 ),
                 Text(
                   queryDetails.location,
-                  style: TextStyle(color: primaryTextTheme.headline1.color),
+                  style: TextStyle(color: Colors.black),
                 ),
               ],
             ),
             trailing: Text(
               _dueDate,
-              style: TextStyle(color: primaryTextTheme.headline2.color),
+              style: TextStyle(color: Colors.black),
             ),
             onTap: () {
               Dialogs.queryDetailsDialog(

@@ -28,9 +28,9 @@ class OthersChatsTab extends StatelessWidget {
           return listOfChats.data == []
               ? Container()
               : ListView.builder(
-                  itemCount: listOfChats.data.length,
+                  itemCount: listOfChats.data!.length,
                   itemBuilder: (context, index) {
-                    var _conversationItem = listOfChats.data[index];
+                    var _conversationItem = listOfChats.data![index];
                     return StreamBuilder(
                       stream: _dbFirestore
                           .chatStreamWithID(_conversationItem.chatID),
@@ -41,7 +41,7 @@ class OthersChatsTab extends StatelessWidget {
                             !chatSnap.hasData)
                           return Center(child: CircularProgressIndicator());
                         Chat chatObj = Chat.fromFirestore(
-                            chatSnap.data, _conversationItem.query);
+                            chatSnap.data!, _conversationItem.query);
                         return ConversationItem(
                           _conversationItem.query,
                           chatObj.lastmessage,

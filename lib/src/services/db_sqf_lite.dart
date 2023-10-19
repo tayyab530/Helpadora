@@ -5,16 +5,16 @@ import '../models/query_model.dart';
 import '../repositories/repository.dart' show Cache, Source;
 
 class DbSqlLite with EquatableMixin implements Cache, Source {
-  Database _db;
+  Database? _db;
   final String name = 'sqfLite';
 
   Future<List<QueryModel>> fetchPublicQueries(String uid) async {
-    print(_db.path);
+    print(_db!.path);
     print('fetch from sqf');
 
     List<QueryModel> _queries = [];
 
-    var _queriesAsMaps = await _db.query(
+    var _queriesAsMaps = await _db!.query(
       'query',
       where: 'poster_uid != ? and isDeleted = ? and isSolved = ?',
       whereArgs: [uid, 0, 0],
@@ -30,7 +30,7 @@ class DbSqlLite with EquatableMixin implements Cache, Source {
     var _queriesAsMaps = [];
     List<QueryModel> _queries = [];
     print('fetchFromDb self active');
-    _queriesAsMaps = await _db.query(
+    _queriesAsMaps = await _db!.query(
       'query',
       where: 'poster_uid = ? and isDeleted = ? and isSolved = ?',
       whereArgs: [uid, 0, 0],
@@ -55,7 +55,7 @@ class DbSqlLite with EquatableMixin implements Cache, Source {
     var _queriesAsMaps = [];
     List<QueryModel> _queries = [];
     print('fetchFromDb self solved');
-    _queriesAsMaps = await _db.query(
+    _queriesAsMaps = await _db!.query(
       'query',
       where: 'poster_uid = ? and isDeleted = ? and isSolved = ?',
       whereArgs: [uid, 0, 1],
@@ -77,7 +77,7 @@ class DbSqlLite with EquatableMixin implements Cache, Source {
   }
 
   Future<int> cacheQuery(QueryModel query) async {
-    var _cache = await _db.insert(
+    var _cache = await _db!.insert(
       'query',
       query.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
@@ -116,7 +116,7 @@ class DbSqlLite with EquatableMixin implements Cache, Source {
   }
 
   Future<int> clear() async {
-    return await _db.delete('query', where: null);
+    return await _db!.delete('query', where: null);
   }
 
   @override

@@ -14,12 +14,12 @@ class QueryModel {
   String solverUid;
 
   QueryModel({
-    @required this.qid,
-    @required this.title,
-    @required this.posterUid,
-    @required this.description,
-    @required this.dueDate,
-    @required this.location,
+    required this.qid,
+    required this.title,
+    required this.posterUid,
+    required this.description,
+    required this.dueDate,
+    required this.location,
     this.isDeleted = false,
     this.isSolved = false,
     this.solverUid = '',
@@ -42,26 +42,26 @@ class QueryModel {
 
   QueryModel.fromFirestore(DocumentSnapshot query)
       : qid = query.id,
-        title = query.data()['title'],
-        posterUid = query.data()['poster_uid'],
-        description = query.data()['description'],
-        dueDate = query.data()['due_date'],
-        location = query.data()['location'],
-        isDeleted = query.data()['isDeleted'],
-        isSolved = query.data()['isSolved'],
-        solverUid = query.data()['solver_uid'],
+        title = (query.data()! as Map<String,dynamic>)['title'],
+        posterUid = (query.data()! as Map<String,dynamic>)['poster_uid'],
+        description = (query.data()! as Map<String,dynamic>)['description'],
+        dueDate = (query.data()! as Map<String,dynamic>)['due_date'],
+        location = (query.data()! as Map<String,dynamic>)['location'],
+        isDeleted = (query.data()! as Map<String,dynamic>)['isDeleted'],
+        isSolved = (query.data()! as Map<String,dynamic>)['isSolved'],
+        solverUid = (query.data()! as Map<String,dynamic>)['solver_uid'],
         postedTime = Timestamp.now();
 
-  QueryModel.fromDbMap(Map<String, Object> queryMap)
-      : qid = queryMap['qid'],
-        title = queryMap['title'],
-        posterUid = queryMap['poster_uid'],
-        description = queryMap['description'],
-        dueDate = queryMap['due_date'],
-        location = queryMap['location'],
-        isDeleted = queryMap['isDeleted'] == 0 ? false : true,
-        isSolved = queryMap['isSolved'] == 0 ? false : true,
-        solverUid = queryMap['solver_uid'],
+  QueryModel.fromDbMap(Map<String, Object?> queryMap)
+      : qid = (queryMap as Map<String,dynamic>)['qid'] ,
+        title = (queryMap as Map<String,dynamic>)['title'],
+        posterUid = (queryMap as Map<String,dynamic>)['poster_uid'],
+        description = (queryMap as Map<String,dynamic>)['description'],
+        dueDate = (queryMap as Map<String,dynamic>)['due_date'],
+        location = (queryMap as Map<String,dynamic>)['location'],
+        isDeleted = (queryMap as Map<String,dynamic>)['isDeleted'] == 0 ? false : true,
+        isSolved = (queryMap as Map<String,dynamic>)['isSolved'] == 0 ? false : true,
+        solverUid = (queryMap as Map<String,dynamic>)['solver_uid'],
         postedTime = Timestamp.now();
 
   toString() {

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
 class DeviceDimensionsInfo with ChangeNotifier {
-  double kappBarHeight;
-  double ktabBarHeight;
-  double kstatusBar;
+  late double kappBarHeight;
+  late double ktabBarHeight;
+  late double kstatusBar;
   bool isNotInitialized = true;
 
   update(double kappBarHeigth, double _ktabBarHeight) {

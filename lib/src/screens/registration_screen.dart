@@ -97,7 +97,7 @@ class RegistrationScreen extends StatelessWidget {
             decoration: InputDecoration(
               errorStyle: TextStyle(color: Theme.of(context).dividerColor),
               labelText: 'UserName',
-              errorText: snapshot.hasError ? snapshot.error : '',
+              errorText: snapshot.hasError ? snapshot.error.toString() : '',
               errorBorder: _underLineBorder,
               focusedBorder: _underLineBorder,
               focusedErrorBorder: _underLineBorder,
@@ -116,7 +116,7 @@ class RegistrationScreen extends StatelessWidget {
             decoration: InputDecoration(
               errorStyle: TextStyle(color: Theme.of(context).dividerColor),
               labelText: 'Email Address',
-              errorText: snapshot.hasError ? snapshot.error : '',
+              errorText: snapshot.hasError ? snapshot.error.toString() : '',
               errorBorder: _underLineBorder,
               focusedBorder: _underLineBorder,
               focusedErrorBorder: _underLineBorder,
@@ -135,7 +135,7 @@ class RegistrationScreen extends StatelessWidget {
             decoration: InputDecoration(
               errorStyle: TextStyle(color: Theme.of(context).dividerColor),
               labelText: 'Create Password',
-              errorText: snapshot.hasError ? snapshot.error : '',
+              errorText: snapshot.hasError ? snapshot.error.toString() : '',
               errorBorder: _underLineBorder,
               focusedBorder: _underLineBorder,
               focusedErrorBorder: _underLineBorder,
@@ -177,7 +177,7 @@ class RegistrationScreen extends StatelessWidget {
                 children: [
                   if (snapshot.data != null)
                     Chip(
-                      label: Text(snapshot.data),
+                      label: Text(snapshot.data!),
                     ),
                   Icon(Icons.expand_more),
                 ],
@@ -196,7 +196,7 @@ class RegistrationScreen extends StatelessWidget {
                   child: Text('Other'),
                 ),
               ],
-              onChanged: (Gender gender) {
+              onChanged: (Gender? gender) {
                 _regisBloc.changeGender(gender
                     .toString()
                     .replaceAllMapped('Gender.', (match) => ''));
@@ -211,7 +211,7 @@ class RegistrationScreen extends StatelessWidget {
         stream: _regisBloc.date,
         initialData: Date(DateTime(1997), DateTime(1997)),
         builder: (context, AsyncSnapshot<Date> snapshot) {
-          final _pickedDate = snapshot.data.pickedDate;
+          final _pickedDate = snapshot.data!.pickedDate;
           return Row(
             children: [
               Text('Date of Birth '),
@@ -246,7 +246,7 @@ class RegistrationScreen extends StatelessWidget {
                   if (snapshot.data != null)
                     Chip(
                       label: Container(
-                        child: Text(snapshot.data),
+                        child: Text(snapshot.data!),
                       ),
                     ),
                   Icon(Icons.expand_more),
@@ -278,7 +278,7 @@ class RegistrationScreen extends StatelessWidget {
                   child: Text('BS'),
                 ),
               ],
-              onChanged: (Program program) {
+              onChanged: (Program? program) {
                 _regisBloc.changeProgram(program
                     .toString()
                     .replaceAllMapped('Program.', (match) => ''));
@@ -319,13 +319,13 @@ class RegistrationScreen extends StatelessWidget {
                   });
                 }
               : null,
-          builder: (ctx, TapDebouncerFunc onTap) => Container(
+          builder: (ctx, TapDebouncerFunc? onTap) => Container(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: onTap,
               child: Text('Register'),
               style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).accentColor,
+                primary: Theme.of(context).colorScheme.secondary,
               ),
             ),
           ),
@@ -336,14 +336,14 @@ class RegistrationScreen extends StatelessWidget {
 
   Future<void> _datePicker(BuildContext context, RegistrationBloc _regisBloc,
       AsyncSnapshot<Date> snapshot) async {
-    final DateTime pickedDate = await showDatePicker(
+    final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: snapshot.data.currentDate,
+      initialDate: snapshot.data!.currentDate,
       firstDate: DateTime(DateTime.now().year - 30),
       lastDate: DateTime(DateTime.now().year - 10),
-      currentDate: snapshot.data.currentDate,
+      currentDate: snapshot.data!.currentDate,
     );
-    if (pickedDate != null && pickedDate != snapshot.data.currentDate) {
+    if (pickedDate != null && pickedDate != snapshot.data!.currentDate) {
       _regisBloc.changeDate(Date(pickedDate, pickedDate));
     }
   }

@@ -49,7 +49,7 @@ class WriteQuery extends StatelessWidget {
             maxLength: 30,
             decoration: InputDecoration(
               labelText: 'Title',
-              errorText: !snapshot.hasData ? snapshot.error : '',
+              errorText: !snapshot.hasData ? snapshot.error.toString() : '',
               errorBorder: _underLineBorder,
               focusedBorder: _underLineBorder,
               focusedErrorBorder: _underLineBorder,
@@ -66,7 +66,7 @@ class WriteQuery extends StatelessWidget {
           return TextField(
             decoration: InputDecoration(
               labelText: 'Description',
-              errorText: !snapshot.hasData ? snapshot.error : '',
+              errorText: !snapshot.hasData ? snapshot.error.toString() : '',
               errorBorder: _underLineBorder,
               focusedBorder: _underLineBorder,
               focusedErrorBorder: _underLineBorder,
@@ -93,11 +93,11 @@ class WriteQuery extends StatelessWidget {
                 onPressed: () async {
                   var _pickedDate = await showDatePicker(
                     context: context,
-                    initialDate: snapshot.data.pickedDate,
+                    initialDate: snapshot.data!.pickedDate,
                     firstDate: DateTime.now(),
                     lastDate: DateTime(DateTime.now().year,
                         DateTime.now().month, DateTime.now().day + 14),
-                    currentDate: snapshot.data.currentDate,
+                    currentDate: snapshot.data!.currentDate,
                   );
                   if (_pickedDate != null)
                     _wqBloc.changeDueDate(Date(_pickedDate, _pickedDate));
@@ -184,14 +184,14 @@ class WriteQuery extends StatelessWidget {
             builder: (ctx, onTap) => TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: snapshot.hasData
-                    ? Theme.of(context).accentColor
+                    ? Theme.of(context).colorScheme.secondary
                     : Colors.grey[350],
               ),
               onPressed: onTap,
               child: Text(
                 'Post',
                 style: TextStyle(
-                    color: Theme.of(context).primaryTextTheme.headline1.color),
+                    color: Colors.black),
               ),
             ),
           );

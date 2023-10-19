@@ -44,7 +44,7 @@ class Dialogs {
     );
   }
 
-  static Future<bool> alertDialogForQueryDelete(BuildContext context) async {
+  static Future<bool?> alertDialogForQueryDelete(BuildContext context) async {
     return await showDialog<bool>(
       barrierDismissible: true,
       context: context,
@@ -82,7 +82,7 @@ class Dialogs {
     );
   }
 
-  static Future<bool> alertDialogForQuerySolve(
+  static Future<bool?> alertDialogForQuerySolve(
       BuildContext context, QueryModel query) async {
     return await showDialog<bool>(
       barrierDismissible: true,

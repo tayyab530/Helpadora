@@ -70,12 +70,12 @@ class RegistrationBloc extends ChangeNotifier
     await program.drain();
   }
 
-  String getEmail() => _email.value;
-  String getPassword() => _createPassword.value;
-  String getUserName() => _userName.value;
-  String getGender() => _gender.value;
-  String getProgram() => _program.value;
-  String getDob() => DateFormat('MM dd yyyy').format(_dob.value.pickedDate);
+  String getEmail() => _email.value!;
+  String getPassword() => _createPassword.value!;
+  String getUserName() => _userName.value!;
+  String getGender() => _gender.value!;
+  String getProgram() => _program.value!;
+  String getDob() => DateFormat('MM dd yyyy').format(_dob.value!.pickedDate);
 
   Stream<bool> get _validateConfirmPassword =>
       Rx.combineLatest2(_createPassword, _confirmPassword, (a, b) {

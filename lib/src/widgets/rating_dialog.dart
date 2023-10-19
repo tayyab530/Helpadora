@@ -28,7 +28,7 @@ class _RatingDialogBoxState extends State<RatingDialog> {
       title: Text(
         'Please give points to your solver',
         style: TextStyle(
-            fontWeight: Theme.of(context).accentTextTheme.headline2.fontWeight),
+            fontWeight: FontWeight.bold),
       ),
       children: [
         Slider(
@@ -47,8 +47,7 @@ class _RatingDialogBoxState extends State<RatingDialog> {
           child: TextButton(
             child: Text('Submit'),
             style: TextButton.styleFrom(
-              backgroundColor: Theme.of(context).accentColor,
-              primary: Theme.of(context).primaryTextTheme.headline1.color,
+              foregroundColor: Colors.white, backgroundColor: Theme.of(context).colorScheme.secondary,
             ),
             onPressed: () {
               _dbFirestore.solveQuery(widget.queryId, widget.solverUid, _value);

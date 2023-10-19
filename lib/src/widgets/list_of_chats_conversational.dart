@@ -9,7 +9,7 @@ import 'conversation_item.dart';
 class ListOfConversationItem extends StatefulWidget {
   final QueryModel query;
   ListOfConversationItem({
-    @required this.query,
+    required this.query,
   });
 
   @override
@@ -33,7 +33,7 @@ class _ListOfConversationItemState extends State<ListOfConversationItem> {
             ),
           );
 
-        final _chats = chatSnapshot.data.docs;
+        final _chats = chatSnapshot.data!.docs;
         print(_chats.toString());
         return _chats.isEmpty
             ? Container()
@@ -47,7 +47,7 @@ class _ListOfConversationItemState extends State<ListOfConversationItem> {
                           widget.query.title,
                           overflow: TextOverflow.fade,
                         ),
-                        backgroundColor: Theme.of(context).accentColor,
+                        backgroundColor: Theme.of(context).colorScheme.secondary,
                       ),
                       IconButton(
                           icon: Icon(!showChats

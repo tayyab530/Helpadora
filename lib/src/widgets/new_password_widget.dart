@@ -40,7 +40,7 @@ class NewPassWord extends StatelessWidget {
           decoration: InputDecoration(
             hintText: 'Enter new password',
             labelText: 'New Password',
-            errorText: snapshot.hasData ? '' : snapshot.error,
+            errorText: snapshot.hasData ? '' : snapshot.error.toString(),
           ),
           onChanged: changePasswordBloc.changeNewPassword,
         );
@@ -75,7 +75,7 @@ class NewPassWord extends StatelessWidget {
           Dialogs.showConfirmationDialog(
               context, 'Password is reset', MainScreen.routeName);
         },
-        builder: (ctx, TapDebouncerFunc onTap) => StreamBuilder(
+        builder: (ctx, TapDebouncerFunc? onTap) => StreamBuilder(
             stream: changePasswordBloc.resetPassword,
             builder: (context, AsyncSnapshot<bool> snapshot) {
               return ElevatedButton(

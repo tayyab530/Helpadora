@@ -28,8 +28,8 @@ class LoginBloc extends ChangeNotifier with LoginValidatorsMixin {
     _password.close();
   }
 
-  String getEmail() => _email.value;
-  String getPassword() => _password.value;
+  String getEmail() => _email.value!;
+  String getPassword() => _password.value!;
 }
 
 //Please do not turn off the PC!!!!

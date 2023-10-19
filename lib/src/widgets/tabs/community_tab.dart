@@ -39,14 +39,14 @@ class CommunityTab extends StatelessWidget {
               final _queriesNotifier = Provider.of<QueriesNotifier>(context);
               final _seachedQueries = _queriesNotifier.listOfQueries;
               var _listOfQueries =
-                  _seachedQueries != null ? _seachedQueries : snapshot.data;
+                  _seachedQueries.isNotEmpty ? _seachedQueries : snapshot.data;
 
               final _mediaQuery = MediaQuery.of(context);
               print(_mediaQuery.size.height);
               return Container(
                 child: Column(
                   children: [
-                    SearchFilterBar(_listOfQueries, _mediaQuery.size),
+                    SearchFilterBar(_listOfQueries!, _mediaQuery.size),
                     Expanded(
                       child: ListOfQueries(
                         sortList(_listOfQueries, _filters),
@@ -72,11 +72,11 @@ class CommunityTab extends StatelessWidget {
   List<QueryModel> sortList(
       List<QueryModel> listOfQueries, Map<String, bool> _filters) {
     var _list = listOfQueries;
-    if (_filters['title'])
+    if (_filters['title']!)
       listOfQueries.sort((a, b) => a.title.compareTo(b.title));
-    else if (_filters['due_date'])
+    else if (_filters['due_date']!)
       listOfQueries.sort((a, b) => a.dueDate.compareTo(b.dueDate));
-    else if (_filters['location'])
+    else if (_filters['location']!)
       listOfQueries.sort((a, b) => a.location.compareTo(b.location));
 
     return _list;

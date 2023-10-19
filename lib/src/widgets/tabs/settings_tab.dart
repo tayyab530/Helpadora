@@ -47,7 +47,7 @@ class SettingsTab extends StatelessWidget {
   }
 
   Widget passwordTile(
-      BuildContext context, IconData icon, String title, Function function) {
+      BuildContext context, IconData icon, String title, void Function() function) {
     return Column(
       children: [
         ListTile(

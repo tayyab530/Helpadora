@@ -141,8 +141,8 @@ class DbFirestore with ChangeNotifier {
         .get();
     print(_chats.docs.toString());
     _chats.docs.forEach((e) {
-      String _qid = e.data()['qid'];
-      String _rUid = e.data()['receiver_uid'];
+      String _qid = (e.data()! as Map<String,dynamic>)['qid'];
+      String _rUid = (e.data()! as Map<String,dynamic>)['receiver_uid'];
       print('qid: $_qid');
       print("receiver_uid: $_rUid");
       _queryIdList.add(_qid);
@@ -160,9 +160,9 @@ class DbFirestore with ChangeNotifier {
       print(query.id);
       QueryDocumentSnapshot _chat = _chats.docs.firstWhere(
             (chat) =>
-        (chat.data()['qid'] == query.id &&
-            chat.data()['receiver_uid'] == query.data()['poster_uid']),
-        orElse: () => null,
+        ((chat.data()! as Map<String,dynamic>)['qid'] == query.id &&
+            (chat.data()! as Map<String,dynamic>)['receiver_uid'] == (query.data()! as Map<String,dynamic>)['poster_uid']),
+        // orElse: () => null,
       );
       if (_chat != null) {
         print(_chat.id);

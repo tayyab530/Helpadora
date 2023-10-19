@@ -15,7 +15,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     final Map<String, double> _deviceWidth =
-        ModalRoute.of(context).settings.arguments;
+        (ModalRoute.of(context)!.settings.arguments)! as Map<String,double>;
 
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +28,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       ),
       body: !isLogedin
           ? LoginForChangePassword(showPasswordChange)
-          : NewPassWord(_deviceWidth['_deviceWidth']),
+          : NewPassWord(_deviceWidth['_deviceWidth']!),
     );
   }
 

@@ -4,7 +4,7 @@ import 'package:helpadora/src/models/date_model.dart';
 
 
 
-class RegistrationValidatorMixin {
+mixin class RegistrationValidatorMixin {
   userNameValidate() {
     return StreamTransformer<String, String>.fromHandlers(
         handleData: (String value, sink) {

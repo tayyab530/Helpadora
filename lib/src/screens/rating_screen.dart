@@ -13,8 +13,8 @@ class RatingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, QueryModel> args =
-        ModalRoute.of(context).settings.arguments;
-    final QueryModel queryDetails = args['queryId'];
+        ModalRoute.of(context)!.settings.arguments! as Map<String,QueryModel>;
+    final QueryModel queryDetails = args['queryId']!;
     final _dbFirestore = Provider.of<DbFirestore>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
@@ -33,16 +33,16 @@ class RatingScreen extends StatelessWidget {
               snapshot.data == null) return CircularProgressIndicator();
           return ListView(
             children: [
-              if (snapshot.data.docs.isEmpty)
+              if (snapshot.data!.docs.isEmpty)
                 Center(
                   child: Text('Oops! No solver yet.'),
                 ),
-              ...snapshot.data.docs.map(
+              ...snapshot.data!.docs.map(
                 (chat) => RatingItem(
                   queryDetails,
-                  chat.data()['last_message'],
-                  chat.data()['time'],
-                  chat.data()['chat_members'],
+                  (chat.data() as Map<String,dynamic>)['last_message'],
+                  (chat.data() as Map<String,dynamic>)['time'],
+                  (chat.data() as Map<String,dynamic>)['chat_members'],
                   chat.id,
                 ),
               ),

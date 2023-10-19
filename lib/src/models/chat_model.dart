@@ -11,19 +11,19 @@ class Chat {
   final String qTitle;
 
   Chat({
-    @required this.toUid,
-    @required this.fromUid,
-    @required this.lastmessage,
-    @required this.time,
-    @required this.qid,
-    @required this.qTitle,
+    required this.toUid,
+    required this.fromUid,
+    required this.lastmessage,
+    required this.time,
+    required this.qid,
+    required this.qTitle,
   });
 
   Chat.fromFirestore(DocumentSnapshot _chat, QueryModel query)
-      : this.toUid = _chat.data()['receiver_uid'],
-        this.fromUid = _chat.data()['sender_uid'],
-        this.lastmessage = _chat.data()['last_message'],
-        this.time = _chat.data()['time'],
-        this.qid = _chat.data()['qid'],
+      : this.toUid = (_chat.data()! as Map<String,dynamic>)['receiver_uid'],
+        this.fromUid = (_chat.data()! as Map<String,dynamic>)['sender_uid'],
+        this.lastmessage = (_chat.data()! as Map<String,dynamic>)['last_message'],
+        this.time = (_chat.data()! as Map<String,dynamic>)['time'],
+        this.qid = (_chat.data()! as Map<String,dynamic>)['qid'],
         this.qTitle = query.title;
 }

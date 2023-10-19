@@ -42,8 +42,8 @@ class ChatScreen extends StatelessWidget {
 
   String checkSenderUid(Map<String, String> chatMembers, String currentUser) {
     if (chatMembers['sender_uid'] == currentUser)
-      return chatMembers['receiver_uid'];
+      return chatMembers['receiver_uid']!;
     else
-      return chatMembers['sender_uid'];
+      return chatMembers['sender_uid']!;
   }
 }

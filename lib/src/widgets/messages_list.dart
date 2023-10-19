@@ -27,10 +27,10 @@ class MessagesList extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           return ListView.builder(
             reverse: true,
-            itemCount: snapshot.data.docs.length,
+            itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               return MessageBubble(
-                  toMessage(snapshot.data.docs[index]), _currentUid);
+                  toMessage(snapshot.data!.docs[index]), _currentUid);
             },
           );
         });

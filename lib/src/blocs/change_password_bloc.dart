@@ -33,7 +33,7 @@ class ChangePasswordBloc extends ChangeNotifier
     await _retypePassword.drain();
   }
 
-  String getNewPassword() => _newPassword.value;
+  String getNewPassword() => _newPassword.value!;
 
   Stream<bool> get _validateConfirmPassword => Rx.combineLatest2(
         _newPassword,

@@ -42,9 +42,9 @@ class ChatTextfield extends StatelessWidget {
                       messageController: _messageController,
                       dbFirestore: _dbFirestore,
                       uid: _uid,
-                      receiverUid: receiverUid,
+                      receiverUid: receiverUid!,
                       queryDetails: _queryDetails,
-                      senderUid: senderUid),
+                      senderUid: senderUid!),
                 ],
               ),
             ),
@@ -63,8 +63,8 @@ class ChatTextfield extends StatelessWidget {
 
 class InputTextField extends StatelessWidget {
   const InputTextField({
-    Key key,
-    @required TextEditingController messageController,
+    Key? key,
+    required TextEditingController messageController,
   })  : _messageController = messageController,
         super(key: key);
 
@@ -100,13 +100,13 @@ class SendMessage extends StatelessWidget {
   final String senderUid;
 
   const SendMessage({
-    Key key,
-    @required TextEditingController messageController,
-    @required DbFirestore dbFirestore,
-    @required String uid,
-    @required this.receiverUid,
-    @required QueryModel queryDetails,
-    @required this.senderUid,
+    Key? key,
+    required TextEditingController messageController,
+    required DbFirestore dbFirestore,
+    required String uid,
+    required this.receiverUid,
+    required QueryModel queryDetails,
+    required this.senderUid,
   })  : _messageController = messageController,
         _dbFirestore = dbFirestore,
         _uid = uid,
@@ -125,7 +125,7 @@ class SendMessage extends StatelessWidget {
           await _dbFirestore.sendChat(
               _toChat(_uid, text, receiverUid), _queryDetails, senderUid);
         },
-        builder: (ctx, TapDebouncerFunc onTap) => IconButton(
+        builder: (ctx, TapDebouncerFunc? onTap) => IconButton(
           icon: Icon(
             Icons.send,
             color: Colors.black,
@@ -144,11 +144,11 @@ class ThumbUp extends StatelessWidget {
   final String receiverUid;
 
   const ThumbUp({
-    Key key,
-    this.dbFirestore,
-    this.query,
-    this.senderUid,
-    this.receiverUid,
+    Key? key,
+    required this.dbFirestore,
+    required this.query,
+    required this.senderUid,
+    required this.receiverUid,
   }) : super(key: key);
 
   @override

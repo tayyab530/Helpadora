@@ -51,7 +51,7 @@ class ListOfQueriesSwapable extends StatelessWidget {
 
 class DeleteBG extends StatelessWidget {
   const DeleteBG({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -68,7 +68,7 @@ class DeleteBG extends StatelessWidget {
 
 class SolvedBG extends StatelessWidget {
   const SolvedBG({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

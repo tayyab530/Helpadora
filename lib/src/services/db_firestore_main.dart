@@ -62,8 +62,7 @@ class DbFirestoreMain with EquatableMixin implements S.Source {
     return _queries;
   }
 
-  init() {
-    return null;
+  init() async {
   }
 
   @override

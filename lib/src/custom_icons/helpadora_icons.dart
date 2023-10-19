@@ -42,7 +42,7 @@ class HelpadoraIcons {
   HelpadoraIcons._();
 
   static const _kFontFam = 'HelpadoraIcons';
-  static const String _kFontPkg = null;
+  static const String? _kFontPkg = null;
 
   static const IconData hamburger =
       IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);

@@ -91,7 +91,7 @@ class ListOfActiveQueries extends StatelessWidget {
                 snapshot.data == null)
               return Center(child: CircularProgressIndicator());
 
-            return ListOfQueriesSwapable(snapshot.data);
+            return ListOfQueriesSwapable(snapshot.data!);
           },
         ),
       ),
@@ -119,8 +119,8 @@ class SolvedQueriesList extends StatelessWidget {
         builder: (ctx, AsyncSnapshot<List<QueryModel>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return Center(child: CircularProgressIndicator());
-          else if (snapshot.data.isEmpty) return Text('No Queries!');
-          return ListOfQueries(snapshot.data);
+          else if (snapshot.data!.isEmpty) return Text('No Queries!');
+          return ListOfQueries(snapshot.data!);
         },
       ),
     );
@@ -135,7 +135,7 @@ class BottomSheet extends StatelessWidget {
   );
 
   final bool showSolvedQueries;
-  final Function toggleSlider;
+  final void Function()? toggleSlider;
   final double height;
 
   Widget build(context) {
@@ -149,7 +149,7 @@ class BottomSheet extends StatelessWidget {
         topRight: const Radius.circular(10.0),
       ),
       child: Container(
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).colorScheme.secondary,
         height: (height * 0.06),
         width: double.infinity,
         alignment: Alignment.center,

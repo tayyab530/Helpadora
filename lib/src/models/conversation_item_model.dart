@@ -10,21 +10,21 @@ class ConversationItemModel {
   final Map<String, String> chatMembers;
 
   ConversationItemModel({
-    @required this.chatID,
-    @required this.query,
-    @required this.lastMessage,
-    @required this.sentTime,
-    @required this.chatMembers,
+    required this.chatID,
+    required this.query,
+    required this.lastMessage,
+    required this.sentTime,
+    required this.chatMembers,
   });
 
   ConversationItemModel.fromFirestore(
       QueryDocumentSnapshot _chatFromFirestore, QueryModel _query)
       : this.chatID = _chatFromFirestore.id,
         this.query = _query,
-        this.lastMessage = _chatFromFirestore.data()['last_message'],
-        this.sentTime = _chatFromFirestore.data()['time'],
+        this.lastMessage = (_chatFromFirestore.data()! as Map<String,dynamic>)['last_message'],
+        this.sentTime = (_chatFromFirestore.data()! as Map<String,dynamic>)['time'],
         this.chatMembers = {
-          'sender_uid': _chatFromFirestore.data()['sender_uid'],
-          'receiver_uid': _chatFromFirestore.data()['receiver_uid']
+          'sender_uid': (_chatFromFirestore.data()! as Map<String,dynamic>)['sender_uid'],
+          'receiver_uid': (_chatFromFirestore.data()! as Map<String,dynamic>)['receiver_uid']
         };
 }
