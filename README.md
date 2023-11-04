@@ -1,4 +1,4 @@
-<div class="markdown prose w-full break-words dark:prose-invert light"><h1>🚀 Helpadora: Taking Skilled Youth Further 🚀</h1><p>A mobile application connecting university students to help each other grow their skills! 📈</p><p>"Bringing students together to bridge the communication gap." 💬</p><p>Are you a university student in need of help or looking to share your skills with others? 🤔 Look no further! Helpadora is here to help! 💡</p><p>With this application, you can:</p><ul><li>💬 Connect with students from different departments and even within your own department</li><li>🧠 Share your skills and help others grow theirs</li><li>🏆 Get recognized for your problem-solving skills and earn ratings from those you help</li><li>💼 Build a skilled network that can benefit you in your future job search</li></ul><p>Join the Helpadora community and take your skills to the next level! 🔥</p></div> 
+<div class="markdown prose w-full break-words dark:prose-invert light"><h1>🚀 Helpadora: Taking Skilled Youth Further 🚀</h1><p>A mobile application connecting university students to help each other grow their skills and network! 📈</p><p>Bringing students together to bridge the communication gap. 💬</p><p>With this application, you can:</p><ul><li>💬 Connect with students from different departments and even within your own department</li><li>🧠 Share your skills and help others grow theirs</li><li>🏆 Get recognized for your problem-solving skills and earn ratings from those you help</li></ul></div> 
 
 <h3>Technologies used:</h3>
   <ul>
@@ -11,6 +11,11 @@
     <li>Clean architecture: Contract based local and remote database</li>
     <li>Shared Prefrence: Preferences storage</li>
   </ul>
+
+<p>This application is only available for Salim Habib University. For testing purpose, you can use following cedentials:
+</p>
+<b>Email:</b> test@test.com
+<b>Password:</b> asdasd
 
 <h3 >Project Walkthrough</h3>
 
